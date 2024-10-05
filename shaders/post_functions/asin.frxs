@@ -1,0 +1,5 @@
+
+
+#ifbackend[*]
+return c_asin(z);
+#endbackend

@@ -1,0 +1,12 @@
+
+
+#ifbackend[*]
+
+
+return complex(
+    abs(abs(z.x) * z.x + abs(z.y) * z.y),
+    -2 * abs(z.x) * z.y
+) + c;
+
+
+#endbackend

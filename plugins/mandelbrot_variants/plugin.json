@@ -1,0 +1,11 @@
+{
+    "metadata_version": "5",
+    
+    "name": "Mandelbrot Variants",
+    "description": "Adds a lot of Mandlebrot Set variations. Credit to <a href=\"https://www.youtube.com/watch?v=HeUpSzC1vzU\" target=\"_blank\">this youtube video</a> for discovering/listing/naming these.",
+    "id": "mand_var",
+    "plugin_version": "1.0",
+    
+    "entrypoint": "main.js",
+    "shaders": "shaders/"
+}

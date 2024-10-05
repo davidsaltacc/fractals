@@ -1,0 +1,17 @@
+
+
+
+#ifbackend[webgpu]
+return apply_post_function(c_pow(vec2<f32>(
+#endbackend
+
+#ifbackend[webgl]
+return apply_post_function(c_pow(vec2(
+#endbackend
+
+#ifbackend[*]
+    z.y - sign(z.x) * sqrt(abs(c.y * z.x - (c.x + c.y))), 
+    c.x - z.x
+), power), c);
+#endbackend
+

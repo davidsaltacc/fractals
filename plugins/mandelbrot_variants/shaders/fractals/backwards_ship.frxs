@@ -1,0 +1,12 @@
+
+
+#ifbackend[*]
+
+
+return vec2<f32>(
+    abs(z.x * z.x + abs(z.y) * z.y),
+    2 * z.x * z.y
+) + c;
+
+
+#endbackend

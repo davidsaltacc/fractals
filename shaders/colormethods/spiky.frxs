@@ -1,0 +1,21 @@
+
+
+#ifbackend[*]
+if (sqrt(z.x * last_z.x + z.y * last_z.y) > radius) {
+#endbackend
+
+#ifbackend[webgpu]
+    color_v = f32(iteration) / f32(maxIterations);
+#endbackend
+
+#ifbackend[webgl]
+    color_v = float(iteration) / float(maxIterations);
+#endbackend
+
+
+#ifbackend[*]
+    break;
+} else if (iteration == maxIterations) {
+    color_black = true;
+}
+#endbackend

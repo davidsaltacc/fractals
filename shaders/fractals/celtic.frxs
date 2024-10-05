@@ -1,0 +1,18 @@
+
+
+
+#ifbackend[webgpu]
+
+var zp: vec2<f32> = c_pow(z, power);
+return apply_post_function(vec2<f32>(abs(zp.x), zp.y), c) + c;
+
+#endbackend
+
+
+
+#ifbackend[webgl]
+
+vec2 zp = c_pow(z, power);
+return apply_post_function(vec2(abs(zp.x), zp.y), c) + c;
+
+#endbackend

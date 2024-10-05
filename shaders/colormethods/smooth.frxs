@@ -1,0 +1,26 @@
+
+
+#ifbackend[webgpu]
+
+if (magnitude(z) > radius) {
+    var float_iters: f32 = smooth_iters(iteration, z, last_z);
+    color_v = float_iters / f32(maxIterations);
+    break;
+} else if (iteration == maxIterations) {
+    color_black = true;
+}
+
+#endbackend
+
+
+#ifbackend[webgl]
+
+if (magnitude(z) > radius) {
+    float float_iters = smooth_iters(iteration, z, last_z);
+    color_v = float_iters / float(maxIterations);
+    break;
+} else if (iteration == maxIterations) {
+    color_black = true;
+}
+
+#endbackend

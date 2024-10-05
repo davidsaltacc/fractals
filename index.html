@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>David's Fractal Explorer v5</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="David's Fractal Explorer v5">
+    <meta property="og:description" content="The best web-based fractal explorer">
+    <meta property="og:url" content="https://fractals.top">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="David's Fractal Explorer v5">
+    <meta name="twitter:description" content="The best web-based fractal explorer">
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="icon" href="/assets/favicon.png" />
+    
+    <script src="/javascript/definitions.js"></script>
+    <script type="module" src="/javascript/main.js" defer></script>
+    <script type="module" src="/javascript/plugins.js" defer></script>
+
+</head>
+<body>
+    
+    <div id="canvasContainer">
+        <canvas id="canvasMain" width="500" height="500"></canvas>
+        <canvas id="canvasJul" width="500" height="500"></canvas>
+    </div>
+
+    <div id="loadingscreen">
+        <h2 class="infobar" id="statusbar">Loading... This shouldn't take long at all.</h2>
+        <br>
+        <div id="loadingwave-center">
+            <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+            <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+            <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+            <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+        </div>
+    </div>
+
+    <div class="container">
+       
+        <h1 id="title">David's Fractal Explorer v5</h1>
+        <p id="infobar">
+            version <span id="fxversion"></span> - using available <span id="fxbackend"></span>
+        </p>
+
+        <div class="toggleable">
+            <div class="toggleable_title">
+                <h3>Descriptions</h3>
+            </div>
+            <div class="toggleable_content">
+                <div id="descriptions">
+                    <h4>Fractal Description:</h4>
+                    <p id="frdesc"></p>
+                    <h4>Colorscheme Description:</h4>
+                    <p id="csdesc"></p>
+                    <h4>Color Method Description:</h4>
+                    <p id="cmdesc"></p>
+                    <h4>Fractal Modifier Description:</h4>
+                    <p id="fmdesc"></p>
+                    <hr>
+                    <h4>Fractal Formula:</h4>
+                    <p id="frfm"></p>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <div class="toggleable">
+            <div class="toggleable_title">
+                <h3>Fractal Selection:</h3>
+            </div>
+            <div class="toggleable_content">
+                <button onclick="setFractal(FRACTALS.MANDELBROT)">Mandelbrot</button>
+                <button onclick="setFractal(FRACTALS.BURNING_SHIP)">Burning ship</button>
+                <button onclick="setFractal(FRACTALS.CELTIC)">Celtic</button>
+                <button onclick="setFractal(FRACTALS.BUFFALO)">Buffalo</button>
+                <button onclick="setFractal(FRACTALS.TRICORN)">Tricorn</button>
+                <button onclick="setFractal(FRACTALS.DUCK)">Duck</button>
+                <button onclick="setFractal(FRACTALS.ASS)">B fractal</button>
+                <button onclick="setFractal(FRACTALS.SINE)">Sine</button>
+                <button onclick="setFractal(FRACTALS.POPCORN)">Popcorn</button>
+                <button onclick="setFractal(FRACTALS.THORN)">Thorn</button>
+                <button onclick="setFractal(FRACTALS.HENON)">Henon</button>
+                <button onclick="setFractal(FRACTALS.DUFFING)">Duffing</button>
+                <button onclick="setFractal(FRACTALS.CHIRIKOV)">Chirikov</button>
+                <button onclick="setFractal(FRACTALS.IKEDA)">Ikeda</button>
+                <button onclick="setFractal(FRACTALS.FEATHER)">Feather</button>
+                <button onclick="setFractal(FRACTALS.HEART)">Heart</button>
+                <button onclick="setFractal(FRACTALS.ASS_2)">Sunglasses</button>
+                <button onclick="setFractal(FRACTALS.TRIANGLE)">Triangle</button>
+                <button onclick="setFractal(FRACTALS.SHARK_FIN)">Shark fin</button>
+                <button onclick="setFractal(FRACTALS.TIPPETS)">Tippets</button>
+                <button onclick="setFractal(FRACTALS.ZUBIETA)">Zubieta</button>
+                <button onclick="setFractal(FRACTALS.SINH)">Hyperbolic sine</button>
+                <button onclick="setFractal(FRACTALS.UNNAMED_1)">Unnamed 1</button>
+                <button onclick="setFractal(FRACTALS.UNNAMED_2)">Unnamed 2</button>
+                <button onclick="setFractal(FRACTALS.UNNAMED_3)">Unnamed 3</button>
+                <button onclick="setFractal(FRACTALS.FISH)">Fish</button>
+                <button onclick="setFractal(FRACTALS.WAVY)">Wavy</button>
+                <button onclick="setFractal(FRACTALS.COLLATZ)">Collatz</button>
+                <button onclick="setFractal(FRACTALS.UNNAMED_4)">Unnamed 4</button>
+                <button onclick="setFractal(FRACTALS.SEPTAGON)">Septagon</button>
+                <button onclick="setFractal(FRACTALS.UNNAMED_5)">Unnamed 5</button>
+                <button onclick="setFractal(FRACTALS.UNNAMED_6)">Unnamed 6</button>
+                <button onclick="setFractal(FRACTALS.CACTUS)">Cactus</button>
+                <button onclick="setFractal(FRACTALS.UNNAMED_7)">Unnamed 7</button>
+                <button onclick="setFractal(FRACTALS.POWER_CIRCLE)">Power Circle</button>
+                <button onclick="setFractal(FRACTALS.BITTEN_MANDELBROT)">Bitten Mandelbrot</button>
+                <button onclick="setFractal(FRACTALS.UNNAMED_8)">Unnamed 8</button>
+                <button onclick="setFractal(FRACTALS.UNNAMED_9)">Unnamed 9</button>
+                <button onclick="setFractal(FRACTALS.SMALL_BROT)">Smallbrot</button>
+                <button onclick="setFractal(FRACTALS.MAGNET)">Magnet</button>
+                <button onclick="setFractal(FRACTALS.TREE)">Tree</button>
+                <button onclick="setFractal(FRACTALS.UNNAMED_10)">Unnamed 10</button>
+                <button onclick="setFractal(FRACTALS.NOT_MANDELBROT)">Not Mandelbrot</button>
+                <button onclick="setFractal(FRACTALS.SIERPINSKY)">Sierpinsky</button>
+                <button onclick="setFractal(FRACTALS.BARNSLEY)">Barnsley</button>
+                <hr>
+            </div>
+        </div>
+        <div class="toggleable">
+            <div class="toggleable_title">
+                <h3>Colormap Selection:</h3>
+            </div>
+            <div class="toggleable_content">
+                <button onclick="setColorscheme(COLORSCHEMES.CLASSIC)">Classic</button>
+                <button onclick="setColorscheme(COLORSCHEMES.ULTRA_FRACTAL)">Ultra Fractal Default</button>
+                <button onclick="setColorscheme(COLORSCHEMES.RED_BLUE)">Red and Blue</button>
+                <button onclick="setColorscheme(COLORSCHEMES.SAND)">Sand</button>
+                <button onclick="setColorscheme(COLORSCHEMES.RAINBOW)">Rainbow</button>
+                <button onclick="setColorscheme(COLORSCHEMES.DAVIDS)">David's</button>
+                <button onclick="setColorscheme(COLORSCHEMES.LAVA_WAVES)">Lava waves</button>
+                <button onclick="setColorscheme(COLORSCHEMES.MORNING_GLORY)">Morning glory</button>
+                <button onclick="setColorscheme(COLORSCHEMES.CHOCOLATE)">Chocolate</button>
+                <button onclick="setColorscheme(COLORSCHEMES.CONTRASTED_CLASSIC)">Contrasted Classic</button>
+                <button onclick="setColorscheme(COLORSCHEMES.BLACK_WHITE)">Black and White</button>
+                <button onclick="setColorscheme(COLORSCHEMES.TWILIGHT)">Twilight</button>
+                <button onclick="setColorscheme(COLORSCHEMES.RED)">Red</button>
+                <button onclick="setColorscheme(COLORSCHEMES.GREEN)">Green</button>
+                <button onclick="setColorscheme(COLORSCHEMES.BLUE)">Blue</button>
+                <button onclick="setColorscheme(COLORSCHEMES.COLD)">Cold</button>
+                <button onclick="setColorscheme(COLORSCHEMES.WINTER)">Winter</button>
+                <button onclick="setColorscheme(COLORSCHEMES.GLOW)">Glow</button>
+                <hr>
+            </div>
+        </div>
+        <div class="toggleable">
+            <div class="toggleable_title">
+                <h3>Color Method Selection:</h3>
+            </div>
+            <div class="toggleable_content">
+                <button onclick="setColormethod(COLOR_METHODS.TERRACED)">Terraced</button>
+                <button onclick="setColormethod(COLOR_METHODS.SMOOTH)">Smooth</button>
+                <button onclick="setColormethod(COLOR_METHODS.RINGS)">Rings</button>
+                <button onclick="setColormethod(COLOR_METHODS.STRIPES)">Stripes</button>
+                <button onclick="setColormethod(COLOR_METHODS.INTERIOR)">Interior</button>
+                <button onclick="setColormethod(COLOR_METHODS.ACCURATE)">Accurate</button>
+                <button onclick="setColormethod(COLOR_METHODS.SMOOTH_STRIPES)">Smooth stripes</button>
+                <button onclick="setColormethod(COLOR_METHODS.EDGY)">Edgy</button>
+                <button onclick="setColormethod(COLOR_METHODS.SQUARED)">Squared</button>
+                <button onclick="setColormethod(COLOR_METHODS.SPIKY)">Spiky</button>
+                <button onclick="setColormethod(COLOR_METHODS.STRIPY_RINGS)">Stripy rings</button>
+                <button onclick="setColormethod(COLOR_METHODS.INTERIOR_2)">Interior 2</button>
+                <button onclick="setColormethod(COLOR_METHODS.INTERIOR_STRIPES)">Interior Stripes</button>
+                <button onclick="setColormethod(COLOR_METHODS.PICKOVER_STALK)">Pickover Stalk</button>
+                <hr>
+            </div>
+        </div>
+        <div class="toggleable toggleable_default_hidden">
+            <div class="toggleable_title">
+                <h3>Fractal Modifier:</h3>
+            </div>
+            <div class="toggleable_content">
+                <button onclick="setPostFunction(MODIFIERS.NONE)">None</button>
+                <button onclick="setPostFunction(MODIFIERS.SIN)">Sine</button>
+                <button onclick="setPostFunction(MODIFIERS.SINH)">Hyperbolic sine</button>
+                <button onclick="setPostFunction(MODIFIERS.COS)">Cosine</button>
+                <button onclick="setPostFunction(MODIFIERS.COSH)">Hyperbolic cosine</button>
+                <button onclick="setPostFunction(MODIFIERS.TAN)">Tangent</button>
+                <button onclick="setPostFunction(MODIFIERS.TANH)">Hyperbolic tangent</button>
+                <button onclick="setPostFunction(MODIFIERS.LOG)">Logarithm</button>
+                <button onclick="setPostFunction(MODIFIERS.SQRT)">Square root</button>
+                <button onclick="setPostFunction(MODIFIERS.ABS)">Absolute</button>
+                <button onclick="setPostFunction(MODIFIERS.EXP)">Exponential</button>
+                <button onclick="setPostFunction(MODIFIERS.ATAN)">Arctangent</button>
+                <button onclick="setPostFunction(MODIFIERS.ASIN)">Arcsine</button>
+                <button onclick="setPostFunction(MODIFIERS.ACOS)">Arccosine</button>
+                <button onclick="setPostFunction(MODIFIERS.ASINH)">Hyperbolic Arcsine</button>
+                <button onclick="setPostFunction(MODIFIERS.ACOSH)">Hyperbolic Arccosine</button>
+                <button onclick="setPostFunction(MODIFIERS.ATANH)">Hyperbolic Arctangent</button>
+                <button onclick="setPostFunction(MODIFIERS.INV)">Inversed</button>
+                <button onclick="setPostFunction(MODIFIERS.SCATTER)">Scatter</button>
+                <hr>
+            </div>
+        </div>
+        <div class="toggleable toggleable_default_hidden">
+            <div class="toggleable_title">
+                <h3>Import</h3>
+            </div>
+            <div class="toggleable_content">
+                <h4>Import from URL</h4>
+                <input type="url" id="impurlinp">
+                <button onclick="_applyUrlWithParameters(document.getElementById('impurlinp').value)">Submit</button>
+                <h4>Import from exported PNG</h4>
+                <button onclick="loadParamsFromFile();">Select file</button>
+                <hr>
+            </div>
+        </div>
+        <div class="toggleable">
+            <div class="toggleable_title">
+                <h3>Export</h3>
+            </div>
+            <div class="toggleable_content">
+                <h4>Export PNG</h4>
+                <button onclick="exportMain()">Export Main</button>
+                <button onclick="exportJul()">Export Juliaset</button>
+                <h4>Share as an URL</h4>
+                <button onclick="createAndOpenUrl();">Create & Open URL</button>
+                <button onclick="createAndCopyUrl();">Create & Copy URL</button>
+                <hr>
+            </div>
+        </div>
+        <div class="toggleable">
+            <div class="toggleable_title">
+                <h3>Settings:</h3>
+            </div>
+            <div class="toggleable_content">
+                <button onclick="reset();" id="settingsReset">Reset Settings</button>
+                <button onclick="randomize();">Randomize Settings</button>
+                <br><br>
+                <p>Sticky canvases:</p>
+                <input type="checkbox" id="stickycanvases" checked="true" onchange="setCanvasesSticky(this.checked);">
+                <p>Escape Radius:</p>
+                <input type="number" id="radius" value="100000" onchange="setRadius(this.value)">
+                <p>Iterations:</p>
+                <input type="number" id="iterations" value="100" onchange="setIterations(this.value)">
+                <p>Fractal Power:</p>
+                <input type="number" step="0.0001" id="power" value="2" onchange="setPower(this.value)">
+                <p>Juliaset Constant:</p>
+                <input type="number" id="constantRe" value="0" step="0.0001" onchange="setConstantX(this.value);">
+                <input type="number" id="constantIm" value="0" step="0.0001" onchange="setConstantY(this.value);">
+                <p>Interpolate between normal and juliaset:</p>
+                <input type="number" id="nji" value="1" step="0.0001" onchange="setInterpolation(this.value);">
+                <p>Canvas Size:</p>
+                <input type="number" id="canvasSize" value="500" onchange="setCanvasSize(this.value)">
+                <p>Color offset:</p>
+                <input type="number" step="0.0001" value="0" id="coloroffset" onchange="setColoroffset(this.value);">
+                <p>Colorfulness:</p>
+                <input type="number" step="0.0001" value="1" id="colorfulness" onchange="setColorfulness(this.value);">
+                <p>Sample Count:</p>
+                <input type="number" value="1" id="sampleCount" onchange="setSampleCount(this.value)">
+                <hr>
+                <h4>Force Backend</h4>
+                <p><button onclick="forceWebGPU();">Use WebGPU</button> <span class="small">WebGPU uses more modern backends such as Vulkan, D3D12 and Metal, providing a performance benefit, but isn't supported in every browser yet.</span></p>
+                <p><button onclick="forceWebGL();">Use WebGL</button> <span class="small">WebGL uses the more outdated OpenGL backend, which might be a bit worse performance-wise, but some browsers don't yet implement WebGPU.</span></p>
+                <hr>
+            </div>
+        </div>
+        <div class="toggleable toggleable_default_hidden">
+            <div class="toggleable_title">
+                <h3>Noise</h3>
+            </div>
+            <div class="toggleable_content">
+                <p>Seed:</p>
+                <input type="range" class="slider" min="500" max="8000000" step="1" value="33333" id="cloudSeed" oninput="setCloudSeed(this.value);">
+                <p>Amplitude:</p>
+                <input type="range" class="slider" min="0" max="5" step="0.01" value="0" id="cloudAmplitude" oninput="setCloudAmplitude(this.value);">
+                <p>Multiplier:</p>
+                <input type="range" class="slider" min="0" max="1" step="0.01" value="0.8" id="cloudMultiplier" oninput="setCloudMultiplier(this.value);">
+                <hr>
+            </div>
+        </div>
+        <div id="pluginContainer"></div>
+        <div class="toggleable toggleable_default_hidden">
+            <div class="toggleable_title">
+                <h3>Customize Code</h3>
+            </div>
+            <div class="toggleable_content">
+                <h4>Custom Fractal:</h4>
+                <div class="codearea">
+                    <div class="tab">
+                        <button class="ftablink" id="fcodeb" onclick="openTabF(event, 'fcode');">Fractal Code</button>
+                        <button class="ftablink" onclick="openTabF(event, 'fhelp');">Help</button>
+                    </div>
+                    <div id="fcode" class="ftabcontent">
+                        <pre><code class="fixedCode" id="fractalFunctionCode"></code></pre>
+                        <textarea id="fcodei" class="code language-javascript" spellcheck="false" type="text" oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight + 11) + 'px';"></textarea>
+                        <pre class="endcodepre"><code class="fixedCode">}</code></pre>
+                        <p class="small">(Using Backend: <span class="backend"></span>)</p><br>
+                        <button class="submitShader" id="tgshdf" onclick="toggleCustomShader(this, 'f')">Enable Custom Fractal Shader</button><br>
+                        <button class="submitShader" onclick="updateShader('f')">Update Custom Fractal Shader</button>
+                        <h4>Compile Output:</h4>
+                        <pre><code id="fcompileout"></code></pre>
+                    </div>
+                    <div id="fhelp" class="ftabcontent">
+                        <h3>Note: the below examples are written in WGSL. Depending on the used backend, you might need to adjust the code.</h3>
+                        <h4>Here you can enter a custom formula for a fractal.</h4>
+                        <p>As an example, here is the mandelbrot set:</p>
+                        <pre><code class="fixedCode">return c_pow(z, power) + c;</code></pre>
+                        <p>In this example, <code class="fixedCode">c_pow()</code> raises a complex number z to a float power (usually 2), and adds c.</p>
+                        <br>
+                        <h4>All available functions:</h4>
+                        <p>NOTE: When experimenting around, sometimes you should use some of these with a low radius. That produces better results sometimes.</p>
+                        <br>
+                        <p><code class="fixedCode">complex(re, im)</code>: Creates a complex number. Can also be written as <code class="fixedCode">vec2&lt;f32&gt;();</code></p>
+                        <br>
+                        <p><code class="fixedCode">c_multiplication(a, b)</code>: Multiplies two complex numbers together.</p><br>
+                        <p><code class="fixedCode">c_division(a, b)</code>: Divides two complex numbers.</p><br>
+                        <p><code class="fixedCode">c_pow(z, p)</code>: Raises a complex number to a (float) power.</p><br>
+                        <p><code class="fixedCode">c_cpow(z, p)</code>: Raises a complex number to a (complex) power. </p><br>
+                        <br>
+                        <p><code class="fixedCode">c_sin(z)</code>: Complex Sine</p><br>
+                        <p><code class="fixedCode">c_cos(z)</code>: Complex Cosine</p><br>
+                        <p><code class="fixedCode">c_tan(z)</code>: Complex Tangent</p><br>
+                        <br>
+                        <p><code class="fixedCode">c_sinh(z)</code>: Complex Hyperbolic Sine</p><br>
+                        <p><code class="fixedCode">c_cosh(z)</code>: Complex Hyperbolic Cosine</p><br>
+                        <p><code class="fixedCode">c_tanh(z)</code>: Complex Hyperbolic Tangent</p><br>
+                        <br>
+                        <p><code class="fixedCode">c_asin(z)</code>: Complex Arcsine</p><br>
+                        <p><code class="fixedCode">c_acos(z)</code>: Complex Arccosine</p><br>
+                        <p><code class="fixedCode">c_atan(z)</code>: Complex Arctangent</p><br>
+                        <br>
+                        <p><code class="fixedCode">c_asinh(z)</code>: Complex Hyperbolic Arcsine</p><br>
+                        <p><code class="fixedCode">c_acosh(z)</code>: Complex Hyperbolic Arccosine</p><br>
+                        <p><code class="fixedCode">c_atanh(z)</code>: Complex Hyperbolic Arctangent</p><br>
+                        <br>
+                        <p><code class="fixedCode">c_log(z)</code>: Complex Logarithm</p><br>
+                        <p><code class="fixedCode">c_exp(z)</code>: Complex Exponential</p><br>
+                        <p><code class="fixedCode">c_sqrt(z)</code>: Complex Square Root</p><br>
+                        <p><code class="fixedCode">c_abs(z)</code>: Complex Absolute (kind of, just takes the absolute of both sides)</p><br>
+                        <br>
+                        <p>You have access to all built-in WGSL/GLSL functions aswell.</p>
+                        <h4>All available constants:</h4>
+                        <p><code class="fixedCode">pi</code>: Pi</p><br>
+                        <p><code class="fixedCode">e</code>: e</p><br>
+                        <p><code class="fixedCode">ln2</code>: Natural Logarithm of 2</p><br>
+                        <p><code class="fixedCode">phi</code>: Golden ratio.</p><br>
+                    </div>
+                </div>
+                <h4>Custom Colorscheme:</h4>
+                <div class="codearea">
+                    <div class="tab">
+                        <button class="cstablink" id="cscodeb" onclick="openTabCs(event, 'cscode');">Coloscheme Code</button>
+                        <button class="cstablink" onclick="openTabCs(event, 'cshelp');">Help</button>
+                    </div>
+                    <div id="cscode" class="cstabcontent">
+                        <pre><code class="fixedCode" id="colorschemeFunctionCode"></code></pre>
+                        <textarea id="cscodei" spellcheck="false" type="text" oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight + 11) + 'px';"></textarea>
+                        <pre class="endcodepre"><code class="fixedCode">}</code></pre>
+                        <p class="small">(Using Backend: <span class="backend"></span>)</p><br>
+                        <button class="submitShader" id="tgshdcs" onclick="toggleCustomShader(this, 'cs')">Enable Custom Colorscheme Shader</button><br>
+                        <button class="submitShader" onclick="updateShader('cs')">Update Custom Colorscheme Shader</button>
+                        <h4>Compile Output:</h4>
+                        <pre><code id="cscompileout"></code></pre>
+                    </div>
+                    <div id="cshelp" class="cstabcontent">
+                        <h3>Note: the below examples are written in WGSL. Depending on the used backend, you might need to adjust the code.</h3>
+                        <h4>For a custom colorscheme, you can either use a formula involving maths, like this:</h4>
+                        <pre><code class="fixedCode">var xp: f32 = x * pi * 2.;
+return vec4&lt;f32&gt;(
+    .5 + sin(xp) / 2.,
+    .5 + sin(xp + 1.) / 2.,
+    .5 + sin(xp + 2.) / 2.,
+    1.
+);</code></pre>
+                        <p>This code uses a few sines to create the "classic" colorscheme.</p>
+                        <h4>Or, you could just use interpolation. An example is here:</h4>
+                        <pre><code class="fixedCode">
+var xv: f32 = x;
+var red: vec3&lt;f32&gt; = vec3&lt;f32&gt;(1., 0., 0.);
+var yellow: vec3&lt;f32&gt; = vec3&lt;f32&gt;(1., 1., 0.);
+var green: vec3&lt;f32&gt; = vec3&lt;f32&gt;(0., 1., 0.);
+var lightblue: vec3&lt;f32&gt; = vec3&lt;f32&gt;(0., 1., 1.);
+var blue: vec3&lt;f32&gt; = vec3&lt;f32&gt;(0., 0., 1.);
+var pink: vec3&lt;f32&gt; = vec3&lt;f32&gt;(1., 0., 1.);
+xv = fract(xv) * 6.;
+if (xv < 1.) {
+    return color_interpolate(pink, red, yellow, green, fract(xv));
+}
+if (xv < 2.) {
+    return color_interpolate(red, yellow, green, lightblue, fract(xv));
+}
+if (xv < 3.) {
+    return color_interpolate(yellow, green, lightblue, blue, fract(xv));
+}
+if (xv < 4.) {
+    return color_interpolate(green, lightblue, blue, pink, fract(xv));
+}
+if (xv < 5.) {
+    return color_interpolate(lightblue, blue, pink, red, fract(xv));
+}
+if (xv <= 6.) {
+    return color_interpolate(blue, pink, red, yellow, fract(xv));
+}
+return vec4&lt;f32&gt;(0., 0., 0., 1.);
+                        </code></pre>
+                        <p>While this might look a little confusing at first, you can also just try modifying the colors at the top, changing (1., 0., 1.) to whatever color (in RGB) you like.<br>This example creates the "rainbow" colorscheme.</p>
+                    </div>
+                </div>
+                <script>
+                    function openTabF(e, n) {
+                        for (c of document.getElementsByClassName("ftabcontent")) {
+                            c.style.display = "none";
+                        }
+                        for (l of document.getElementsByClassName("ftablink")) {
+                            l.className = l.className.replace(" active", "");
+                        }
+                        document.getElementById(n).style.display = "block";
+                        e.currentTarget.className += " active";
+                    }
+                    function openTabCs(e, n) {
+                        for (c of document.getElementsByClassName("cstabcontent")) {
+                            c.style.display = "none";
+                        }
+                        for (l of document.getElementsByClassName("cstablink")) {
+                            l.className = l.className.replace(" active", "");
+                        }
+                        document.getElementById(n).style.display = "block";
+                        e.currentTarget.className += " active";
+                    }
+                    document.getElementById("fcodeb").click();
+                    document.getElementById("cscodeb").click();
+                </script>
+                <hr>
+            </div>
+                
+        </div>
+
+        <div class="toggleable toggleable_default_hidden">
+            <div class="toggleable_title">
+                <h3>Load Plugin</h3>
+            </div>
+            <div class="toggleable_content">
+                <div>
+                    <div class="tab">
+                        <button class="ptablink" id="purlb" onclick="openTabP(event, 'purl');">From Url</button>
+                        <button class="ptablink" onclick="openTabP(event, 'pfeat');">Featured (mine :P)</button>
+                    </div>
+                    <div id="purl" class="ptabcontent">
+                        <input id="purlinp" spellcheck="false" type="text"><br><br>
+                        <button onclick="loadPluginUrl(document.getElementById('purlinp').value);">Submit</button>
+                    </div>
+                    <div id="pfeat" class="ptabcontent">
+                        <button onclick="loadPluginUrl('/plugins/mandelbrot_variants/plugin.json');">Mandelbrot Variants</button>
+                    </div>
+                </div>
+                <script>
+                    function openTabP(e, n) {
+                        for (c of document.getElementsByClassName("ptabcontent")) {
+                            c.style.display = "none";
+                        }
+                        for (l of document.getElementsByClassName("ptablink")) {
+                            l.className = l.className.replace(" active", "");
+                        }
+                        document.getElementById(n).style.display = "block";
+                        e.currentTarget.className += " active";
+                    }
+                    document.getElementById("purlb").click();
+                </script>
+                <hr>
+            </div>
+        </div>
+
+        <div class="toggleable">
+            <div class="toggleable_title">
+                <h3>Information</h3>
+            </div>
+            <div class="toggleable_content">
+                <h3>Reporting Issues:</h3>
+                <p>This project is still very early in development. This means, new features will be added in the future. Until everything is finished, bugs might occur and things might break. If you find anything, please <a href="https://github.com/davidsaltacc/fractals/issues/new">open a issue on github.</a></p>
+                <hr>
+                <h3>Other Versions:</h3>
+                <a href="https://old.fractals.top/v1" target="_blank">Version v1</a><br>
+                <a href="https://old.fractals.top/v2" target="_blank">Version v2</a><br>
+                <a href="https://old.fractals.top/v3" target="_blank">Version v3</a><br>
+                <a href="https://old.fractals.top/v4" target="_blank">Version v4</a><br>
+                <a href="https://turbowarp.org/907856776?fps=60&turbo" target="_blank">Scratch Version I made for some reason</a>
+                <hr>
+                <div id="whatarefractalsContainer">
+                    <h3 id="whatarefractals">What are fractals?</h3>
+                    <a href="https://en.wikipedia.org/wiki/Fractal" target="_blank">en.wikipedia.org/wiki/Fractal</a><br>
+                    <a href="https://en.wikipedia.org/wiki/Mandelbrot_set" target="_blank">en.wikipedia.org/wiki/Mandelbrot_set</a><br>
+                    <a href="https://en.wikipedia.org/wiki/Julia_set" target="_blank">en.wikipedia.org/wiki/Julia_set</a><br>
+                    <a href="https://blinry.org/mandelbrot/" target="_blank">blinry.org/mandelbrot</a><br>
+                    <a href="http://www.paulbourke.net/fractals/" target="_blank">www.paulbourke.net/fractals</a>
+                </div>
+                <hr>
+                <h3>Special Thanks:</h3>
+                <p><a href="https://nathansolomon1678.github.io/fractals" target="_blank">This</a> project by nathansolomon1678 on github, where I got a lot of insipration (and a bit of code) from</p>
+                <p><a href="https://github.com/BenjaminAster/WebGPU-Mandelbrot" target="_blank">This</a> project by BenjaminAster on github, that helped me a little since I wasn't too experienced with WebGPU/WGSL</p>
+                <p>Paul Bourke's <a href="http://www.paulbourke.net/fractals/" target="_blank">page on fractals</a>, where I got lots of the fractals and insipration from</p>
+                <p>CodeParade (HackerPoet on github) for <a href="https://github.com/HackerPoet/FractalSoundExplorer" target="_blank">this</a> project, where I got the code for the feather fractal and a few others from</p>
+                <p><a href="https://github.com/kbinani/colormap-shaders" target="_blank">This</a> project on github I got some colormaps from.</p>
+                <p><a href="https://github.com/radian628/small-projects" target="_blank">This</a> repository on github by radian628, where I got the idea of multisampling from.</p>
+                <p><a href="https://iquilezles.org/" target="_blank">Indigo Quilez' Website</a>, which contains a lot of useful articles on graphical programming.</p>
+                <p>All the amazing people who discovered some of these fractals and made this project possible</p>
+                <p>My friends (who did nothing for this project)</p>
+                <p>You, for visiting and testing my project</p>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div id="walkthroughDarken"></div>
+    <div class="support-banner" id="sb">
+        <p onclick="console.log(this); window.location.href = 'https:\/\/ko-fi.com\/justacoder';">Support my work!</p><span onclick="this.parentElement.remove();">X</span>
+    </div>
+
+</body>
+</html>

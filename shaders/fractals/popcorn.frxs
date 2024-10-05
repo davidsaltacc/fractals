@@ -1,0 +1,16 @@
+
+
+#ifbackend[webgpu]
+return apply_post_function(vec2<f32>(
+#endbackend
+
+#ifbackend[webgl]
+return apply_post_function(vec2(
+#endbackend
+
+
+#ifbackend[*]
+    z.x - c.x * (z.y + tan(3. * z.y)), 
+    z.y - c.y * (z.x + tan(3. * z.x))
+), c);
+#endbackend

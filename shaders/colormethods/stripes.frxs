@@ -1,0 +1,36 @@
+
+
+#ifbackend[*]
+if (magnitude(z) > radius) {
+#endbackend
+
+
+#ifbackend[webgpu]
+    var float_iters: f32 = smooth_iters(iteration, z, last_z);
+#endbackend
+
+#ifbackend[webgl]
+    float float_iters = smooth_iters(iteration, z, last_z);
+#endbackend
+
+#ifbackend[*]
+    stripe += weierstrass(atan2(z.y, z.x)) * fract(float_iters);
+    color_v = float_iters / square(log(float_iters)) + 40. * stripe / float_iters;
+#endbackend
+
+#ifbackend[webgpu]
+    color_v /= f32(maxIterations);
+#endbackend
+
+#ifbackend[webgl]
+    color_v /= float(maxIterations);
+#endbackend
+
+#ifbackend[*]
+    break;
+} else if (iteration == maxIterations) {
+    color_black = true;
+} else {
+    stripe += weierstrass(atan2(z.y, z.x));
+}
+#endbackend

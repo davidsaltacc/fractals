@@ -1,0 +1,8 @@
+
+#ifbackend[webgpu]
+return vec4<f32>((sin(x * pi * 0.3) + 0.5) / 2.0, (sin(x * pi * 0.7) + 0.2) / 1.5, (sin(x * pi * 0.5) + 0.8) / 3.0, 1.0);
+#endbackend
+
+#ifbackend[webgl]
+return vec4((sin(x * pi * 0.3) + 0.5) / 2.0, (sin(x * pi * 0.7) + 0.2) / 1.5, (sin(x * pi * 0.5) + 0.8) / 3.0, 1.0);
+#endbackend

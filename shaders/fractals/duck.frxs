@@ -1,0 +1,21 @@
+
+
+#ifbackend[webgpu]
+
+var polar: vec2<f32> = to_polar(z);
+var r: f32 = pow(polar.x, power);
+var t: f32 = power * abs(polar.y);
+return c + apply_post_function(r * vec2<f32>(cos(t), sin(t)), c);
+
+#endbackend
+
+
+
+#ifbackend[webgl]
+
+vec2 p = to_polar(z);
+float r = pow(p.x, float(power));
+float t = power * abs(p.y);
+return c + apply_post_function(r * vec2(cos(t), sin(t)), c);
+
+#endbackend

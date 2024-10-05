@@ -1,0 +1,72 @@
+
+#ifbackend[webgpu]
+
+var xv: f32 = x;
+
+var white: vec3<f32> = vec3<f32>(1., 1., 1.);
+var green: vec3<f32> = vec3<f32>(0., 1., 0.5);
+var blue: vec3<f32> = vec3<f32>(0.2, 0.5, 1.);
+var lightblue: vec3<f32> = vec3<f32>(0.5, 1., 1.);
+var purple: vec3<f32> = vec3<f32>(0.5, 0., 1.);
+var pink: vec3<f32> = vec3<f32>(1., 0., 1.);
+
+xv = fract(xv) * 6.;
+
+if (xv < 1.) {
+    return color_interpolate(pink, white, green, blue, fract(xv));
+}
+if (xv < 2.) {
+    return color_interpolate(white, green, blue, lightblue, fract(xv));
+}
+if (xv < 3.) {
+    return color_interpolate(green, blue, lightblue, purple, fract(xv));
+}
+if (xv < 4.) {
+    return color_interpolate(blue, lightblue, purple, pink, fract(xv));
+}
+if (xv < 5.) {
+    return color_interpolate(lightblue, purple, pink, white, fract(xv));
+}
+if (xv <= 6.) {
+    return color_interpolate(purple, pink, white, green, fract(xv));
+}
+
+return vec4<f32>(0., 0., 0., 1.);
+
+#endbackend
+
+
+
+#ifbackend[webgl]
+
+vec3 white = vec3(1., 1., 1.);
+vec3 green = vec3(0., 1., 0.5);
+vec3 blue = vec3(0.2, 0.5, 1.);
+vec3 lightblue = vec3(0.5, 1., 1.);
+vec3 purple = vec3(0.5, 0., 1.);
+vec3 pink = vec3(1., 0., 1.);
+
+x = fract(x) * 6.;
+
+if (x < 1.) {
+    return color_interpolate(pink, white, green, blue, fract(x));
+}
+if (x < 2.) {
+    return color_interpolate(white, green, blue, lightblue, fract(x));
+}
+if (x < 3.) {
+    return color_interpolate(green, blue, lightblue, purple, fract(x));
+}
+if (x < 4.) {
+    return color_interpolate(blue, lightblue, purple, pink, fract(x));
+}
+if (x < 5.) {
+    return color_interpolate(lightblue, purple, pink, white, fract(x));
+}
+if (x <= 6.) {
+    return color_interpolate(purple, pink, white, green, fract(x));
+}
+
+return vec4(0., 0., 0., 1.);
+
+#endbackend

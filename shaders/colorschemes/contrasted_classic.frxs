@@ -1,0 +1,24 @@
+
+#ifbackend[webgpu]
+
+var xp: f32 = x * pi * 2.;
+return vec4<f32>(
+
+#endbackend
+
+
+#ifbackend[webgl]
+
+float xp = x * pi * 2.;
+return vec4(
+
+#endbackend
+
+
+#ifbackend[*]
+    sin(xp),
+    sin(xp + 1.),
+    sin(xp + 2.),
+    1.
+);
+#endbackend

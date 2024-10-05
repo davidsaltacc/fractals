@@ -1,0 +1,15 @@
+
+
+#ifbackend[webgpu]
+return apply_post_function(vec2<f32>(
+#endbackend
+
+#ifbackend[webgl]
+return apply_post_function(vec2(
+#endbackend
+
+#ifbackend[*]
+    sin(z.x) * sinh(z.y), 
+    cos(z.y) * cosh(z.x)
+), c) + c;
+#endbackend

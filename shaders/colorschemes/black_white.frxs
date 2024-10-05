@@ -1,0 +1,21 @@
+
+#ifbackend[webgpu]
+
+var c: f32 = .5 + sin(x * pi * 1.6 + 1.) / 2.;
+return vec4<f32>(
+    c, c, c,
+    1.
+);
+
+#endbackend
+
+
+#ifbackend[webgl]
+
+float c = .5 + sin(x * pi * 1.6 + 1.) / 2.;
+return vec4(
+    c, c, c,
+    1.
+);
+
+#endbackend

@@ -1,0 +1,5 @@
+
+
+#ifbackend[*]
+return z + (ms_rand(c) * 2. - 1.);
+#endbackend

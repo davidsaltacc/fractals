@@ -1,0 +1,24 @@
+
+#ifbackend[*]
+if (magnitude(z) > radius) {
+	color_black = true;
+} else if (iteration == maxIterations) {
+#endbackend
+
+
+#ifbackend[webgpu]
+	var mag: f32 = magnitude(z);
+#endbackend
+
+#ifbackend[webgl]
+	float mag = magnitude(z);
+#endbackend
+
+
+#ifbackend[*]
+	stripe += weierstrass(atan2(z.y, z.x)) * fract(mag);
+	color_v = log(mag / square(log(mag)) + 40. * abs(stripe) / mag);
+} else {
+	stripe += weierstrass(atan2(z.y, z.x));
+}
+#endbackend

@@ -1,0 +1,17 @@
+
+
+#ifbackend[webgpu]
+
+var x_var: f32 = fract(x * 2. + 0.5);
+return vec4<f32>((128. * sin(6.25 * (x_var + 0.5)) + 128.) / 255., (63. * sin(x_var * 99.72) + 97.) / 255., (128. * sin(6.23 * x_var) + 128.) / 255., 1.);
+
+#endbackend
+
+
+
+#ifbackend[webgl]
+
+x = fract(x * 2. + 0.5);
+return vec4((128. * sin(6.25 * (x + 0.5)) + 128.) / 255., (63. * sin(x * 99.72) + 97.) / 255., (128. * sin(6.23 * x) + 128.) / 255., 1.);
+
+#endbackend
