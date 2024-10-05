@@ -5,7 +5,7 @@
 
 return complex(
     z.x * z.x + abs(z.y) * z.y,
-    -2 * abs(z.x * z.y)
+    -2. * abs(z.x * z.y)
 ) + complex(c.x, -c.y); // flipping c, just so it looks better
 
 

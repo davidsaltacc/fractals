@@ -5,7 +5,7 @@
 
 return complex(
     z.x * z.x + z.y * z.y,
-    2 * z.x * z.y
+    2. * z.x * z.y
 ) + c;
 
 
