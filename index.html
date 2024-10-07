@@ -262,11 +262,28 @@
             </div>
             <div class="toggleable_content">
                 <p>Seed:</p>
-                <input type="range" class="slider" min="500" max="8000000" step="1" value="33333" id="cloudSeed" oninput="setCloudSeed(this.value);">
+                <input type="number" value="33333" id="cloudSeed" oninput="setCloudSeed(this.value);">
                 <p>Amplitude:</p>
-                <input type="range" class="slider" min="0" max="5" step="0.01" value="0" id="cloudAmplitude" oninput="setCloudAmplitude(this.value);">
+                <input type="number" value="0" id="cloudAmplitude" oninput="setCloudAmplitude(this.value);">
                 <p>Multiplier:</p>
-                <input type="range" class="slider" min="0" max="1" step="0.01" value="0.8" id="cloudMultiplier" oninput="setCloudMultiplier(this.value);">
+                <input type="number" value="0.8" id="cloudMultiplier" oninput="setCloudMultiplier(this.value);">
+                <hr>
+            </div>
+        </div>
+        <div class="toggleable toggleable_default_hidden">
+            <div class="toggleable_title">
+                <h3>Image Chunker</h3>
+            </div>
+            <div class="toggleable_content">
+                <h3>Render the fractal in chunks, to be able to render fractals at huge scales and at high iterations and sample counts.</h3>
+                <p>Final Image Size:</p>
+                <input type="number" value="2000" oninput="setChunkerFinalSize(this.value);">
+                <p>Chunk Size:</p>
+                <input type="number" value="400" oninput="setChunkerChunkSize(this.value);">
+                <br><br>
+                <button onclick="renderAndExportChunkedMain();">Render and export Main</button>
+                <button onclick="renderAndExportChunkedJuliaset();">Render and export Juliaset</button> 
+                <h4>Note: If your browser freezes instead of displaying a loading screen, this is most likely due to the used backend being WebGL. This is a known issue, just be patient, and if you want a progress indicator, press f12 to open the console with logs. </h4>
                 <hr>
             </div>
         </div>

@@ -230,7 +230,7 @@ var cloudSeed ;
 var cloudAmplitude;
 var cloudMultiplier;
 
-function reset() {
+function reset(noCompile) {
 
     centerMain = [0, 0];
     centerJul = [0, 0];
@@ -252,8 +252,14 @@ function reset() {
     cloudAmplitude = 0;
     cloudMultiplier = 0.8;
 
-    compileAndRender();
+    if (!noCompile) {
+        compileAndRender();
+    }
 
+}
+
+function resetNoCompile() {
+    reset(true);
 }
 
 function randomize() {
@@ -277,12 +283,13 @@ function randomize() {
 var wgpu_pipeline;
 var wgpu_bindGroup;
 var wgpu_uniformBuffer;
+var wgpu_format;
 
 var wgl_programMain;
 var wgl_programJul;
 
 if (USE_WEBGPU) {
-    var format = navigator.gpu.getPreferredCanvasFormat();
+    wgpu_format = "rgba8unorm"; // navigator.gpu.getPreferredCanvasFormat();
     var uniformBufferSize = Math.ceil((
         + 2 * Float32Array.BYTES_PER_ELEMENT // center: vec2<f32>
         + 2 * Float32Array.BYTES_PER_ELEMENT // juliasetConstant: vec2<f32>
@@ -308,11 +315,11 @@ if (USE_WEBGPU) {
 
     contextMain.configure({
         device: wgpu_device,
-        format: format
+        format: wgpu_format
     });
     contextJul.configure({
         device: wgpu_device,
-        format: format
+        format: wgpu_format
     });
 }
 
@@ -338,8 +345,6 @@ async function _compileShaders(cmethod, cscheme, fractal, postf) {
 
             wgpu_device.pushErrorScope("validation");
             
-            var format = navigator.gpu.getPreferredCanvasFormat();
-
             var cpipeline = await wgpu_device.createRenderPipelineAsync({
                 layout: wgpu_device.createPipelineLayout({
                     bindGroupLayouts: [ 
@@ -357,7 +362,7 @@ async function _compileShaders(cmethod, cscheme, fractal, postf) {
                 fragment: {
                     module: cshaderModule,
                     entryPoint: "fragment",
-                    targets: [{ format: format }],
+                    targets: [{ format: wgpu_format }],
                 },
                 primitive: {
                     topology: "triangle-strip",
@@ -500,38 +505,37 @@ async function compileShaders(cmethod, cscheme, fractal, postf) {
     return result;
 }
 
-function wgl_setUniforms(gl, program, juliaset) {
+function setUniforms(context, wgl_program, juliaset) {
     
-    gl.uniform2fv(gl.getUniformLocation(program, "center"), !juliaset ? centerMain : centerJul);
-    gl.uniform2fv(gl.getUniformLocation(program, "juliasetConstant"), juliasetConstant);
-    gl.uniform2fv(gl.getUniformLocation(program, "canvasDimensions"), [ canvasMain.width, canvasMain.height ]);
-    gl.uniform1f(gl.getUniformLocation(program, "zoom"), !juliaset ? zoomMain : zoomJul);
-    gl.uniform1f(gl.getUniformLocation(program, "radius"), radius);
-    gl.uniform1f(gl.getUniformLocation(program, "power"), power);
-    gl.uniform1f(gl.getUniformLocation(program, "colorOffset"), colorOffset);
-    gl.uniform1f(gl.getUniformLocation(program, "juliasetInterpolation"), juliasetInterpolation);
-    gl.uniform1f(gl.getUniformLocation(program, "colorfulness"), colorfulness);
-    gl.uniform1f(gl.getUniformLocation(program, "cloudSeed"), cloudSeed);
-    gl.uniform1f(gl.getUniformLocation(program, "cloudAmplitude"), cloudAmplitude);
-    gl.uniform1f(gl.getUniformLocation(program, "cloudMultiplier"), cloudMultiplier);
-    gl.uniform1ui(gl.getUniformLocation(program, "maxIterations"), maxIterations);
-    gl.uniform1ui(gl.getUniformLocation(program, "sampleCount"), sampleCount);
-    gl.uniform1ui(gl.getUniformLocation(program, "juliaset"), juliaset);
+    if (USE_WEBGL) {
 
-}
+        context.uniform2fv(context.getUniformLocation(wgl_program, "center"), !juliaset ? centerMain : centerJul);
+        context.uniform2fv(context.getUniformLocation(wgl_program, "juliasetConstant"), juliasetConstant);
+        context.uniform2fv(context.getUniformLocation(wgl_program, "canvasDimensions"), [ canvasMain.width, canvasMain.height ]);
+        context.uniform1f(context.getUniformLocation(wgl_program, "zoom"), !juliaset ? zoomMain : zoomJul);
+        context.uniform1f(context.getUniformLocation(wgl_program, "radius"), radius);
+        context.uniform1f(context.getUniformLocation(wgl_program, "power"), power);
+        context.uniform1f(context.getUniformLocation(wgl_program, "colorOffset"), colorOffset);
+        context.uniform1f(context.getUniformLocation(wgl_program, "juliasetInterpolation"), juliasetInterpolation);
+        context.uniform1f(context.getUniformLocation(wgl_program, "colorfulness"), colorfulness);
+        context.uniform1f(context.getUniformLocation(wgl_program, "cloudSeed"), cloudSeed);
+        context.uniform1f(context.getUniformLocation(wgl_program, "cloudAmplitude"), cloudAmplitude);
+        context.uniform1f(context.getUniformLocation(wgl_program, "cloudMultiplier"), cloudMultiplier);
+        context.uniform1ui(context.getUniformLocation(wgl_program, "maxIterations"), maxIterations);
+        context.uniform1ui(context.getUniformLocation(wgl_program, "sampleCount"), sampleCount);
+        context.uniform1ui(context.getUniformLocation(wgl_program, "juliaset"), juliaset);
 
-function draw(context, juliaset, center, zoom) {
+    } else if (USE_WEBGPU) {
 
-    if (USE_WEBGPU) {
         const arrayBuffer = new ArrayBuffer(uniformBufferSize);
         new Float32Array(arrayBuffer, 0).set([
-            center[0],
-            center[1],
+            !juliaset ? centerMain[0] : centerJul[0],
+            !juliaset ? centerMain[1] : centerJul[1],
             juliasetConstant[0],
             juliasetConstant[1],
             canvasMain.width, 
             canvasMain.height,
-            zoom,
+            !juliaset ? zoomMain : zoomJul,
             radius,
             power, 
             colorOffset,
@@ -541,12 +545,24 @@ function draw(context, juliaset, center, zoom) {
             cloudAmplitude,
             cloudMultiplier
         ]);
+
         new Uint32Array(arrayBuffer, 15 * Float32Array.BYTES_PER_ELEMENT).set([
             maxIterations,
             sampleCount,
             juliaset
         ]);
+
         wgpu_device.queue.writeBuffer(wgpu_uniformBuffer, 0, arrayBuffer);
+
+    }
+
+}
+
+function draw(context, juliaset) {
+
+    if (USE_WEBGPU) {
+
+        setUniforms(null, null, juliaset);
 
         const encoder = wgpu_device.createCommandEncoder();
         const renderPass = encoder.beginRenderPass({
@@ -554,8 +570,8 @@ function draw(context, juliaset, center, zoom) {
                 view: context.getCurrentTexture().createView(),
                 loadOp: "clear",
                 clearValue: [0, 0, 0, 1],
-                storeOp: "store",
-            }],
+                storeOp: "store"
+            }]
         });
 
         renderPass.setPipeline(wgpu_pipeline);
@@ -567,19 +583,129 @@ function draw(context, juliaset, center, zoom) {
 
     } else if (USE_WEBGL) {
 
-        wgl_setUniforms(context, !juliaset ? wgl_programMain : wgl_programJul, juliaset);
+        setUniforms(context, !juliaset ? wgl_programMain : wgl_programJul, juliaset);
         context.drawArrays(context.TRIANGLE_FAN, 0, 4);
 
     }
 
 }
 
+async function drawReturnImageData(context, juliaset) {
+
+    var width = !juliaset ? canvasMain.width : canvasJul.width;
+    var height = !juliaset ? canvasMain.height : canvasJul.height;
+    
+    if (USE_WEBGPU) {
+
+        setUniforms(null, null, juliaset);
+
+        const texture = wgpu_device.createTexture({
+            size: [width, height, 1],
+            format: wgpu_format,
+            usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC
+        });
+
+        const encoder = wgpu_device.createCommandEncoder();
+        const renderPass = encoder.beginRenderPass({
+            colorAttachments: [{
+                view: texture.createView(),
+                loadOp: "clear",
+                clearValue: [0, 0, 0, 1],
+                storeOp: "store"
+            }]
+        });
+
+        renderPass.setPipeline(wgpu_pipeline);
+        renderPass.setBindGroup(0, wgpu_bindGroup);
+        renderPass.draw(4);
+        renderPass.end();
+
+        const bytesPerRowUnaligned = width * 4;
+        const bytesPerRow = Math.ceil(bytesPerRowUnaligned / 256) * 256;
+
+        const bufferSize = bytesPerRow * height * 4; 
+        const outputBuffer = wgpu_device.createBuffer({
+            size: bufferSize,
+            usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
+        });
+
+        encoder.copyTextureToBuffer(
+            { texture: texture },
+            { buffer: outputBuffer, bytesPerRow: bytesPerRow },
+            [ width, height, 1 ]
+        );
+
+        wgpu_device.queue.submit([ encoder.finish() ]);
+
+        await outputBuffer.mapAsync(GPUMapMode.READ);
+        const arrayBuffer = outputBuffer.getMappedRange();
+        const rawPixels = new Uint8Array(arrayBuffer);
+
+        const pixels = new Uint8Array(width * height * 4);
+
+        for (var row = 0; row < height; row++) {
+            const srcOffset = row * bytesPerRow;
+            const dstOffset = row * width * 4;
+            pixels.set(rawPixels.slice(srcOffset, srcOffset + width * 4), dstOffset);
+        }
+
+        return pixels;
+
+    } else if (USE_WEBGL) {
+        
+        var gl = context;
+
+        setUniforms(gl, !juliaset ? wgl_programMain : wgl_programJul, juliaset);
+
+        const texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+        const framebuffer = gl.createFramebuffer();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+
+        gl.viewport(0, 0, width, height);
+
+        gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+
+        const pixels = new Uint8Array(width * height * 4);
+
+        gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+        const flippedPixels = new Uint8Array(pixels.length);
+
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                const srcIndex = (y * width + x) * 4;
+                const destIndex = ((height - 1 - y) * width + x) * 4; 
+                flippedPixels[destIndex] = pixels[srcIndex]; 
+                flippedPixels[destIndex + 1] = pixels[srcIndex + 1];
+                flippedPixels[destIndex + 2] = pixels[srcIndex + 2];
+                flippedPixels[destIndex + 3] = pixels[srcIndex + 3];
+            }
+        }
+
+
+        return flippedPixels;
+
+    }
+
+}
+
 function renderMain() {
-    draw(contextMain, 0, centerMain, zoomMain);
+    draw(contextMain, 0);
 }
 
 function renderJul() {
-    draw(contextJul, 1, centerJul, zoomJul);
+    draw(contextJul, 1);
 }
 function renderBoth() {
     renderMain();
@@ -591,6 +717,66 @@ async function compileAndRender() {
     renderBoth();
 }
 
+
+var chunkerFinalSize = 2000;
+var chunkerChunkSize = 400;
+
+async function _renderAndExportChunked(isMain) {
+
+    if (chunkerFinalSize % chunkerChunkSize != 0) {
+        alert("The final size needs to be divisible by the chunk size.");
+        return;
+    }
+
+    logStatus("rendering chunked image");
+    showLoadingWave();
+    
+    var originalCanvasSize = canvasMain.width;
+    setCanvasSize(chunkerChunkSize);
+
+    var originalCenter = isMain ? centerMain : centerJul;
+    var originalZoom = isMain ? zoomMain : zoomJul;
+    
+    var newZoom = originalZoom * (chunkerFinalSize / chunkerChunkSize);
+
+    if (isMain) { zoomMain = newZoom; } else { zoomJul = newZoom; }
+
+    var bigCanvas = document.createElement("canvas");
+    bigCanvas.width = bigCanvas.height = chunkerFinalSize;
+
+    var bigContext = bigCanvas.getContext("2d");
+
+    try {
+        for (var y = 0; y < chunkerFinalSize; y += chunkerChunkSize) {
+            logStatus("rendering chunked image " + Math.floor(y / chunkerFinalSize * 100) + "%");
+            for (var x = 0; x < chunkerFinalSize; x += chunkerChunkSize) {
+                centerMain = [
+                    originalCenter[0] + ((x + chunkerChunkSize / 2) / chunkerFinalSize * 2 - 1) / originalZoom, 
+                    originalCenter[1] - ((y + chunkerChunkSize / 2) / chunkerFinalSize * 2 - 1) / originalZoom
+                ];
+                bigContext.putImageData(new ImageData(new Uint8ClampedArray(await drawReturnImageData(isMain ? contextMain : contextJul, !isMain)), chunkerChunkSize, chunkerChunkSize), x, y);
+            }
+        }
+    } catch {
+        alert("Failed to render and merge chunks. This is probably due to the size being too big.")
+        return;
+    }
+
+    if (isMain) { zoomMain = originalZoom; } else { zoomJul = originalZoom; }
+    if (isMain) { centerMain = originalCenter; } else { centerJul = originalCenter; }
+
+    setCanvasSize(originalCanvasSize);
+    renderBoth();
+
+    _export(bigCanvas);
+
+    bigCanvas.remove(); 
+    hideLoadingWave();
+
+}
+
+function renderAndExportChunkedMain() { _renderAndExportChunked(true) }
+function renderAndExportChunkedJuliaset() { _renderAndExportChunked(false) }
 
 var mouseMainX = 0;
 var mouseMainY = 0;
@@ -836,18 +1022,20 @@ function setCanvasSize(size) {
     renderBoth();
 }
 
-function setRadius(value) { radius = value; renderBoth(); }
-function setIterations(value) { maxIterations = value; renderBoth(); }
-function setPower(value) { power = value; renderBoth(); }
-function setConstantX(value) { juliasetConstant[0] = value; renderBoth(); }
-function setConstantY(value) { juliasetConstant[1] = value; renderBoth(); }
-function setInterpolation(value) { juliasetInterpolation = value; renderBoth(); }
-function setColoroffset(value) { colorOffset = value; renderBoth(); }
-function setColorfulness(value) { colorfulness = value; renderBoth(); }
-function setSampleCount(value) { sampleCount = value; renderBoth(); }
-function setCloudSeed(value) { cloudSeed = value; renderBoth(); }
-function setCloudAmplitude(value) { cloudAmplitude = value; renderBoth(); }
-function setCloudMultiplier(value) { cloudMultiplier = value; renderBoth(); }
+function setRadius(value) { radius = parseInt(value); renderBoth(); }
+function setIterations(value) { maxIterations = parseInt(value); renderBoth(); }
+function setPower(value) { power = parseFloat(value); renderBoth(); }
+function setConstantX(value) { juliasetConstant[0] = parseFloat(value); renderBoth(); }
+function setConstantY(value) { juliasetConstant[1] = parseFloat(value); renderBoth(); }
+function setInterpolation(value) { juliasetInterpolation = parseFloat(value); renderBoth(); }
+function setColoroffset(value) { colorOffset = parseFloat(value); renderBoth(); }
+function setColorfulness(value) { colorfulness = parseFloat(value); renderBoth(); }
+function setSampleCount(value) { sampleCount = parseInt(value); renderBoth(); }
+function setCloudSeed(value) { cloudSeed = Math.min(Math.max(parseInt(value), 500), 8000000); renderBoth(); }
+function setCloudAmplitude(value) { cloudAmplitude = parseFloat(value); renderBoth(); }
+function setCloudMultiplier(value) { cloudMultiplier = parseFloat(value); renderBoth(); }
+function setChunkerFinalSize(value) { chunkerFinalSize = parseInt(value); }
+function setChunkerChunkSize(value) { chunkerChunkSize = parseInt(value); }
 
 
 function createUrlWithParameters() {
@@ -943,25 +1131,35 @@ function createAndCopyUrl() {
     navigator.clipboard.writeText(createUrlWithParameters());
 }
 
-function _export(dURL) {
-    var pURL = createUrlWithParameters();
-    var s = dURL.split(",");
-     
+async function _export(canvas) {
+
+    var paramUrl = createUrlWithParameters();
+
+    var encoder = new TextEncoder();
+    var urlBlob = new Blob([encoder.encode("FXURL::" + paramUrl)], { type: "text/plain" });
+
+    var canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+
+    var finalBlob = new Blob([canvasBlob, urlBlob], { type: "image/png" });
+
     var a = document.createElement("a");  
-    a.href = s[0] + "," + btoa(atob(s[1]) + "FXURL::" + pURL);
+    var url = URL.createObjectURL(finalBlob);
+
+    a.href = url;
     a.download = "fractal.png";
     a.click();
+
+    URL.revokeObjectURL(url); 
     a.remove();
+
 }
 function exportMain() {
     renderMain();
-    var data = canvasMain.toDataURL("image/png");
-    _export(data);
+    _export(canvasMain);
 }
 function exportJul() {
     renderJul();
-    var data = canvasJul.toDataURL("image/png");
-    _export(data);
+    _export(canvasJul);
 }
 
 function loadParamsFromFile() {
@@ -1056,11 +1254,10 @@ async function updateShader(t) {
     }
 }
 
-reset();
+resetNoCompile();
 applyUrlWithParameters();
 stickyCanvasesIfFit();
-compileAndRender();
-
+await compileAndRender();
 
 const exports = {
     renderMain,
@@ -1099,6 +1296,12 @@ const exports = {
     forceWebGPU,
     toggleCustomShader,
     updateShader,
-    createUiSection
+    createUiSection,
+    contextMain,
+    contextJul,
+    setChunkerFinalSize,
+    setChunkerChunkSize,
+    renderAndExportChunkedMain,
+    renderAndExportChunkedJuliaset
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
