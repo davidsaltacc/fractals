@@ -415,6 +415,10 @@ const COLORSCHEMES = {
     GLOW: {
         description: "Doesn't sound like the best of names for this. I'm just reeeeaaaally uncreative.",
         shader: "glow"
+    },
+    PURPLE: {
+        description: "Purple and yellow. Doesn't look good in some cases, but in some, it looks really good.",
+        shader: "purple"
     }
 
 };

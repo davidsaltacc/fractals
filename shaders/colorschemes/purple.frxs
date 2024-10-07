@@ -1,0 +1,47 @@
+
+#ifbackend[webgpu]
+
+var x_var: f32 = x * 3.6 - 0.1;
+var red: vec3<f32> = vec3<f32>(0.94, 0.82, 0.38);
+var white: vec3<f32> = vec3<f32>(0.74, 0.16, 0.91);
+var blue: vec3<f32> = vec3<f32>(0.32, 0.11, 0.25);
+
+x_var = fract(x_var) * 3.;
+
+if (x_var < 1.) {
+	return color_interpolate(red, white, blue, red, fract(x_var));
+}
+if (x_var < 2.) {
+	return color_interpolate(white, blue, red, white, fract(x_var));
+}
+if (x_var <= 3.) {
+	return color_interpolate(blue, red, white, blue, fract(x_var));
+}
+
+return vec4<f32>(0., 0., 0., 1.);
+
+#endbackend
+
+
+#ifbackend[webgl]
+
+x = x * 3.6 - 0.1;
+vec3 red = vec3(0.94, 0.82, 0.38);
+vec3 white = vec3(0.74, 0.16, 0.91);
+vec3 blue = vec3(0.32, 0.11, 0.25);
+
+x = fract(x) * 3.;
+
+if (x < 1.) {
+	return color_interpolate(red, white, blue, red, fract(x));
+}
+if (x < 2.) {
+	return color_interpolate(white, blue, red, white, fract(x));
+}
+if (x <= 3.) {
+	return color_interpolate(blue, red, white, blue, fract(x));
+}
+
+return vec4(0., 0., 0., 1.);
+
+#endbackend
