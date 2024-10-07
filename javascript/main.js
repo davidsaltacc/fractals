@@ -1076,7 +1076,7 @@ function createUrlWithParameters() {
 
 function _applyUrlWithParameters(url) {
 
-    if (new URL(window.location.href).searchParams.size == 0) {
+    if (new URL(url).searchParams.size == 0) {
         return;
     }
 
