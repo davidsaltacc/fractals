@@ -750,10 +750,11 @@ async function _renderAndExportChunked(isMain) {
         for (var y = 0; y < chunkerFinalSize; y += chunkerChunkSize) {
             logStatus("rendering chunked image " + Math.floor(y / chunkerFinalSize * 100) + "%");
             for (var x = 0; x < chunkerFinalSize; x += chunkerChunkSize) {
-                centerMain = [
+                var newCenter = [
                     originalCenter[0] + ((x + chunkerChunkSize / 2) / chunkerFinalSize * 2 - 1) / originalZoom, 
                     originalCenter[1] - ((y + chunkerChunkSize / 2) / chunkerFinalSize * 2 - 1) / originalZoom
                 ];
+                if (isMain) { centerMain = newCenter; } else { centerJul = newCenter; }
                 bigContext.putImageData(new ImageData(new Uint8ClampedArray(await drawReturnImageData(isMain ? contextMain : contextJul, !isMain)), chunkerChunkSize, chunkerChunkSize), x, y);
             }
         }
