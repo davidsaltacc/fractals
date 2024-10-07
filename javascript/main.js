@@ -1075,7 +1075,6 @@ function createUrlWithParameters() {
 
 function _applyUrlWithParameters(url) {
 
-
     if (new URL(window.location.href).searchParams.size == 0) {
         return;
     }
@@ -1302,6 +1301,8 @@ const exports = {
     setChunkerFinalSize,
     setChunkerChunkSize,
     renderAndExportChunkedMain,
-    renderAndExportChunkedJuliaset
+    renderAndExportChunkedJuliaset,
+    compileAndRender,
+    compileShaders
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }

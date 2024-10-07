@@ -200,7 +200,7 @@
             <div class="toggleable_content">
                 <h4>Import from URL</h4>
                 <input type="url" id="impurlinp">
-                <button onclick="_applyUrlWithParameters(document.getElementById('impurlinp').value)">Submit</button>
+                <button onclick="_applyUrlWithParameters(document.getElementById('impurlinp').value); compileAndRender();">Submit</button>
                 <h4>Import from exported PNG</h4>
                 <button onclick="loadParamsFromFile();">Select file</button>
                 <hr>
