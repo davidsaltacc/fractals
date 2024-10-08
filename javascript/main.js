@@ -195,12 +195,16 @@ function hideLoadingWave() {
     el("loadingscreen").style.display = "none";
 }
 
+function _canvasTooBig(size) {
+    return size > (window.innerWidth - window.innerWidth / 6) / 2 || size > window.innerHeight - window.innerHeight / 4;
+}
 function canvasTooBig() {
-    return canvasMain.width > (window.innerWidth - window.innerWidth / 6) / 2 || canvasMain.width > window.innerHeight - window.innerHeight / 4;
+    return _canvasTooBig(canvasMain.width);
 }
 
 function setCanvasesSticky(sticky) {
     el("canvasContainer").className = sticky ? "sticky" : (canvasTooBig() ? "unsticky unsticky-big" : "unsticky");
+    el("descriptions").style.maxWidth = sticky ? "calc(100vw - 1100px)" : ""; 
 }
 
 function stickyCanvasesIfFit() {
@@ -1014,7 +1018,7 @@ function setCanvasSize(size) {
         [ contextMain, contextJul ].forEach(gl => gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight));
     }
 
-    if (size > (window.innerWidth - window.innerWidth / 6) / 2 && size > window.innerHeight - window.innerHeight / 4) {
+    if (_canvasTooBig(size)) {
         setCanvasesSticky(false);
     } else {
         setCanvasesSticky(true);

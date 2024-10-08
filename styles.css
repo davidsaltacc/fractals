@@ -510,11 +510,6 @@ a, a:active {
     font-size: small;
 }
 
-#descriptions {
-    /* just avoid the canvases covering any text */
-    max-width: calc(100vw - 1100px);
-}
-
 .red {
     color: crimson;
 }
