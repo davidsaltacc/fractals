@@ -269,16 +269,16 @@ function resetNoCompile() {
 function randomize() {
 
     radius = [ 10, 50, 400, 1000, 10000000 ][Math.floor(Math.random() * 5)];
-    power = 1 + Math.floor(Math.random() * 7);
-    colorOffset = Math.random();
-    colorfulness = Math.random() * 2;
+    power = 1 + Math.floor(Math.random() * 6) * (Math.random() > 0.7 ? -1 : 1);
+    colorOffset = Math.random() * 2;
+    colorfulness = Math.random() * 2 + 0.1;
     var fractalKeys = Object.keys(FRACTALS);
     fractalType =  FRACTALS[fractalKeys[ Math.floor(fractalKeys.length * Math.random()) ]];
     var colorschemeKeys = Object.keys(COLORSCHEMES);
     colorscheme =  COLORSCHEMES[colorschemeKeys[ Math.floor(colorschemeKeys.length * Math.random()) ]];
     var colorMethodKeys = Object.keys(COLOR_METHODS);
     colorMethod =  COLOR_METHODS[colorMethodKeys[ Math.floor(colorMethodKeys.length * Math.random()) ]];
-    juliasetInterpolation = Math.random() > 0.5 ? 1 : 1 - Math.pow(Math.random(), 2);
+    juliasetInterpolation = Math.random() > 0.3 ? 1 : 1 - Math.pow(Math.random(), 2);
     
     compileAndRender();
 
