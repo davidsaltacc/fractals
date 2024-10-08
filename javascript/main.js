@@ -1018,11 +1018,7 @@ function setCanvasSize(size) {
         [ contextMain, contextJul ].forEach(gl => gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight));
     }
 
-    if (_canvasTooBig(size)) {
-        setCanvasesSticky(false);
-    } else {
-        setCanvasesSticky(true);
-    }
+    setCanvasesSticky(!_canvasTooBig(size))
     
     renderBoth();
 }
@@ -1258,10 +1254,15 @@ async function updateShader(t) {
     }
 }
 
-resetNoCompile();
-applyUrlWithParameters();
-stickyCanvasesIfFit();
-await compileAndRender();
+async function init() {
+    window.addEventListener("resize", () => setCanvasesSticky(!canvasTooBig()));
+    resetNoCompile();
+    applyUrlWithParameters();
+    stickyCanvasesIfFit();
+    await compileAndRender();
+}
+
+init();
 
 const exports = {
     renderMain,
