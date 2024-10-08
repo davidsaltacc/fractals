@@ -419,6 +419,10 @@ const COLORSCHEMES = {
     PURPLE: {
         description: "Purple and yellow. Doesn't look good in some cases, but in some, it looks really good.",
         shader: "purple"
+    },
+    BROWN: {
+        description: "A bit like the chocolate colormap, but different. Also found this one on the internet.",
+        shader: "brown"
     }
 
 };
