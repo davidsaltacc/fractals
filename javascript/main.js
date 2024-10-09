@@ -10,6 +10,8 @@ function logStatus(s) {
     el("statusbar").innerHTML = s;
 }
 
+logStatus("starting initialization");
+
 var USE_WEBGPU = "gpu" in navigator;
 var USE_WEBGL = !USE_WEBGPU && (typeof WebGL2RenderingContext !== "undefined");
 var DISABLED = !USE_WEBGPU && !USE_WEBGL;
@@ -141,9 +143,6 @@ function parseFRXSFile(content) {
     return finalShaderContent;
 
 }
-
-
-logStatus("starting initialization");
 
 const canvasMain = document.getElementById("canvasMain");
 const canvasJul = el("canvasJul");
@@ -293,6 +292,9 @@ var wgl_programMain;
 var wgl_programJul;
 
 if (USE_WEBGPU) {
+
+    logStatus("setting up WebGPU uniform buffers")
+
     wgpu_format = "rgba8unorm"; // navigator.gpu.getPreferredCanvasFormat();
     var uniformBufferSize = Math.ceil((
         + 2 * Float32Array.BYTES_PER_ELEMENT // center: vec2<f32>
@@ -485,7 +487,7 @@ async function fetchSubCode(object, type, customCode) {
     if (customCode) {
         return customCode;
     }
-    var path = object.shader_folder ? object.shader_folder + object.shader + ".frxs" : "/shaders/" + type + "/" + object.shader + ".frxs"
+    var path = object.shader_folder ? object.shader_folder + object.shader + ".frxs" : "/shaders/" + type + "/" + object.shader + ".frxs";
     return parseFRXSFile(await (await fetch(path)).text());
 }
 
