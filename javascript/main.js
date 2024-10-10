@@ -267,8 +267,10 @@ function resetNoCompile() {
 
 function randomize() {
 
-    radius = [ 10, 50, 400, 1000, 10000000 ][Math.floor(Math.random() * 5)];
-    power = 1 + Math.floor(Math.random() * 6) * (Math.random() > 0.7 ? -1 : 1);
+    resetNoCompile();
+
+    radius = [10, 50, 400, 1000, 10000000][Math.floor(Math.random() * 5)];
+    power = (1 + Math.floor(Math.random() * 6)) * (Math.random() > 0.7 ? -1 : 1);
     colorOffset = Math.random() * 2;
     colorfulness = Math.random() * 2 + 0.1;
     var fractalKeys = Object.keys(FRACTALS);
@@ -277,8 +279,14 @@ function randomize() {
     colorscheme =  COLORSCHEMES[colorschemeKeys[ Math.floor(colorschemeKeys.length * Math.random()) ]];
     var colorMethodKeys = Object.keys(COLOR_METHODS);
     colorMethod =  COLOR_METHODS[colorMethodKeys[ Math.floor(colorMethodKeys.length * Math.random()) ]];
-    juliasetInterpolation = Math.random() > 0.3 ? 1 : 1 - Math.pow(Math.random(), 2);
-    
+    if (Math.random() > 0.65) {
+        var modifierKeys = Object.keys(MODIFIERS);
+        postFracFunc =  MODIFIERS[modifierKeys[ Math.floor(modifierKeys.length * Math.random()) ]];
+        if ([MODIFIERS.TANH, MODIFIERS.LOG, MODIFIERS.ATAN, MODIFIERS.ASIN, MODIFIERS.ASINH, MODIFIERS.ACOS, MODIFIERS.ACOSH, MODIFIERS.ATANH].includes(postFracFunc)) 
+            { colorMethod = [COLOR_METHODS.INTERIOR, COLOR_METHODS.INTERIOR_2, COLOR_METHODS.INTERIOR_STRIPES, COLOR_METHODS.INTERIOR_STRIPES][Math.floor(Math.random() * 4)] }
+    }
+    juliasetInterpolation = Math.random() > 0.25 ? 1 : 1 - Math.pow(Math.random(), 2);
+
     compileAndRender();
 
 }
