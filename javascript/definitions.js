@@ -1,6 +1,6 @@
 
 const METADATA = {
-    version: "0.5.1a",
+    version: "0.5.2",
     plugin_version: "5"
 };
 
