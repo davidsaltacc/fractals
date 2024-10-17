@@ -1170,34 +1170,70 @@ function exportJul() {
     _export(canvasJul);
 }
 
-function loadParamsFromFile() {
-    var input = document.createElement("input");
-    input.type = "file";
-    input.onchange = e => { 
-        var file = e.target.files[0]; 
-        var reader = new FileReader();
-        reader.readAsText(file, "UTF-8");
-        reader.onload = readerEvent => {
-            var content = readerEvent.target.result;
-            var split = content.split("FXURL::");
+function _loadParamsFromFileInput(input) {
+    var file = input.files[0]; 
+    var reader = new FileReader();
+    reader.readAsText(file, "UTF-8");
+    reader.onload = readerEvent => {
+        var content = readerEvent.target.result;
+        var split = content.split("FXURL::");
+        if (split.length >= 2) {
+            _applyUrlWithParameters(split[split.length - 1]);
+            compileAndRender();
+        } else {
+            split = content.split("301210301210301210_FRACTALEXPLORERPARAMETERURL:"); // v4 code. not proud of it
             if (split.length >= 2) {
                 _applyUrlWithParameters(split[split.length - 1]);
                 compileAndRender();
             } else {
-                split = content.split("301210301210301210_FRACTALEXPLORERPARAMETERURL:"); // v4 code. not proud of it
-                if (split.length >= 2) {
-                    _applyUrlWithParameters(split[split.length - 1]);
-                    compileAndRender();
-                } else {
-                    alert("No URL could be found in the uploaded image.");
-                }
+                alert("No URL could be found in the uploaded image.");
             }
         }
+    }
+}
+
+function loadParamsFromFile() {
+    var input = document.createElement("input");
+    input.type = "file";
+    input.onchange = e => { 
+        _loadParamsFromFileInput(e.target);
         input.remove();
     }
-
     input.click();
 }
+
+function fileDropped(evt) {
+    
+    evt.preventDefault();
+    el("drop-screen").style.display = "none";
+
+    var files = evt.dataTransfer.files;
+
+    if (files.length) {
+
+        var input = document.createElement("input");
+        input.type = "file";
+        input.files = files;
+        _loadParamsFromFileInput(input);
+        input.remove();
+
+    }
+
+}
+
+function dragOver(evt) {
+    evt.preventDefault();
+    el("drop-screen").style.display = "flex";
+}
+
+function dragLeave(evt) {
+    evt.preventDefault();
+    el("drop-screen").style.display = "none";
+}
+
+document.body.ondrop = fileDropped;
+document.body.ondragover = dragOver;
+document.body.ondragleave = dragLeave;
 
 async function toggleCustomShader(b, t) {
     if (t == "f") {
