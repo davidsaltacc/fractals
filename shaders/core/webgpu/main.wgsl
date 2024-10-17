@@ -18,7 +18,11 @@ struct Uniforms {
 	cloudMultiplier: f32,
 	maxIterations: u32,
 	sampleCount: u32,
-	juliaset: u32
+    chunkerFinalSize: u32,
+    chunkerChunkSize: u32,
+    chunkerX: u32,
+    chunkerY: u32,
+	flags: u32
 }
 
 @group(0) @binding(0) var<uniform> uniforms: Uniforms;
@@ -42,7 +46,7 @@ fn vertex(@builtin(vertex_index) vertexIndex: u32) -> VertexOutput {
         vec2<f32>(-1.0, -1.0),
         vec2<f32>(-1.0, 1.0),
     );
-    let position2d: vec2<f32> = positions[vertexIndex];
+    var position2d: vec2<f32> = positions[vertexIndex];
     output.position = vec4<f32>(position2d, 0.0, 1.0);
     output.fragmentPosition = position2d;
     return output;
@@ -270,7 +274,18 @@ fn ms_rand(c: vec2<f32>) -> f32 {
 @fragment
 fn fragment(input: VertexOutput) -> @location(0) vec4<f32> {
 
-    var pos: vec2<f32> = input.fragmentPosition / uniforms.zoom + uniforms.center;
+    var newZoom: f32 = uniforms.zoom;
+    var newCenter: vec2<f32> = uniforms.center;
+
+    if (uniforms.flags & 2) >> 1 == 1u {
+        newZoom = uniforms.zoom * (f32(uniforms.chunkerFinalSize) / f32(uniforms.chunkerChunkSize));
+        newCenter += vec2<f32>(
+            ((f32(uniforms.chunkerX) + f32(uniforms.chunkerChunkSize) / 2.) / f32(uniforms.chunkerFinalSize) * 2. - 1.) / uniforms.zoom,
+            -((f32(uniforms.chunkerY) + f32(uniforms.chunkerChunkSize) / 2.) / f32(uniforms.chunkerFinalSize) * 2. - 1.) / uniforms.zoom
+        );
+    }
+
+    var pos: vec2<f32> = input.fragmentPosition / newZoom + newCenter;
     var rcolor: vec4<f32> = vec4<f32>(0., 0., 0., 0.);
     var sampleCount: f32 = f32(uniforms.sampleCount);
 
@@ -278,7 +293,7 @@ fn fragment(input: VertexOutput) -> @location(0) vec4<f32> {
         var c: vec2<f32> = vec2<f32>(
             ms_rand(pos + sample),
             ms_rand(100. + pos + sample)
-        ) / uniforms.zoom / uniforms.canvasDimensions;
+        ) / newZoom / uniforms.canvasDimensions;
         c += pos;
 
         c = vec2<f32>(c.x, -c.y);
@@ -293,7 +308,7 @@ fn fragment(input: VertexOutput) -> @location(0) vec4<f32> {
         var radius: f32 = uniforms.radius;
         var power: f32 = uniforms.power;
 
-        if uniforms.juliaset == 1 {
+        if (uniforms.flags & 1) == 1u {
             var jconst: vec2<f32> = uniforms.juliasetConstant;
             if uniforms.juliasetInterpolation == 1. {
                 c = vec2<f32>(jconst.x, -jconst.y);
@@ -316,7 +331,19 @@ fn fragment(input: VertexOutput) -> @location(0) vec4<f32> {
         if color_black {
             rcolor += vec4<f32>(0., 0., 0., 1.);
         } else {
-            rcolor += color(color_v, input.fragmentPosition);
+            var noiseO: vec2<f32> = vec2<f32>(0., 0.);
+            var noiseD: vec2<f32> = vec2<f32>(1., 1.);
+            if (uniforms.flags & 2) >> 1 == 1u {
+                noiseD = vec2<f32>(
+                    (f32(uniforms.chunkerFinalSize) / f32(uniforms.chunkerChunkSize)),
+                    (f32(uniforms.chunkerFinalSize) / f32(uniforms.chunkerChunkSize))
+                );
+                noiseO = vec2<f32>(
+                    ((f32(uniforms.chunkerX) + f32(uniforms.chunkerChunkSize) / 2.) / f32(uniforms.chunkerFinalSize) * 2. - 1.) * (f32(uniforms.chunkerFinalSize) / f32(uniforms.chunkerChunkSize)),
+                    -((f32(uniforms.chunkerY) + f32(uniforms.chunkerChunkSize) / 2.) / f32(uniforms.chunkerFinalSize) * 2. - 1.) * (f32(uniforms.chunkerFinalSize) / f32(uniforms.chunkerChunkSize))
+                ) / noiseD;
+            }
+            rcolor += color(color_v, input.fragmentPosition / noiseD + noiseO);
         }
     }
     return rcolor / sampleCount;

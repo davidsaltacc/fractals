@@ -319,8 +319,13 @@ if (USE_WEBGPU) {
         + Float32Array.BYTES_PER_ELEMENT // cloudMultiplier: f32
         + Uint32Array.BYTES_PER_ELEMENT // maxIterations: u32
         + Uint32Array.BYTES_PER_ELEMENT // sampleCount: u32
-        + Uint32Array.BYTES_PER_ELEMENT // juliaset: u32
+        + Uint32Array.BYTES_PER_ELEMENT // chunkerFinalSize: u32
+        + Uint32Array.BYTES_PER_ELEMENT // chunkerChunkSize: u32
+        + 2 * Uint32Array.BYTES_PER_ELEMENT // chunkerPos: vec2<u32>
+        + Uint32Array.BYTES_PER_ELEMENT // flags: u32
     ) / 8) * 8;
+
+    logStatus("uniform buffer size is " + uniformBufferSize);
 
     wgpu_uniformBuffer = wgpu_device.createBuffer({
         size: uniformBufferSize,
@@ -519,7 +524,7 @@ async function compileShaders(cmethod, cscheme, fractal, postf) {
     return result;
 }
 
-function setUniforms(context, wgl_program, juliaset) {
+function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos) {
     
     if (USE_WEBGL) {
 
@@ -537,7 +542,11 @@ function setUniforms(context, wgl_program, juliaset) {
         context.uniform1f(context.getUniformLocation(wgl_program, "cloudMultiplier"), cloudMultiplier);
         context.uniform1ui(context.getUniformLocation(wgl_program, "maxIterations"), maxIterations);
         context.uniform1ui(context.getUniformLocation(wgl_program, "sampleCount"), sampleCount);
-        context.uniform1ui(context.getUniformLocation(wgl_program, "juliaset"), juliaset);
+        context.uniform1ui(context.getUniformLocation(wgl_program, "chunkerFinalSize"), chunked ? chunkerFinalSize : 0);
+        context.uniform1ui(context.getUniformLocation(wgl_program, "chunkerChunkSize"), chunked ? chunkerChunkSize : 0);
+        context.uniform1ui(context.getUniformLocation(wgl_program, "chunkerX"), chunked ? chunkerPos[0] : 0);
+        context.uniform1ui(context.getUniformLocation(wgl_program, "chunkerY"), chunked ? chunkerPos[1] : 0);
+        context.uniform1ui(context.getUniformLocation(wgl_program, "flags"), juliaset | ((chunked ?? 0) << 1));
 
     } else if (USE_WEBGPU) {
 
@@ -563,7 +572,11 @@ function setUniforms(context, wgl_program, juliaset) {
         new Uint32Array(arrayBuffer, 15 * Float32Array.BYTES_PER_ELEMENT).set([
             maxIterations,
             sampleCount,
-            juliaset
+            chunked ? chunkerFinalSize : 0, 
+            chunked ? chunkerChunkSize : 0, 
+            chunked ? chunkerPos[0] : 0,
+            chunked ? chunkerPos[1] : 0,
+            juliaset | ((chunked ?? 0) << 1)
         ]);
 
         wgpu_device.queue.writeBuffer(wgpu_uniformBuffer, 0, arrayBuffer);
@@ -604,14 +617,14 @@ function draw(context, juliaset) {
 
 }
 
-async function drawReturnImageData(context, juliaset) {
+async function drawReturnImageData(context, juliaset, chunked, chunkerPos) {
 
     var width = !juliaset ? canvasMain.width : canvasJul.width;
     var height = !juliaset ? canvasMain.height : canvasJul.height;
     
     if (USE_WEBGPU) {
 
-        setUniforms(null, null, juliaset);
+        setUniforms(null, null, juliaset, chunked, chunked ? chunkerPos : null);
 
         const texture = wgpu_device.createTexture({
             size: [width, height, 1],
@@ -669,7 +682,7 @@ async function drawReturnImageData(context, juliaset) {
         
         var gl = context;
 
-        setUniforms(gl, !juliaset ? wgl_programMain : wgl_programJul, juliaset);
+        setUniforms(gl, !juliaset ? wgl_programMain : wgl_programJul, juliaset, chunked, chunked ? chunkerPos : null);
 
         const texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -748,13 +761,6 @@ async function _renderAndExportChunked(isMain) {
     var originalCanvasSize = canvasMain.width;
     setCanvasSize(chunkerChunkSize);
 
-    var originalCenter = isMain ? centerMain : centerJul;
-    var originalZoom = isMain ? zoomMain : zoomJul;
-    
-    var newZoom = originalZoom * (chunkerFinalSize / chunkerChunkSize);
-
-    if (isMain) { zoomMain = newZoom; } else { zoomJul = newZoom; }
-
     var bigCanvas = document.createElement("canvas");
     bigCanvas.width = bigCanvas.height = chunkerFinalSize;
 
@@ -764,21 +770,13 @@ async function _renderAndExportChunked(isMain) {
         for (var y = 0; y < chunkerFinalSize; y += chunkerChunkSize) {
             logStatus("rendering chunked image " + Math.floor(y / chunkerFinalSize * 100) + "%");
             for (var x = 0; x < chunkerFinalSize; x += chunkerChunkSize) {
-                var newCenter = [
-                    originalCenter[0] + ((x + chunkerChunkSize / 2) / chunkerFinalSize * 2 - 1) / originalZoom, 
-                    originalCenter[1] - ((y + chunkerChunkSize / 2) / chunkerFinalSize * 2 - 1) / originalZoom
-                ];
-                if (isMain) { centerMain = newCenter; } else { centerJul = newCenter; }
-                bigContext.putImageData(new ImageData(new Uint8ClampedArray(await drawReturnImageData(isMain ? contextMain : contextJul, !isMain)), chunkerChunkSize, chunkerChunkSize), x, y);
+                bigContext.putImageData(new ImageData(new Uint8ClampedArray(await drawReturnImageData(isMain ? contextMain : contextJul, !isMain, true, [x, y])), chunkerChunkSize, chunkerChunkSize), x, y);
             }
         }
     } catch {
         alert("Failed to render and merge chunks. This is probably due to the size being too big.")
         return;
     }
-
-    if (isMain) { zoomMain = originalZoom; } else { zoomJul = originalZoom; }
-    if (isMain) { centerMain = originalCenter; } else { centerJul = originalCenter; }
 
     setCanvasSize(originalCanvasSize);
     renderBoth();

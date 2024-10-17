@@ -23,7 +23,11 @@ uniform float cloudAmplitude;
 uniform float cloudMultiplier;
 uniform uint maxIterations;
 uniform uint sampleCount;
-uniform uint juliaset;
+uniform uint chunkerFinalSize;
+uniform uint chunkerChunkSize;
+uniform uint chunkerX;
+uniform uint chunkerY;
+uniform uint flags;
 
 #define pi 3.1415926535897932384626433832795
 #define e 2.7182818284590452353602874713527
@@ -259,15 +263,26 @@ vec4 color(float x, vec2 pos) {
 
 
 void main() {
+
+    float newZoom = zoom;
+    vec2 newCenter = center;
+
+    if (((flags & 2u) >> 1) == 1u) {
+        newZoom = zoom * (float(chunkerFinalSize) / float(chunkerChunkSize));
+        newCenter += vec2(
+            ((float(chunkerX) + float(chunkerChunkSize) / 2.) / float(chunkerFinalSize) * 2. - 1.) / zoom,
+            -((float(chunkerY) + float(chunkerChunkSize) / 2.) / float(chunkerFinalSize) * 2. - 1.) / zoom
+        );
+    }
     
-    vec2 pos = vertex_position / zoom + center;
+    vec2 pos = vertex_position / newZoom + newCenter;
     vec4 rcolor = vec4(0.);
 
     for (uint nSample = 0u; nSample < sampleCount; nSample++) {
         vec2 c = vec2(
             ms_rand(pos + float(nSample)),
             ms_rand(100. + pos + float(nSample))
-        ) / zoom / canvasDimensions;
+        ) / newZoom / canvasDimensions;
         c += pos;
         c = vec2(c.x, -c.y);
 
@@ -279,7 +294,7 @@ void main() {
         float distance_to_orbit_trap = 1000000000.;
         float stripe = 0.;
 
-        if (juliaset == 1u) {
+        if ((flags & 1u) == 1u) {
             if (juliasetInterpolation == 1.) {
                 c = vec2(juliasetConstant.x, -juliasetConstant.y);
             } else if (juliasetInterpolation != 0.) {
@@ -300,7 +315,19 @@ void main() {
         if (color_black) {
             rcolor += vec4(0., 0., 0., 1.);
         } else {
-            rcolor += color(color_v, vertex_position);
+            vec2 noiseO = vec2(0., 0.);
+            vec2 noiseD = vec2(1., 1.);
+            if (((flags & 2u) >> 1) == 1u) {
+                noiseD = vec2(
+                    (float(chunkerFinalSize) / float(chunkerChunkSize)),
+                    (float(chunkerFinalSize) / float(chunkerChunkSize))
+                );
+                noiseO = vec2(
+                    ((float(chunkerX) + float(chunkerChunkSize) / 2.) / float(chunkerFinalSize) * 2. - 1.) * (float(chunkerFinalSize) / float(chunkerChunkSize)),
+                    -((float(chunkerY) + float(chunkerChunkSize) / 2.) / float(chunkerFinalSize) * 2. - 1.) * (float(chunkerFinalSize) / float(chunkerChunkSize))
+                ) / noiseD;
+            }
+            rcolor += color(color_v, vertex_position / noiseD + noiseO);
         }
     }
 

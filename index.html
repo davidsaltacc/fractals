@@ -278,7 +278,8 @@
             </div>
             <div class="toggleable_content">
                 <h3>Render the fractal in chunks, to be able to render fractals at huge scales and at high iterations and sample counts.</h3>
-                <p>Final Image Size:</p>
+                <p>Forcing the backend to be WebGL may help a with the render time and export speed, if you are experiencing issues exporting or just find it slow, <button onclick="forceWebGL();">force WebGL</button>.</p>
+                <br><p>Final Image Size:</p>
                 <input type="number" value="2000" oninput="setChunkerFinalSize(this.value);">
                 <p>Chunk Size:</p>
                 <input type="number" value="400" oninput="setChunkerChunkSize(this.value);">
@@ -541,7 +542,7 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <p>- Canvases now automatically stick and unstick with the window being resized</p>
                 <p>- Added this changelog</p>
                 <p>- Slightly modifier the randomizer</p>
-                <p>- more to come, please add something david</p>
+                <p>- Fix noise not appearing correctly in chunked renders</p>
                 <hr>
             </div>
         </div>
