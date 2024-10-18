@@ -151,10 +151,6 @@ function initButtons(definitions, buttons, setFunction, containerId) {
     [MODIFIERS, modifierButtons, setPostFunction, "modifierButtons"]
 ].forEach(a => initButtons(a[0], a[1], a[2], a[3]));
 
-// ok game plan
-// 2. fix the button highlighting (replace the below commented out code, aswell as the spaghetti code in updateUi)
-// 3. fix plugins (bump plugin meta version number, make addCustomFractal() also take the friendly name, and createCustomFractalButton just the id instead of also the name)
-
 function parseFRXSFile(content) {
 
     var currentBackends = [];
