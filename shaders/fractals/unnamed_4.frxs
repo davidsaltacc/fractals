@@ -2,11 +2,11 @@
 
 
 #ifbackend[webgpu]
-return apply_post_function(c_pow(vec2<f32>(
+return apply_modifier(c_pow(vec2<f32>(
 #endbackend
 
 #ifbackend[webgl]
-return apply_post_function(c_pow(vec2(
+return apply_modifier(c_pow(vec2(
 #endbackend
 
 #ifbackend[*]

@@ -1,4 +1,4 @@
 
 #ifbackend[*]
-return apply_post_function(c_collatz(z), c) + c;
+return apply_modifier(c_collatz(z), c) + c;
 #endbackend

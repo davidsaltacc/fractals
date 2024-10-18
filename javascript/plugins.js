@@ -40,8 +40,8 @@ class FXPluginUISection {
         return button;
     }
 
-    createCustomPostFunctionButton(id, name) {        
-        var button = _createShaderButton(MODIFIERS[id.toUpperCase()].name, () => setPostFunctions(MODIFIERS[id.toUpperCase()]), modifierButtons, id.toUpperCase());
+    createCustomModifierButton(id, name) {        
+        var button = _createShaderButton(MODIFIERS[id.toUpperCase()].name, () => setModifiers(MODIFIERS[id.toUpperCase()]), modifierButtons, id.toUpperCase());
         this.element.appendChild(button);
         return button;
     }
@@ -122,14 +122,14 @@ class FXPlugin {
 
     }
 
-    addCustomPostFunction(id, name, description, radius) {
+    addCustomModifier(id, name, description, radius) {
 
         MODIFIERS[id.toUpperCase()] = {
             name: name,
             radius: radius ?? null,
             description: description,
             shader: id,
-            shader_folder: this.shaders + "post_functions/"
+            shader_folder: this.shaders + "modifiers/"
         };
 
     }

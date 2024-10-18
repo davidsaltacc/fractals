@@ -185,7 +185,7 @@ float ms_rand(vec2 p) {
 	return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.547);
 }
 
-vec2 apply_post_function(vec2 z, vec2 c) {
+vec2 apply_modifier(vec2 z, vec2 c) {
     ///POST_FUNC
 }
 

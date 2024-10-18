@@ -1,7 +1,7 @@
 
 #ifbackend[webgpu]
 
-return apply_post_function(c_multiplication(
+return apply_modifier(c_multiplication(
     c_division(
         c_multiplication(vec2<f32>(1., -1.), z), vec2<f32>(2., 0.)
     ),
@@ -16,7 +16,7 @@ return apply_post_function(c_multiplication(
 
 #ifbackend[webgl]
 
-return apply_post_function(c_multiplication(
+return apply_modifier(c_multiplication(
     c_division(
         c_multiplication(vec2(1., -1.), z), vec2(2., 0.)
     ),

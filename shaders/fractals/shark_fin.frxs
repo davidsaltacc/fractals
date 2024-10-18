@@ -1,11 +1,11 @@
 
 
 #ifbackend[webgpu]
-return apply_post_function(vec2<f32>(
+return apply_modifier(vec2<f32>(
 #endbackend
 
 #ifbackend[webgl]
-return apply_post_function(vec2(
+return apply_modifier(vec2(
 #endbackend
 
 #ifbackend[*]

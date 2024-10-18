@@ -1,7 +1,7 @@
 
 const METADATA = {
     version: "0.5.3",
-    plugin_version: "6"
+    plugin_version: "7"
 };
 
 const FRACTALS = {

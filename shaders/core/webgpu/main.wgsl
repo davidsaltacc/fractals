@@ -190,7 +190,7 @@ fn c_collatz(z: vec2<f32>) -> vec2<f32> {
     return 0.25 * (vec2<f32>(1., 0.) + 4. * z - c_multiplication(1. + 2. * z, c_cos(pi * z)));
 } 
 
-fn apply_post_function(z: vec2<f32>, c: vec2<f32>) -> vec2<f32> {
+fn apply_modifier(z: vec2<f32>, c: vec2<f32>) -> vec2<f32> {
 	///POST_FUNC
 }
 

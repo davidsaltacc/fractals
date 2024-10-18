@@ -2,12 +2,12 @@
 
 #ifbackend[webgpu]
 var t: f32 = 0.4 - 6. / (1. + z.x * z.x + z.y * z.y);
-return apply_post_function(vec2<f32>(
+return apply_modifier(vec2<f32>(
 #endbackend
 
 #ifbackend[webgl]
 float t = 0.4 - 6. / (1. + z.x * z.x + z.y * z.y);
-return apply_post_function(vec2(
+return apply_modifier(vec2(
 #endbackend
 
 #ifbackend[*]

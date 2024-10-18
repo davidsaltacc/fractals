@@ -2,7 +2,7 @@
 
 
 #ifbackend[*]
-return apply_post_function(
+return apply_modifier(
 #endbackend
 
 #ifbackend[webgpu]

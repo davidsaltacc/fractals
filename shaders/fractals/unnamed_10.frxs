@@ -1,4 +1,4 @@
 
 #ifbackend[*]
-return apply_post_function(c_pow(z, 3.) + z, c) + c;
+return apply_modifier(c_pow(z, 3.) + z, c) + c;
 #endbackend

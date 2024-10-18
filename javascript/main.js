@@ -148,7 +148,7 @@ function initButtons(definitions, buttons, setFunction, containerId) {
     [FRACTALS, fractalButtons, setFractal, "fractalButtons"],
     [COLORSCHEMES, colorschemeButtons, setColorscheme, "colorschemeButtons"],
     [COLOR_METHODS, colormethodButtons, setColormethod, "colormethodButtons"],
-    [MODIFIERS, modifierButtons, setPostFunction, "modifierButtons"]
+    [MODIFIERS, modifierButtons, setModifier, "modifierButtons"]
 ].forEach(a => initButtons(a[0], a[1], a[2], a[3]));
 
 function parseFRXSFile(content) {
@@ -260,7 +260,7 @@ var colorOffset;
 var fractalType;
 var colorscheme;
 var colorMethod;
-var postFracFunc;
+var modifier;
 var juliasetConstant;
 var juliasetInterpolation;
 var colorfulness;
@@ -282,7 +282,7 @@ function reset(noCompile) {
     fractalType = FRACTALS.MANDELBROT;
     colorscheme = COLORSCHEMES.CLASSIC;
     colorMethod = COLOR_METHODS.SMOOTH;
-    postFracFunc = MODIFIERS.NONE;
+    modifier = MODIFIERS.NONE;
     juliasetConstant = [0, 0];
     juliasetInterpolation = 1;
     colorfulness = 1;
@@ -317,8 +317,8 @@ function randomize() {
     colorMethod =  COLOR_METHODS[colorMethodKeys[ Math.floor(colorMethodKeys.length * Math.random()) ]];
     if (Math.random() > 0.65) {
         var modifierKeys = Object.keys(MODIFIERS);
-        postFracFunc =  MODIFIERS[modifierKeys[ Math.floor(modifierKeys.length * Math.random()) ]];
-        if ([MODIFIERS.TANH, MODIFIERS.LOG, MODIFIERS.ATAN, MODIFIERS.ASIN, MODIFIERS.ASINH, MODIFIERS.ACOS, MODIFIERS.ACOSH, MODIFIERS.ATANH].includes(postFracFunc)) 
+        modifier =  MODIFIERS[modifierKeys[ Math.floor(modifierKeys.length * Math.random()) ]];
+        if ([MODIFIERS.TANH, MODIFIERS.LOG, MODIFIERS.ATAN, MODIFIERS.ASIN, MODIFIERS.ASINH, MODIFIERS.ACOS, MODIFIERS.ACOSH, MODIFIERS.ATANH].includes(modifier)) 
             { colorMethod = [COLOR_METHODS.INTERIOR, COLOR_METHODS.INTERIOR_2, COLOR_METHODS.INTERIOR_STRIPES, COLOR_METHODS.INTERIOR_STRIPES][Math.floor(Math.random() * 4)] }
     }
     juliasetInterpolation = Math.random() > 0.25 ? 1 : 1 - Math.pow(Math.random(), 2);
@@ -554,7 +554,7 @@ async function compileShaders(cmethod, cscheme, fractal, postf) {
         await fetchSubCode(cmethod, "colormethods"),
         customCs ? document.getElementById("cscodei").value : await fetchSubCode(cscheme, "colorschemes"), //customCs ? el("cscodei").value : await fetchSubCode(cscheme, "colorschemes", pluginCs),
         customFractal ? document.getElementById("fcodei").value : await fetchSubCode(fractal, "fractals"), //customFractal ? el("fcodei").value : await fetchSubCode(fractal, "fractals", pluginFractal),
-        await fetchSubCode(postf, "post_functions")
+        await fetchSubCode(postf, "modifiers")
     );
 
     logStatus("finished compiling shader");
@@ -796,7 +796,7 @@ function renderBoth() {
 }
 
 async function compileAndRender() {
-    await compileShaders(colorMethod, colorscheme, fractalType, postFracFunc);
+    await compileShaders(colorMethod, colorscheme, fractalType, modifier);
     renderBoth();
 }
 
@@ -994,12 +994,12 @@ function updateUi() {
     el("fractalName").innerHTML = fractalType.name + " Fractal";
     el("colorschemeName").innerHTML = colorscheme.name + " Colorscheme";
     el("colorMethodName").innerHTML = colorMethod.name + " Colormethod";
-    el("modifierName").innerHTML = postFracFunc.name + " Modifier";
+    el("modifierName").innerHTML = modifier.name + " Modifier";
 
     el("frdesc").innerHTML = fractalType.description;
     el("csdesc").innerHTML = colorscheme.description;
     el("cmdesc").innerHTML = colorMethod.description;
-    el("fmdesc").innerHTML = postFracFunc.description;
+    el("fmdesc").innerHTML = modifier.description;
 
     el("radius").value = radius;
     el("iterations").value = maxIterations;
@@ -1021,7 +1021,7 @@ function updateUi() {
     buttonPressed(fractalButtons, FRACTALS, fractalType);
     buttonPressed(colorschemeButtons, COLORSCHEMES, colorscheme);
     buttonPressed(colormethodButtons, COLOR_METHODS, colorMethod);
-    buttonPressed(modifierButtons, MODIFIERS, postFracFunc);
+    buttonPressed(modifierButtons, MODIFIERS, modifier);
 
 }
 
@@ -1030,10 +1030,10 @@ function setFractal(fractal) {
 
     fractalType = fractal;
 
-    if (postFracFunc == MODIFIERS.NONE) {
+    if (modifier == MODIFIERS.NONE) {
         radius = fractalType.radius;
-    } else if (postFracFunc.radius != null) {
-        radius = postFracFunc.radius;
+    } else if (modifier.radius != null) {
+        radius = modifier.radius;
     }
 
     compileAndRender();
@@ -1050,9 +1050,9 @@ function setColormethod(method) {
     compileAndRender();
 }
 
-function setPostFunction(func) {
+function setModifier(func) {
 
-    postFracFunc = func;
+    modifier = func;
 
     if (func.radius != null) {
         radius = func.radius;
@@ -1113,7 +1113,7 @@ function createUrlWithParameters() {
     params.append("f", Object.keys(FRACTALS).find(key => FRACTALS[key] === fractalType));
     params.append("cm", Object.keys(COLOR_METHODS).find(key => COLOR_METHODS[key] === colorMethod));
     params.append("cs", Object.keys(COLORSCHEMES).find(key => COLORSCHEMES[key] === colorscheme));
-    params.append("pf", Object.keys(MODIFIERS).find(key => MODIFIERS[key] === postFracFunc));
+    params.append("pf", Object.keys(MODIFIERS).find(key => MODIFIERS[key] === modifier));
     params.append("co", colorOffset);
     params.append("cf", colorfulness);
     params.append("sc", sampleCount);
@@ -1163,7 +1163,7 @@ function _applyUrlWithParameters(url) {
     fractalType = params.get("f") ? FRACTALS[params.get("f")] : fractalType;
     colorMethod = params.get("cm") ? COLOR_METHODS[params.get("cm")] : colorMethod;
     colorscheme = params.get("cs") ? COLORSCHEMES[params.get("cs")] : colorscheme;
-    postFracFunc = params.get("pf") ? MODIFIERS[params.get("pf")] : postFracFunc;
+    modifier = params.get("pf") ? MODIFIERS[params.get("pf")] : modifier;
     colorOffset = parseFloat(params.get("co") ?? colorOffset);
     colorfulness = parseFloat(params.get("cf") ?? colorfulness);
     sampleCount = parseInt(params.get("sc") ?? sampleCount);
@@ -1300,7 +1300,7 @@ async function toggleCustomShader(b, t) {
     if (t == "cs") {
         customCs = !customCs;
     }
-    var returnv = await compileShaders(colorMethod, colorscheme, fractalType, postFracFunc);
+    var returnv = await compileShaders(colorMethod, colorscheme, fractalType, modifier);
     if (returnv == "success") {
         document.getElementById(t + "compileout").innerHTML = "successfully compiled and loaded new shader";
         if (t == "f") {
@@ -1328,7 +1328,7 @@ async function updateShader(t) {
     var ccso = customCs;
     customFractal = t == "f";
     customCs = t == "cs";
-    var returnv = await compileShaders(colorMethod, colorscheme, fractalType, postFracFunc);
+    var returnv = await compileShaders(colorMethod, colorscheme, fractalType, modifier);
     customFractal = cfo;
     customCs = ccso;
     if (returnv == "success") {
@@ -1375,7 +1375,7 @@ const exports = {
     setFractal,
     setColorscheme,
     setColormethod,
-    setPostFunction,
+    setModifier,
     setRadius,
     setIterations,
     setPower,

@@ -1,4 +1,4 @@
 
 #ifbackend[*]
-return apply_post_function(c_cpow(z, c), c);
+return apply_modifier(c_cpow(z, c), c);
 #endbackend
