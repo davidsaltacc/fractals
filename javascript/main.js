@@ -540,8 +540,13 @@ async function fetchSubCode(object, type, customCode) {
     if (customCode) {
         return customCode;
     }
-    var path = object.shader_folder ? object.shader_folder + object.shader + ".frxs" : "/shaders/" + type + "/" + object.shader + ".frxs";
-    return parseFRXSFile(await (await fetch(path)).text());
+    try {
+        var path = object.shader_folder ? object.shader_folder + object.shader + ".frxs" : "/shaders/" + type + "/" + object.shader + ".frxs";
+        return parseFRXSFile(await (await fetch(path)).text());
+    } catch (e) {
+        logStatus("Failed to fetch shader. This might be due to this preset requiring a plugin that is not enabled.");
+        throw e;
+    }
 }
 
 async function compileShaders(cmethod, cscheme, fractal, postf) {
