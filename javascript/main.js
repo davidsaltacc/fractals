@@ -1229,7 +1229,7 @@ function loadParamsFromFile() {
     input.click();
 }
 
-function fileDropped(evt) {
+function objectDropped(evt) {
     
     evt.preventDefault();
     el("drop-screen").style.display = "none";
@@ -1244,6 +1244,13 @@ function fileDropped(evt) {
         _loadParamsFromFileInput(input);
         input.remove();
 
+    } else {
+        evt.dataTransfer.items[0].getAsString(async text => {
+            if (text.startsWith("http")) {
+                _applyUrlWithParameters(text);
+                compileAndRender();
+            }
+        });
     }
 
 }
@@ -1258,7 +1265,7 @@ function dragLeave(evt) {
     el("drop-screen").style.display = "none";
 }
 
-document.body.ondrop = fileDropped;
+document.body.ondrop = objectDropped;
 document.body.ondragover = dragOver;
 document.body.ondragleave = dragLeave;
 
