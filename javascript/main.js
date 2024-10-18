@@ -1265,19 +1265,22 @@ function objectDropped(evt) {
 
 }
 
-function dragOver(evt) {
-    evt.preventDefault();
+window.ondragenter = event => {
+    event.preventDefault();
     el("drop-screen").style.display = "flex";
-}
+};
 
-function dragLeave(evt) {
-    evt.preventDefault();
-    el("drop-screen").style.display = "none";
-}
+window.ondragover = event => {
+    event.preventDefault();
+};
 
-document.body.ondrop = objectDropped;
-document.body.ondragover = dragOver;
-document.body.ondragleave = dragLeave;
+window.ondragleave = event => {
+    if (event.target == document.body || event.clientY <= 0) {
+        el("drop-screen").style.display = "none";
+    }
+};
+
+window.ondrop = objectDropped;
 
 async function toggleCustomShader(b, t) {
     if (t == "f") {
