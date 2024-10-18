@@ -38,7 +38,7 @@
 
     <div id="drop-screen">
         <div>
-            <h1>Drop Image Here</h1>
+            <h1>Drop Preset Here</h1>
         </div>
     </div>
 
@@ -76,51 +76,7 @@
                 <h3>Fractal Selection:</h3>
             </div>
             <div class="toggleable_content">
-                <button onclick="setFractal(FRACTALS.MANDELBROT)">Mandelbrot</button>
-                <button onclick="setFractal(FRACTALS.BURNING_SHIP)">Burning ship</button>
-                <button onclick="setFractal(FRACTALS.CELTIC)">Celtic</button>
-                <button onclick="setFractal(FRACTALS.BUFFALO)">Buffalo</button>
-                <button onclick="setFractal(FRACTALS.TRICORN)">Tricorn</button>
-                <button onclick="setFractal(FRACTALS.DUCK)">Duck</button>
-                <button onclick="setFractal(FRACTALS.ASS)">B fractal</button>
-                <button onclick="setFractal(FRACTALS.SINE)">Sine</button>
-                <button onclick="setFractal(FRACTALS.POPCORN)">Popcorn</button>
-                <button onclick="setFractal(FRACTALS.THORN)">Thorn</button>
-                <button onclick="setFractal(FRACTALS.HENON)">Henon</button>
-                <button onclick="setFractal(FRACTALS.DUFFING)">Duffing</button>
-                <button onclick="setFractal(FRACTALS.CHIRIKOV)">Chirikov</button>
-                <button onclick="setFractal(FRACTALS.IKEDA)">Ikeda</button>
-                <button onclick="setFractal(FRACTALS.FEATHER)">Feather</button>
-                <button onclick="setFractal(FRACTALS.HEART)">Heart</button>
-                <button onclick="setFractal(FRACTALS.ASS_2)">Sunglasses</button>
-                <button onclick="setFractal(FRACTALS.TRIANGLE)">Triangle</button>
-                <button onclick="setFractal(FRACTALS.SHARK_FIN)">Shark fin</button>
-                <button onclick="setFractal(FRACTALS.TIPPETS)">Tippets</button>
-                <button onclick="setFractal(FRACTALS.ZUBIETA)">Zubieta</button>
-                <button onclick="setFractal(FRACTALS.SINH)">Hyperbolic sine</button>
-                <button onclick="setFractal(FRACTALS.UNNAMED_1)">Unnamed 1</button>
-                <button onclick="setFractal(FRACTALS.UNNAMED_2)">Unnamed 2</button>
-                <button onclick="setFractal(FRACTALS.UNNAMED_3)">Unnamed 3</button>
-                <button onclick="setFractal(FRACTALS.FISH)">Fish</button>
-                <button onclick="setFractal(FRACTALS.WAVY)">Wavy</button>
-                <button onclick="setFractal(FRACTALS.COLLATZ)">Collatz</button>
-                <button onclick="setFractal(FRACTALS.UNNAMED_4)">Unnamed 4</button>
-                <button onclick="setFractal(FRACTALS.SEPTAGON)">Septagon</button>
-                <button onclick="setFractal(FRACTALS.UNNAMED_5)">Unnamed 5</button>
-                <button onclick="setFractal(FRACTALS.UNNAMED_6)">Unnamed 6</button>
-                <button onclick="setFractal(FRACTALS.CACTUS)">Cactus</button>
-                <button onclick="setFractal(FRACTALS.UNNAMED_7)">Unnamed 7</button>
-                <button onclick="setFractal(FRACTALS.POWER_CIRCLE)">Power Circle</button>
-                <button onclick="setFractal(FRACTALS.BITTEN_MANDELBROT)">Bitten Mandelbrot</button>
-                <button onclick="setFractal(FRACTALS.UNNAMED_8)">Unnamed 8</button>
-                <button onclick="setFractal(FRACTALS.UNNAMED_9)">Unnamed 9</button>
-                <button onclick="setFractal(FRACTALS.SMALL_BROT)">Smallbrot</button>
-                <button onclick="setFractal(FRACTALS.MAGNET)">Magnet</button>
-                <button onclick="setFractal(FRACTALS.TREE)">Tree</button>
-                <button onclick="setFractal(FRACTALS.UNNAMED_10)">Unnamed 10</button>
-                <button onclick="setFractal(FRACTALS.NOT_MANDELBROT)">Not Mandelbrot</button>
-                <button onclick="setFractal(FRACTALS.SIERPINSKY)">Sierpinsky</button>
-                <button onclick="setFractal(FRACTALS.BARNSLEY)">Barnsley</button>
+                <div id="fractalButtons"></div>
                 <hr>
             </div>
         </div>
@@ -129,26 +85,7 @@
                 <h3>Colormap Selection:</h3>
             </div>
             <div class="toggleable_content">
-                <button onclick="setColorscheme(COLORSCHEMES.CLASSIC)">Classic</button>
-                <button onclick="setColorscheme(COLORSCHEMES.ULTRA_FRACTAL)">Ultra Fractal Default</button>
-                <button onclick="setColorscheme(COLORSCHEMES.RED_BLUE)">Red and Blue</button>
-                <button onclick="setColorscheme(COLORSCHEMES.SAND)">Sand</button>
-                <button onclick="setColorscheme(COLORSCHEMES.RAINBOW)">Rainbow</button>
-                <button onclick="setColorscheme(COLORSCHEMES.DAVIDS)">David's</button>
-                <button onclick="setColorscheme(COLORSCHEMES.LAVA_WAVES)">Lava waves</button>
-                <button onclick="setColorscheme(COLORSCHEMES.MORNING_GLORY)">Morning glory</button>
-                <button onclick="setColorscheme(COLORSCHEMES.CHOCOLATE)">Chocolate</button>
-                <button onclick="setColorscheme(COLORSCHEMES.CONTRASTED_CLASSIC)">Contrasted Classic</button>
-                <button onclick="setColorscheme(COLORSCHEMES.BLACK_WHITE)">Black and White</button>
-                <button onclick="setColorscheme(COLORSCHEMES.TWILIGHT)">Twilight</button>
-                <button onclick="setColorscheme(COLORSCHEMES.RED)">Red</button>
-                <button onclick="setColorscheme(COLORSCHEMES.GREEN)">Green</button>
-                <button onclick="setColorscheme(COLORSCHEMES.BLUE)">Blue</button>
-                <button onclick="setColorscheme(COLORSCHEMES.COLD)">Cold</button>
-                <button onclick="setColorscheme(COLORSCHEMES.WINTER)">Winter</button>
-                <button onclick="setColorscheme(COLORSCHEMES.GLOW)">Glow</button>
-                <button onclick="setColorscheme(COLORSCHEMES.PURPLE)">Purple</button>
-                <button onclick="setColorscheme(COLORSCHEMES.BROWN)">Brown</button>
+                <div id="colorschemeButtons"></div>
                 <hr>
             </div>
         </div>
@@ -157,20 +94,7 @@
                 <h3>Color Method Selection:</h3>
             </div>
             <div class="toggleable_content">
-                <button onclick="setColormethod(COLOR_METHODS.TERRACED)">Terraced</button>
-                <button onclick="setColormethod(COLOR_METHODS.SMOOTH)">Smooth</button>
-                <button onclick="setColormethod(COLOR_METHODS.RINGS)">Rings</button>
-                <button onclick="setColormethod(COLOR_METHODS.STRIPES)">Stripes</button>
-                <button onclick="setColormethod(COLOR_METHODS.INTERIOR)">Interior</button>
-                <button onclick="setColormethod(COLOR_METHODS.ACCURATE)">Accurate</button>
-                <button onclick="setColormethod(COLOR_METHODS.SMOOTH_STRIPES)">Smooth stripes</button>
-                <button onclick="setColormethod(COLOR_METHODS.EDGY)">Edgy</button>
-                <button onclick="setColormethod(COLOR_METHODS.SQUARED)">Squared</button>
-                <button onclick="setColormethod(COLOR_METHODS.SPIKY)">Spiky</button>
-                <button onclick="setColormethod(COLOR_METHODS.STRIPY_RINGS)">Stripy rings</button>
-                <button onclick="setColormethod(COLOR_METHODS.INTERIOR_2)">Interior 2</button>
-                <button onclick="setColormethod(COLOR_METHODS.INTERIOR_STRIPES)">Interior Stripes</button>
-                <button onclick="setColormethod(COLOR_METHODS.PICKOVER_STALK)">Pickover Stalk</button>
+                <div id="colormethodButtons"></div>
                 <hr>
             </div>
         </div>
@@ -179,25 +103,7 @@
                 <h3>Fractal Modifier:</h3>
             </div>
             <div class="toggleable_content">
-                <button onclick="setPostFunction(MODIFIERS.NONE)">None</button>
-                <button onclick="setPostFunction(MODIFIERS.SIN)">Sine</button>
-                <button onclick="setPostFunction(MODIFIERS.SINH)">Hyperbolic sine</button>
-                <button onclick="setPostFunction(MODIFIERS.COS)">Cosine</button>
-                <button onclick="setPostFunction(MODIFIERS.COSH)">Hyperbolic cosine</button>
-                <button onclick="setPostFunction(MODIFIERS.TAN)">Tangent</button>
-                <button onclick="setPostFunction(MODIFIERS.TANH)">Hyperbolic tangent</button>
-                <button onclick="setPostFunction(MODIFIERS.LOG)">Logarithm</button>
-                <button onclick="setPostFunction(MODIFIERS.SQRT)">Square root</button>
-                <button onclick="setPostFunction(MODIFIERS.ABS)">Absolute</button>
-                <button onclick="setPostFunction(MODIFIERS.EXP)">Exponential</button>
-                <button onclick="setPostFunction(MODIFIERS.ATAN)">Arctangent</button>
-                <button onclick="setPostFunction(MODIFIERS.ASIN)">Arcsine</button>
-                <button onclick="setPostFunction(MODIFIERS.ACOS)">Arccosine</button>
-                <button onclick="setPostFunction(MODIFIERS.ASINH)">Hyperbolic Arcsine</button>
-                <button onclick="setPostFunction(MODIFIERS.ACOSH)">Hyperbolic Arccosine</button>
-                <button onclick="setPostFunction(MODIFIERS.ATANH)">Hyperbolic Arctangent</button>
-                <button onclick="setPostFunction(MODIFIERS.INV)">Inversed</button>
-                <button onclick="setPostFunction(MODIFIERS.SCATTER)">Scatter</button>
+                <div id="modifierButtons"></div>
                 <hr>
             </div>
         </div>
@@ -550,13 +456,14 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <p>- Slightly modifier the randomizer</p>
                 <p>- Fix noise not appearing correctly in chunked renders</p>
                 <p>- You can now drag and drop exported images to automatically import the preset</p>
+                <p>- Fix a lot of messy code that will make working on some things easier and probably fixes some bugs</p>
                 <hr>
             </div>
         </div>
     </div>
     <div id="walkthroughDarken"></div>
     <div class="support-banner" id="sb">
-        <p onclick="console.log(this); window.location.href = 'https://ko-fi.com/justacoder';">Support my work!</p><span onclick="this.parentElement.remove();">X</span>
+        <p onclick="window.open('https://ko-fi.com/justacoder');">Support my work!</p><span onclick="this.parentElement.remove();">X</span>
     </div>
 
 </body>

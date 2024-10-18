@@ -340,8 +340,8 @@ textarea {
     height: 51px;
 }
 
-.pluginButton {
-    margin-left: 4px;
+.shaderButton {
+    margin-right: 4px;
 }
 
 #walkthroughDarken {

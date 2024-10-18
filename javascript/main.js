@@ -114,6 +114,46 @@ function _createUiSection(toggleable) {
 
 Array.from(document.getElementsByClassName("toggleable")).forEach(toggleable => _createUiSection(toggleable));
 
+function _createShaderButton(name, clickHandler, buttons, item) {
+
+    var button = document.createElement("button");
+
+    button.innerHTML = name;
+    button.className = "shaderButton";
+    button.onclick = clickHandler;
+
+    buttons[item] = button;
+
+    return button;
+
+}
+
+const fractalButtons = {};
+const colorschemeButtons = {};
+const colormethodButtons = {};
+const modifierButtons = {};
+
+function initButtons(definitions, buttons, setFunction, containerId) {
+
+    Object.keys(definitions).forEach(item => {
+
+        var button = _createShaderButton(definitions[item].name, () => setFunction(definitions[item]), buttons, item);
+        el(containerId).appendChild(button);
+
+    });
+
+}
+
+[
+    [FRACTALS, fractalButtons, setFractal, "fractalButtons"],
+    [COLORSCHEMES, colorschemeButtons, setColorscheme, "colorschemeButtons"],
+    [COLOR_METHODS, colormethodButtons, setColormethod, "colormethodButtons"],
+    [MODIFIERS, modifierButtons, setPostFunction, "modifierButtons"]
+].forEach(a => initButtons(a[0], a[1], a[2], a[3]));
+
+// ok game plan
+// 2. fix the button highlighting (replace the below commented out code, aswell as the spaghetti code in updateUi)
+// 3. fix plugins (bump plugin meta version number, make addCustomFractal() also take the friendly name, and createCustomFractalButton just the id instead of also the name)
 
 function parseFRXSFile(content) {
 
@@ -926,21 +966,10 @@ canvasJul.onwheel = event => {
 canvasJul.oncontextmenu = event => event.preventDefault();
 
 
-function buttonPressed(type) {
-
-    var buttons = document.querySelectorAll("button");
-    var targetType = type;
-    var button = null;
-
-    buttons.forEach(b => {
-        var onclickAttr = b.getAttribute("onclick");
-        if (onclickAttr && onclickAttr.includes(targetType)) {
-            button = b;
-        }
-    });
-
-    button.parentElement.childNodes.forEach(child => child.className = "");
-    button.className = "button-highlight";
+function buttonPressed(otherButtons, definitions, type) {
+    
+    Object.keys(otherButtons).forEach(button => otherButtons[button].classList.remove("button-highlight"));
+    otherButtons[Object.keys(definitions).find(name => definitions[name] == type)].classList.add("button-highlight");
 
 }
 
@@ -968,12 +997,10 @@ function updateUi() {
 
     el("frfm").innerHTML = fractalType.formula.replaceAll("POWER", power);
     
-    // worst code ever, i know. tho don't judge, it works
-    try { buttonPressed("FRACTALS." + Object.keys(FRACTALS).find(key => FRACTALS[key] == fractalType) + ")"); } catch { /* button not present */ }
-    try { buttonPressed("COLORSCHEMES." + Object.keys(COLORSCHEMES).find(key => COLORSCHEMES[key] == colorscheme) + ")"); } catch { /* button not present */ }
-    try { buttonPressed("COLOR_METHODS." + Object.keys(COLOR_METHODS).find(key => COLOR_METHODS[key] == colorMethod) + ")"); } catch { /* button not present */ }
-    try { buttonPressed("MODIFIERS." + Object.keys(MODIFIERS).find(key => MODIFIERS[key] == postFracFunc) + ")"); } catch { /* button not present */ }
-    
+    buttonPressed(fractalButtons, FRACTALS, fractalType);
+    buttonPressed(colorschemeButtons, COLORSCHEMES, colorscheme);
+    buttonPressed(colormethodButtons, COLOR_METHODS, colorMethod);
+    buttonPressed(modifierButtons, MODIFIERS, postFracFunc);
 
 }
 
@@ -1353,6 +1380,11 @@ const exports = {
     renderAndExportChunkedMain,
     renderAndExportChunkedJuliaset,
     compileAndRender,
-    compileShaders
+    compileShaders,
+    _createShaderButton,
+    fractalButtons,
+    colorschemeButtons,
+    colormethodButtons,
+    modifierButtons
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }

@@ -14,7 +14,7 @@ class FXPluginUISection {
         var button = document.createElement("button");
         button.innerHTML = name;
         button.onclick = clickHandler;
-        button.className = "pluginButton";
+        button.className = "shaderButton";
 
         this.element.appendChild(button);
 
@@ -22,20 +22,28 @@ class FXPluginUISection {
 
     }
 
-    createCustomFractalButton(id, name) {
-        return this.createButton(name, () => setFractal(FRACTALS[id.toUpperCase()]));
+    createCustomFractalButton(id) {
+        var button = _createShaderButton(FRACTALS[id.toUpperCase()].name, () => setFractal(FRACTALS[id.toUpperCase()]), fractalButtons, id.toUpperCase());
+        this.element.appendChild(button);
+        return button;
     }
 
-    createCustomColorschemeButton(id, name) {
-        return this.createButton(name, () => setColorscheme(COLORSCHEMES[id.toUpperCase()]));
+    createCustomColorschemeButton(id) {
+        var button = _createShaderButton(COLORSCHEMES[id.toUpperCase()].name, () => setColorscheme(COLORSCHEMES[id.toUpperCase()]), colorschemeButtons, id.toUpperCase());
+        this.element.appendChild(button);
+        return button;
     }
 
     createCustomColorMethodButton(id, name) {
-        return this.createButton(name, () => setColormethod(COLOR_METHODS[id.toUpperCase()]));
+        var button = _createShaderButton(COLOR_METHODS[id.toUpperCase()].name, () => setColormethod(COLOR_METHODS[id.toUpperCase()]), colormethodButtons, id.toUpperCase());
+        this.element.appendChild(button);
+        return button;
     }
 
-    createCustomPostFunctionButton(id, name) {
-        return this.createButton(name, () => setPostFunction(MODIFIERS[id.toUpperCase()]));
+    createCustomPostFunctionButton(id, name) {        
+        var button = _createShaderButton(MODIFIERS[id.toUpperCase()].name, () => setPostFunctions(MODIFIERS[id.toUpperCase()]), modifierButtons, id.toUpperCase());
+        this.element.appendChild(button);
+        return button;
     }
 
 }
@@ -79,9 +87,10 @@ class FXPlugin {
 
     }
 
-    addCustomFractal(id, description, formula, radius) {
+    addCustomFractal(id, name, description, formula, radius) {
 
         FRACTALS[id.toUpperCase()] = {
+            name: name,
             radius: radius,
             description: description,
             formula: formula,
@@ -91,9 +100,10 @@ class FXPlugin {
 
     }
 
-    addCustomColorscheme(id, description) {
+    addCustomColorscheme(id, name, description) {
 
         COLORSCHEMES[id.toUpperCase()] = {
+            name: name,
             description: description,
             shader: id,
             shader_folder: this.shaders + "colorschemes/"
@@ -101,9 +111,10 @@ class FXPlugin {
 
     }
 
-    addCustomColorMethod(id, description) {
+    addCustomColorMethod(id, name, description) {
 
         COLOR_METHODS[id.toUpperCase()] = {
+            name: name,
             description: description,
             shader: id,
             shader_folder: this.shaders + "colormethods/"
@@ -111,9 +122,10 @@ class FXPlugin {
 
     }
 
-    addCustomPostFunction(id, description, radius) {
+    addCustomPostFunction(id, name, description, radius) {
 
         MODIFIERS[id.toUpperCase()] = {
+            name: name,
             radius: radius ?? null,
             description: description,
             shader: id,
