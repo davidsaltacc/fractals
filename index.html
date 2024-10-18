@@ -219,6 +219,7 @@
                         <textarea id="fcodei" class="code language-javascript" spellcheck="false" type="text" oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight + 11) + 'px';"></textarea>
                         <pre class="endcodepre"><code class="fixedCode">}</code></pre>
                         <p class="small">(Using Backend: <span class="backend"></span>)</p><br>
+                        <button class="submitShader" onclick="importToCustomCode('fractal')">Insert Currently Selected</button><br>
                         <button class="submitShader" id="tgshdf" onclick="toggleCustomShader(this, 'f')">Enable Custom Fractal Shader</button><br>
                         <button class="submitShader" onclick="updateShader('f')">Update Custom Fractal Shader</button>
                         <h4>Compile Output:</h4>
@@ -281,6 +282,7 @@
                         <textarea id="cscodei" spellcheck="false" type="text" oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight + 11) + 'px';"></textarea>
                         <pre class="endcodepre"><code class="fixedCode">}</code></pre>
                         <p class="small">(Using Backend: <span class="backend"></span>)</p><br>
+                        <button class="submitShader" onclick="importToCustomCode('colorscheme')">Insert Currently Selected</button><br>
                         <button class="submitShader" id="tgshdcs" onclick="toggleCustomShader(this, 'cs')">Enable Custom Colorscheme Shader</button><br>
                         <button class="submitShader" onclick="updateShader('cs')">Update Custom Colorscheme Shader</button>
                         <h4>Compile Output:</h4>
@@ -459,6 +461,8 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <p>- Fix a lot of messy code that will make working on some things easier</p>
                 <p>- Fix Fractal buttons by plugins not properly being highlighted</p>
                 <p>- Change the description section a bit</p>
+                <h4>0.5.3</h4>
+                <p>- Add an option to insert the currently selected shader in the custom code section for easy modification</p>
                 <hr>
             </div>
         </div>

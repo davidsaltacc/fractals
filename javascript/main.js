@@ -565,6 +565,21 @@ async function compileShaders(cmethod, cscheme, fractal, postf) {
     return result;
 }
 
+async function importToCustomCode(type) {
+    switch (type) {
+        case "fractal": 
+            var code = await fetchSubCode(fractalType, "fractals"); 
+            el("fcodei").innerHTML = code;
+            el("fcodei").oninput();
+            break;
+        case "colorscheme": 
+            var code = await fetchSubCode(colorscheme, "colorschemes"); 
+            el("cscodei").innerHTML = code;
+            el("cscodei").oninput();
+            break;
+    }
+} 
+
 function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos) {
     
     if (USE_WEBGL) {
@@ -1401,6 +1416,7 @@ const exports = {
     fractalButtons,
     colorschemeButtons,
     colormethodButtons,
-    modifierButtons
+    modifierButtons,
+    importToCustomCode
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
