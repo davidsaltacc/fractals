@@ -980,6 +980,11 @@ function buttonPressed(otherButtons, definitions, type) {
 
 function updateUi() {
     
+    el("fractalName").innerHTML = fractalType.name + " Fractal";
+    el("colorschemeName").innerHTML = colorscheme.name + " Colorscheme";
+    el("colorMethodName").innerHTML = colorMethod.name + " Colormethod";
+    el("modifierName").innerHTML = postFracFunc.name + " Modifier";
+
     el("frdesc").innerHTML = fractalType.description;
     el("csdesc").innerHTML = colorscheme.description;
     el("cmdesc").innerHTML = colorMethod.description;
