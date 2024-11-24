@@ -12,10 +12,9 @@
     <meta name="twitter:description" content="The best web-based fractal explorer">
 	<link rel="stylesheet" type="text/css" href="styles.css" />
     <link rel="icon" href="/assets/favicon.png" />
-    
     <script src="/javascript/definitions.js"></script>
-    <script type="module" src="/javascript/main.js" defer></script>
-    <script type="module" src="/javascript/plugins.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/webm-muxer"></script>
+    <script type="module" src="/javascript/load.js" defer></script>
 
 </head>
 <body>
@@ -396,6 +395,85 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
             </div>
         </div>
 
+        <div class="toggleable "> <!-- toggleable_default_hidden -->
+            <div class="toggleable_title">
+                <h3>Animation</h3>
+            </div>
+            <div class="toggleable_content">
+                <h3>Edit Animation</h3>
+                <div class="keyframe-editor-labels" id="anim-track-labels"></div>
+                <div class="keyframe-editor" id="keyframe-editor">
+                    <div class="animation-track-container" id="anim-track-container"></div>
+                    <div class="animation-vertical-line-container" id="anim-vert-container"></div>
+                    <div class="animation-timestamps-container" id="anim-timestamp-container"></div>
+                </div>
+                <br>
+                <div><span>Add Track</span> 
+                    <div class="dropdown">
+                        <script>
+                            function toggleAddTrackDropdown() {
+                                document.getElementById("addTrackDropdownContent").classList.toggle("show-dropdown");
+                            }
+                        </script>
+                        <button onclick="toggleAddTrackDropdown()" class="dropdown-button">Select Parameter</button>
+                        <div id="addTrackDropdownContent" class="dropdown-content"></div>
+                    </div>
+                </div>
+                <p>Animation Length (seconds): <input type="number" style="width: 60px;" value="10" oninput="setAnimationLength(this.value)"/></p>
+                <p><button onclick="increaseAnimZoom();">Increase Zoom</button> <button onclick="decreaseAnimZoom();">Decrease Zoom</button></p>
+                <div id="edit-keyframe-container">
+                    <h3 style="padding-bottom: 0; margin-bottom: 0;">Edit Selected Keyframe</h3>
+                    <br>
+                    <p>Time: </p>
+                    <input type="number" id="keyframe-time" onchange="setKeyframeTime(this.value);">
+                    <p>Value: </p>
+                    <input type="number" id="keyframe-value" onchange="setKeyframeValue(this.value);">
+                    <p>Easing (from previous): </p>
+                    <div>
+                        <div class="dropdown">
+                            <script>
+                                function toggleAnimEasingDropdown() {
+                                    document.getElementById("animEasingDropdownContent").classList.toggle("show-dropdown");
+                                }
+                                function keyframeEasingNameSet(name) {
+                                    document.getElementById("easing-name").innerHTML = name;
+                                }
+                            </script>
+                            <button onclick="toggleAnimEasingDropdown()" class="dropdown-button" id="easing-name">Linear</button>
+                            <div id="animEasingDropdownContent" class="dropdown-content"></div>
+                        </div>
+                    </div>
+                    <p>Easing Strength (1-∞): </p>
+                    <input type="number" id="keyframe-easing-strength" onchange="setKeyframeEasingStrength(this.value);">
+                    <br><br>
+                    <button onclick="removeKeyframe();">Remove Keyframe</button>
+                </div>
+                <br>
+                <h3>Run & Export</h3>
+                <button onclick="playAnimation(false);">Run animation for main</button>
+                <button onclick="playAnimation(true);">Run animation for juliaset</button>
+                <br>
+                <button onclick="stopAnimation();">Stop Animation</button>
+                <br>
+                <br>
+                <button onclick="exportAnimation(false);">Export animation for main</button>
+                <button onclick="exportAnimation(true);">Export animation for juliaset</button>
+                <br>
+                <h3>Export Options</h3>
+                <p>Video Container</p>
+                <button id="mkv-btn" onclick="setAnimationVideoContainer('mkv')">.mkv</button>
+                <button id="webm-btn" onclick="setAnimationVideoContainer('webm')">.webm</button>
+                <p>Video Codec</p>
+                <button id="vp8-btn" onclick="setAnimationVideoCodec('vp8')">VP8</button>
+                <button id="vp9-btn" onclick="setAnimationVideoCodec('vp9')">VP9</button>
+                <p>Video Framerate</p>
+                <input type="number" onchange="setAnimationFPS(this.value)" style="width: 60px;" value="60">
+                <br><br>
+                <p>Q: Why not MP4 & H.264 and others?</p>
+                <p>A: Most browsers can't encode into AVC/H.264, but you can use ffmpeg or other tools to convert the output file manually. </p>
+            </div>
+        </div>
+
         <div class="toggleable">
             <div class="toggleable_title">
                 <h3>Information</h3>
@@ -429,6 +507,8 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <p><a href="https://github.com/radian628/small-projects" target="_blank">This</a> repository on github by radian628, where I got the idea of multisampling from.</p>
                 <p><a href="https://iquilezles.org/" target="_blank">Indigo Quilez' Website</a>, which contains a lot of useful articles on graphical programming.</p>
                 <p><a href="https://github.com/kbinani/colormap-shaders/" target="_blank">This project</a> on github by kbinani, where I found some colormaps.</p>
+                <p><a href="https://easings.net" target="_blank">Easings.net</a>, where I got code for some of the animation easings for.</p>
+                <p><a href="https://github.com/Vanilagy/webm-muxer" target="_blank">WebM-Muxer</a>, which allows for exporting playable animations. </p>
                 <p>All the amazing people who discovered some of these fractals and made this project possible</p>
                 <p>My friends (who did nothing for this project)</p>
                 <p>You, for visiting and testing my project</p>
@@ -462,8 +542,11 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <p>- Fix Fractal buttons by plugins not properly being highlighted</p>
                 <p>- Change the description section a bit</p>
                 <h4>0.5.3</h4>
+                <p>- Animation System </p>
                 <p>- Add an option to insert the currently selected shader in the custom code section for easy modification</p>
                 <p>- Rename postFunction to modifier in code, no impact on the user experience but sounds better</p>
+                <p>- Fix a bug with parts of the UI not updating properly</p>
+                <p>- Fix possible other bugs by fixing some spaghetti code</p>
                 <hr>
             </div>
         </div>

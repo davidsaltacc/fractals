@@ -549,3 +549,179 @@ a, a:active {
 #drop-screen h1 {
     font-size: 3em;
 }
+
+.keyframe-editor {
+    position: relative;
+    min-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.animation-track {
+    padding-left: 4px;
+    min-height: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    transition: 0.2s;
+}
+
+.animation-track:hover {
+    background-color: #79797915;
+}
+
+.animation-track::after {
+    content: "";
+    position: absolute;
+    top: 50%; 
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #424242;
+    z-index: 1;
+}
+
+.animation-keyframe {
+    width: 16px;
+    height: 16px;
+    background-color: #ffffff;
+    border-radius: 30%;
+    z-index: 3;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, 80%) rotateZ(45deg);
+}
+
+.animation-keyframe.selected-keyframe {
+    background-color: #8f8f8f;
+    z-index: 4;
+}
+
+.animation-timestamps {
+    position: sticky;
+    bottom: 0;
+    line-height: 14px;
+    padding: 4px;
+}
+
+.animation-vertical-line {
+    width: 1px;
+    background-color: #888888;
+    z-index: 2;
+    transform: translateX(calc(10px + 50%));
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.animation-vertical-line-container {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-left: 10px;
+}
+
+.animation-track-container {
+    min-height: 200px;
+    max-height: 800px;
+    border-radius: 6px;
+    border: 1px solid #303030;
+    background-color: #2222227f;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 10px;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.animation-timestamps-container {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    height: 20px;
+    margin-left: 5px;
+    padding-left: 10px;
+    margin-bottom: 2px;
+}
+
+.animation-timestamp {
+    position: absolute;
+    transform: translateX(10px);
+}
+
+.dropdown-button {
+    background-color: #4e4e4e;
+    color: #ffffff;
+    padding: 4px;
+    border: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #303030;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #ffffff;
+    padding: 8px 8px;
+    text-decoration: none;
+    display: block;
+    transition: 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: #ffffff10;
+}
+
+.show-dropdown {
+    display: block;
+}
+
+.keyframe-editor {
+    margin-left: 100px;
+    min-width: calc(100% - 100px);
+}
+
+.keyframe-editor-labels {
+    position: absolute;
+    max-width: 100px;
+}
+
+.track-label {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    font-size: small;
+}
+
+.track-label button {
+    margin: 4px;
+}
+
+.remove-track {
+    width: 24px;
+    height: 24px;
+    aspect-ratio: 1 / 1;
+    background-image: url("/assets/trash.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+}

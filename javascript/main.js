@@ -663,11 +663,35 @@ function draw(context, juliaset) {
         renderPass.end();
 
         wgpu_device.queue.submit([ encoder.finish() ]);
+        return wgpu_device.queue.onSubmittedWorkDone();
 
     } else if (USE_WEBGL) {
 
         setUniforms(context, !juliaset ? wgl_programMain : wgl_programJul, juliaset);
         context.drawArrays(context.TRIANGLE_FAN, 0, 4);
+
+        return new Promise((resolve, reject) => {
+            
+            const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+    
+            if (!sync) {
+                reject(new Error("Failed to create sync object"));
+                return;
+            }
+    
+            const status = gl.clientWaitSync(sync, gl.SYNC_FLUSH_COMMANDS_BIT, 1e9 - 1);
+            
+            if (status === gl.CONDITION_SATISFIED || status === gl.ALREADY_SIGNALED) {
+                gl.deleteSync(sync);
+                resolve();
+            } else if (status === gl.TIMEOUT_EXPIRED) {
+                gl.deleteSync(sync);
+                reject(new Error("Rendering took too long and timed out"));
+            } else {
+                gl.deleteSync(sync);
+                reject(new Error("Unknown error while waiting for rendering"));
+            }
+        });
 
     }
 
@@ -784,15 +808,18 @@ async function drawReturnImageData(context, juliaset, chunked, chunkerPos) {
 }
 
 function renderMain() {
-    draw(contextMain, 0);
+    return draw(contextMain, 0);
 }
 
 function renderJul() {
-    draw(contextJul, 1);
+    return draw(contextJul, 1);
 }
+
 function renderBoth() {
-    renderMain();
-    renderJul();
+    return Promise.all([
+        renderMain(),
+        renderJul()
+    ]);
 }
 
 async function compileAndRender() {
@@ -886,6 +913,7 @@ canvasMain.onmousemove = event => {
         updateMouseCoordsMain(event);
         juliasetConstant[0] = mouseMainX;
         juliasetConstant[1] = mouseMainY;
+        updateUi();
         renderJul();
 
     }
@@ -899,6 +927,7 @@ canvasMain.onmousedown = event => {
         mouseClickedMain = true;
         juliasetConstant[0] = mouseMainX;
         juliasetConstant[1] = mouseMainY;
+        updateUi();
         renderJul();
 
     } else if (event.button == 2) {
@@ -1025,8 +1054,29 @@ function updateUi() {
 
 }
 
+function setCenter(center, isJuliaset, dontRerender) {
+    if (isJuliaset) {
+        centerJul = center;
+    } else {
+        centerMain = center;
+    }
+    if (!dontRerender) { renderBoth(); }
+}
 
-function setFractal(fractal) {
+function getCenter(juliaset) { return juliaset ? centerJul : centerMain; }
+
+function setZoom(zoom, isJuliaset, dontRerender) {
+    if (isJuliaset) {
+        zoomJul = zoom;
+    } else {
+        zoomMain = zoom;
+    }
+    if (!dontRerender) { renderBoth(); }
+}
+
+function getZoom(juliaset) { return juliaset ? zoomJul : zoomMain; }
+
+async function setFractal(fractal, dontRecompile) {
 
     fractalType = fractal;
 
@@ -1036,21 +1086,21 @@ function setFractal(fractal) {
         radius = modifier.radius;
     }
 
-    compileAndRender();
+    if (!dontRecompile) { await compileAndRender(); }
 
 }
 
-function setColorscheme(scheme) {
+async function setColorscheme(scheme, dontRecompile) {
     colorscheme = scheme;
-    compileAndRender();
+    if (!dontRecompile) { await compileAndRender(); }
 }
 
-function setColormethod(method) {
+async function setColormethod(method, dontRecompile) {
     colorMethod = method;
-    compileAndRender();
+    if (!dontRecompile) { await compileAndRender(); }
 }
 
-function setModifier(func) {
+async function setModifier(func, dontRecompile) {
 
     modifier = func;
 
@@ -1060,7 +1110,7 @@ function setModifier(func) {
         radius = fractalType.radius;
     }
 
-    compileAndRender();
+    if (!dontRecompile) { await compileAndRender(); }
 
 }
 
@@ -1079,21 +1129,35 @@ function setCanvasSize(size) {
     renderBoth();
 }
 
-function setRadius(value) { radius = parseInt(value); renderBoth(); }
-function setIterations(value) { maxIterations = parseInt(value); renderBoth(); }
-function setPower(value) { power = parseFloat(value); renderBoth(); }
-function setConstantX(value) { juliasetConstant[0] = parseFloat(value); renderBoth(); }
-function setConstantY(value) { juliasetConstant[1] = parseFloat(value); renderBoth(); }
-function setInterpolation(value) { juliasetInterpolation = parseFloat(value); renderBoth(); }
-function setColoroffset(value) { colorOffset = parseFloat(value); renderBoth(); }
-function setColorfulness(value) { colorfulness = parseFloat(value); renderBoth(); }
-function setSampleCount(value) { sampleCount = parseInt(value); renderBoth(); }
-function setCloudSeed(value) { cloudSeed = Math.min(Math.max(parseInt(value), 500), 8000000); renderBoth(); }
-function setCloudAmplitude(value) { cloudAmplitude = parseFloat(value); renderBoth(); }
-function setCloudMultiplier(value) { cloudMultiplier = parseFloat(value); renderBoth(); }
+function setRadius(value, dontRerender) { radius = parseInt(value); if (!dontRerender) { renderBoth(); } }
+function setIterations(value, dontRerender) { maxIterations = parseInt(value); if (!dontRerender) { renderBoth(); } }
+function setPower(value, dontRerender) { power = parseFloat(value); if (!dontRerender) { renderBoth(); } }
+function setConstantX(value, dontRerender) { juliasetConstant[0] = parseFloat(value); if (!dontRerender) { renderBoth(); } } 
+function setConstantY(value, dontRerender) { juliasetConstant[1] = parseFloat(value); if (!dontRerender) { renderBoth(); } }
+function setInterpolation(value, dontRerender) { juliasetInterpolation = parseFloat(value); if (!dontRerender) { renderBoth(); } }
+function setColoroffset(value, dontRerender) { colorOffset = parseFloat(value); if (!dontRerender) { renderBoth(); } }
+function setColorfulness(value, dontRerender) { colorfulness = parseFloat(value); if (!dontRerender) { renderBoth(); } }
+function setSampleCount(value, dontRerender) { sampleCount = parseInt(value); if (!dontRerender) { renderBoth(); } }
+function setCloudSeed(value, dontRerender) { cloudSeed = Math.min(Math.max(parseInt(value), 500), 8000000); if (!dontRerender) { renderBoth(); } }
+function setCloudAmplitude(value, dontRerender) { cloudAmplitude = parseFloat(value); if (!dontRerender) { renderBoth(); } }
+function setCloudMultiplier(value, dontRerender) { cloudMultiplier = parseFloat(value); if (!dontRerender) { renderBoth(); } }
 function setChunkerFinalSize(value) { chunkerFinalSize = parseInt(value); }
 function setChunkerChunkSize(value) { chunkerChunkSize = parseInt(value); }
 
+function getRadius() { return radius; }
+function getIterations() { return maxIterations; }
+function getPower() { return power; }
+function getConstant() { return juliasetConstant; }
+function getInterpolation() { return juliasetInterpolation; }
+function getColorOffset() { return colorOffset; }
+function getColorfulness() { return colorfulness; }
+function getSampleCount() { return sampleCount; }
+function getCloudSeed() { return cloudSeed; }
+function getCloudAmplitude() { return cloudAmplitude; }
+function getCloudMultiplier() { return cloudMultiplier; }
+
+function getMainCanvas() { return canvasMain };
+function getJuliasetCanvas() { return canvasJul };
 
 function createUrlWithParameters() {
 
@@ -1364,52 +1428,43 @@ async function init() {
     await compileAndRender();
 }
 
-init();
+await init();
 
 const exports = {
-    renderMain,
-    renderJul,
-    renderBoth,
+    renderMain, renderJul, renderBoth,
     setCanvasesSticky,
     logStatus,
     setFractal,
     setColorscheme,
     setColormethod,
     setModifier,
-    setRadius,
-    setIterations,
-    setPower,
-    setConstantX,
-    setConstantY,
-    setInterpolation,
+    setRadius, getRadius,
+    setIterations, getIterations,
+    setPower, getPower,
+    setConstantX, setConstantY, getConstant,
+    setInterpolation, getInterpolation,
     setCanvasSize,
-    setColoroffset,
-    setColorfulness,
-    setSampleCount,
-    setCloudSeed,
-    setCloudAmplitude,
-    setCloudMultiplier,
-    exportMain,
-    exportJul,
+    setColoroffset, getColorOffset,
+    setColorfulness, getColorfulness,
+    setSampleCount, getSampleCount,
+    setCloudSeed, getCloudSeed,
+    setCloudAmplitude, getCloudAmplitude,
+    setCloudMultiplier, getCloudMultiplier,
+    exportMain, exportJul,
     applyUrlWithParameters,
     _applyUrlWithParameters,
     createUrlWithParameters,
     loadParamsFromFile,
-    createAndOpenUrl,
-    createAndCopyUrl,
+    createAndOpenUrl, createAndCopyUrl,
     reset,
     randomize,
-    forceWebGL,
-    forceWebGPU,
+    forceWebGL, forceWebGPU,
     toggleCustomShader,
     updateShader,
     createUiSection,
-    contextMain,
-    contextJul,
-    setChunkerFinalSize,
-    setChunkerChunkSize,
-    renderAndExportChunkedMain,
-    renderAndExportChunkedJuliaset,
+    contextMain, contextJul,
+    setChunkerFinalSize, setChunkerChunkSize,
+    renderAndExportChunkedMain, renderAndExportChunkedJuliaset,
     compileAndRender,
     compileShaders,
     _createShaderButton,
@@ -1417,6 +1472,12 @@ const exports = {
     colorschemeButtons,
     colormethodButtons,
     modifierButtons,
-    importToCustomCode
+    importToCustomCode,
+    setCenter, getCenter,
+    setZoom, getZoom, 
+    updateUi,
+    getMainCanvas, getJuliasetCanvas,
+    showLoadingWave, hideLoadingWave,
+    logStatus
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }

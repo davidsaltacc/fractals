@@ -625,3 +625,22 @@ const MODIFIERS = {
     }
 
 };
+
+const EASINGS = {
+    LINEAR: {
+        name: "Linear",
+        function: (x, _) => x
+    },
+    EASE_IN: {
+        name: "Ease In",
+        function: (x, s) => Math.pow(x, s)
+    },
+    EASE_OUT: {
+        name: "Ease Out",
+        function: (x, s) => 1 - Math.pow(1 - x, s)
+    },
+    EASE_IN_OUT: {
+        name: "Ease In Out",
+        function: (x, s) => x < 0.5 ? Math.pow(2, s - 1) * Math.pow(x, s) : 1 - Math.pow(-2 * x + 2, s) / 2
+    }
+};
