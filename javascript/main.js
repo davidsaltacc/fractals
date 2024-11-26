@@ -666,32 +666,29 @@ function draw(context, juliaset) {
         return wgpu_device.queue.onSubmittedWorkDone();
 
     } else if (USE_WEBGL) {
+        
+        const gl = context;
 
-        setUniforms(context, !juliaset ? wgl_programMain : wgl_programJul, juliaset);
-        context.drawArrays(context.TRIANGLE_FAN, 0, 4);
+        setUniforms(gl, !juliaset ? wgl_programMain : wgl_programJul, juliaset);
+        gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 
         return new Promise((resolve, reject) => {
-            
             const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
-    
             if (!sync) {
                 reject(new Error("Failed to create sync object"));
                 return;
             }
-    
-            const status = gl.clientWaitSync(sync, gl.SYNC_FLUSH_COMMANDS_BIT, 1e9 - 1);
-            
-            if (status === gl.CONDITION_SATISFIED || status === gl.ALREADY_SIGNALED) {
-                gl.deleteSync(sync);
-                resolve();
-            } else if (status === gl.TIMEOUT_EXPIRED) {
-                gl.deleteSync(sync);
-                reject(new Error("Rendering took too long and timed out"));
-            } else {
-                gl.deleteSync(sync);
-                reject(new Error("Unknown error while waiting for rendering"));
+            function checkSync() { // TODO check if this might cause any issues
+                const status = gl.clientWaitSync(sync, 0, 0); 
+                if (status === gl.CONDITION_SATISFIED || status === gl.ALREADY_SIGNALED) {
+                    gl.deleteSync(sync); 
+                    resolve();
+                } else {
+                    setTimeout(checkSync, 10);
+                }
             }
-        });
+            checkSync(); 
+        }); 
 
     }
 
