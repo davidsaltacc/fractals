@@ -1128,7 +1128,7 @@ function setCanvasSize(size) {
 
 function setRadius(value, dontRerender) { radius = parseInt(value); if (!dontRerender) { renderBoth(); } }
 function setIterations(value, dontRerender) { maxIterations = parseInt(value); if (!dontRerender) { renderBoth(); } }
-function setPower(value, dontRerender) { power = parseFloat(value); if (!dontRerender) { renderBoth(); } }
+function setPower(value, dontRerender) { power = parseFloat(value); if (!dontRerender) { renderBoth(); } updateUi(); }
 function setConstantX(value, dontRerender) { juliasetConstant[0] = parseFloat(value); if (!dontRerender) { renderBoth(); } } 
 function setConstantY(value, dontRerender) { juliasetConstant[1] = parseFloat(value); if (!dontRerender) { renderBoth(); } }
 function setInterpolation(value, dontRerender) { juliasetInterpolation = parseFloat(value); if (!dontRerender) { renderBoth(); } }

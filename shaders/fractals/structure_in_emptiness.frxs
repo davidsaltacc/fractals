@@ -1,0 +1,6 @@
+
+#ifbackend[*]
+
+return c_pow(z, power) + c + c_pow(z, -power * 2.);
+
+#endbackend
