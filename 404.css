@@ -1,5 +1,6 @@
 
 * {
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -25,6 +26,7 @@ body {
     justify-content: center;
     text-align: center;
     flex-direction: column;
+    -webkit-backdrop-filter: blur(8px) brightness(25%);
     backdrop-filter: blur(8px) brightness(25%);
 }
 
