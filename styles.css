@@ -77,6 +77,7 @@ input {
 
 .unsticky-big {
     position: relative !important;
+    -webkit-backdrop-filter: brightness(30%) blur(20px);
     backdrop-filter: brightness(30%) blur(20px);
 
 }
@@ -432,6 +433,7 @@ a, a:active {
     background-color: #00000000;
     min-width: 100%;
     border-radius: 0px;
+    -webkit-backdrop-filter: brightness(30%) blur(20px);
     backdrop-filter: brightness(30%) blur(20px);
 }
 
@@ -440,6 +442,7 @@ a, a:active {
 }
 
 .codearea {
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
 }
 
