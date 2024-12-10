@@ -250,6 +250,8 @@ button, input {
     font-size: 102%;
     transition: 0.3s;
     outline: none;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 button:hover, input:hover {
@@ -423,6 +425,7 @@ body {
     color: #ffffff;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    -webkit-font-smoothing: antialiased;
 }
 
 a, a:active {
