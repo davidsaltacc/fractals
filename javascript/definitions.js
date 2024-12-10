@@ -324,9 +324,37 @@ const FRACTALS = {
     STRUCTURE_IN_EMPTINESS: {
         name: "Structure in Emptiness",
         radius: 10000000,
-        description: "Seems a bit empty at first, but zooming into the small area on the left reveals interesting structures. Also at higher powers, though then it is barely noticable due to floating point precision. Sorry. <br><br>(Was that a lucky shot, or am I getting better with naming fractals?)", //TODO
+        description: "Seems a bit empty at first, but zooming into the small area on the left reveals interesting structures. Also at higher powers, though then it is barely noticable due to floating point precision. Sorry. <br><br>(Was that luck, or am I getting better with naming fractals?)",
         formula: "z<sub>n+1</sub> = z<sub>n</sub><sup>POWER</sup> + z<sub>n</sub><sup>-2*POWER</sup> + c",
         shader: "structure_in_emptiness"
+    },
+    UNNAMED_11: {
+        name: "Unnamed 11",
+        radius: 10000000,
+        description: "It's juliasets somewhat remind of the Tippets Fractal's.", 
+        formula: "z<sub>n+1</sub> = (Re(c) * Im(z<sub>n</sub>) + Im(c) + i * (Im(c) * Re(x) + Re(c)))<sup>POWER</sup> + z<sub>n</sub><sup>POWER</sup> + c",
+        shader: "unnamed_11"
+    },
+    UNNAMED_12: {
+        name: "Unnamed 12",
+        radius: 10000000,
+        description: "&lt;description here, I can't think of anything&gt;", 
+        formula: "z<sub>n+1</sub> = Re(c) * Re(z<sub>n</sub>)<sup>2</sup> - sin(Im(z<sub>n</sub>)<sup>2</sup>) + |Im(z<sub>n</sub>) - Re(z<sub>n</sub>)| + i * (Im(c) * (Im(z<sub>n</sub>)<sup>3</sup>) - cos(Re(z<sub>n</sub>)<sup>2</sup>) + 2 * Re(z<sub>n</sub>))",
+        shader: "unnamed_12"
+    },
+    WTF: {
+        name: "What",
+        radius: 10000000,
+        description: "What the F*?<br>- My reaction seeing this for the first time. <br>A mandelbrot with two ends, like raised to power +1 but like, not?", 
+        formula: "z<sub>n+1</sub> = c * z<sub>n</sub><sup>POWER</sup> + c",
+        shader: "wtf"
+    },
+    UNNAMED_13: {
+        name: "Unnamed 13",
+        radius: 10000000,
+        description: "Turn up the colorfulness to see interesting details.", 
+        formula: "z<sub>n+1</sub> = z<sub>n</sub><sup>POWER</sup> + c<sup>z<sub>n</sub></sup>",
+        shader: "unnamed_13"
     }
 
 };

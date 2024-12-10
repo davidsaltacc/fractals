@@ -1,0 +1,6 @@
+
+#ifbackend[*]
+
+return c_pow(complex(c.x * z.y + c.y, c.y * z.x + c.x), power) + c_pow(z, power) + c;
+
+#endbackend

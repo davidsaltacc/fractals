@@ -1,0 +1,7 @@
+
+
+#ifbackend[*]
+
+return c_multiplication(c, c_pow(z, power)) + c; 
+
+#endbackend
