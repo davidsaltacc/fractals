@@ -451,6 +451,8 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 </div>
                 <br>
                 <h3>Run & Export</h3>
+                <p>Forcing the backend to be WebGL may help a with the render time and export speed, if you are experiencing issues exporting or just find it slow, <button onclick="forceWebGL();">force WebGL</button> (will not preserve animation).</p>
+                <p>Why? There is no way in WebGPU to render to a texture or buffer instead of a canvas efficiently at most resolutions, because the size must be a multiple of 256. Exporting at resolutions other than multiples of 64 (64 * 4 channels = 256) will require adding some extra empty space, leading to performance impacts. (Maybe there is a better solution, but I am not all-knowing either, so instead just use WebGL)</p>
                 <button onclick="playAnimation(false);">Run animation for main</button>
                 <button onclick="playAnimation(true);">Run animation for juliaset</button>
                 <br>
@@ -552,6 +554,7 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <p>- Minor cleanups (visual and codebase)</p>
                 <p>- 5 new fractals</p>
                 <p>- Small UI changes</p>
+                <p>- Speed up WebGL chunked exporting & animation exporting a bit (WebGPU still slow, I just gave up at some point)</p>
                 <hr>
             </div>
         </div>

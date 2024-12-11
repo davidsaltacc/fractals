@@ -342,7 +342,7 @@ class Sequence {
         var frameAmount = this.length * fps;
 
         async function addFrame() {
-            var bitmap = await createImageBitmap(canvas);
+            var bitmap = await drawReturnImageData(ofJuliaset ? contextJul : contextMain);
             var timestamp = frameIndex * frameDuration * 1000;
             videoEncoder.encode(new VideoFrame(bitmap, { timestamp }));
             bitmap.close();
@@ -353,13 +353,11 @@ class Sequence {
             logStatus("rendering frame " + frameIndex + " / " + frameAmount);
 
             this.applyAtTime(frameIndex * frameDuration / 1000, ofJuliaset);
-            await (ofJuliaset ? renderJul : renderMain)();
             await addFrame();
 
         }
 
         this.applyAtTime(this.length, ofJuliaset);
-        await (ofJuliaset ? renderJul : renderMain)();
         await addFrame();
 
         logStatus("flushing encoder and finalizing muxing");
