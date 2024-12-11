@@ -27,12 +27,16 @@ p {
 }
 
 input {
-    width: 50%;
+    width: 20%;
 }
 
-#constantRe,
+#constantRe {
+    margin-right: 4px;
+    width: 10%;
+}
+
 #constantIm {
-    width: 25%;
+    width: calc(10% - 4px);
 }
 
 #url {

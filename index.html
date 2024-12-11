@@ -151,8 +151,7 @@
                 <p>Fractal Power:</p>
                 <input type="number" step="0.0001" id="power" value="2" onchange="setPower(this.value)">
                 <p>Juliaset Constant:</p>
-                <input type="number" id="constantRe" value="0" step="0.0001" onchange="setConstantX(this.value);">
-                <input type="number" id="constantIm" value="0" step="0.0001" onchange="setConstantY(this.value);">
+                <input type="number" id="constantRe" value="0" step="0.0001" onchange="setConstantX(this.value);"><input type="number" id="constantIm" value="0" step="0.0001" onchange="setConstantY(this.value);">
                 <p>Interpolate between normal and juliaset:</p>
                 <input type="number" id="nji" value="1" step="0.0001" onchange="setInterpolation(this.value);">
                 <p>Canvas Size:</p>
@@ -165,7 +164,7 @@
                 <input type="number" value="1" id="sampleCount" onchange="setSampleCount(this.value)">
                 <hr>
                 <h4>Force Backend</h4>
-                <p><button onclick="forceWebGPU();">Use WebGPU</button> <span class="small">WebGPU uses more modern backends such as Vulkan, D3D12 and Metal, providing a performance benefit, but isn't supported in every browser yet.</span></p>
+                <p><button onclick="forceWebGPU();">Use WebGPU</button> <span class="small">WebGPU uses more modern backends, providing a performance benefit, but isn't supported in every browser yet.</span></p>
                 <p><button onclick="forceWebGL();">Use WebGL</button> <span class="small">WebGL uses the more outdated OpenGL backend, which might be a bit worse performance-wise, but some browsers don't yet implement WebGPU.</span></p>
                 <hr>
             </div>
@@ -176,11 +175,11 @@
             </div>
             <div class="toggleable_content">
                 <p>Seed:</p>
-                <input type="number" value="33333" id="cloudSeed" oninput="setCloudSeed(this.value);">
+                <input type="number" value="33333" id="cloudSeed" onchange="setCloudSeed(this.value);">
                 <p>Amplitude:</p>
-                <input type="number" value="0" id="cloudAmplitude" oninput="setCloudAmplitude(this.value);">
+                <input type="number" value="0" id="cloudAmplitude" onchange="setCloudAmplitude(this.value);">
                 <p>Multiplier:</p>
-                <input type="number" value="0.8" id="cloudMultiplier" oninput="setCloudMultiplier(this.value);">
+                <input type="number" value="0.8" id="cloudMultiplier" onchange="setCloudMultiplier(this.value);">
                 <hr>
             </div>
         </div>
@@ -192,9 +191,9 @@
                 <h3>Render the fractal in chunks, to be able to render fractals at huge scales and at high iterations and sample counts.</h3>
                 <p>Forcing the backend to be WebGL may help a with the render time and export speed, if you are experiencing issues exporting or just find it slow, <button onclick="forceWebGL();">force WebGL</button>.</p>
                 <br><p>Final Image Size:</p>
-                <input type="number" value="2000" oninput="setChunkerFinalSize(this.value);">
+                <input type="number" value="2000" onchange="setChunkerFinalSize(this.value);">
                 <p>Chunk Size:</p>
-                <input type="number" value="400" oninput="setChunkerChunkSize(this.value);">
+                <input type="number" value="400" onchange="setChunkerChunkSize(this.value);">
                 <br><br>
                 <button onclick="renderAndExportChunkedMain();">Render and export Main</button>
                 <button onclick="renderAndExportChunkedJuliaset();">Render and export Juliaset</button> 
@@ -483,14 +482,14 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
             </div>
             <div class="toggleable_content">
                 <h3>Reporting Issues:</h3>
-                <p>This project is still very early in development. This means, new features will be added in the future. Until everything is finished, bugs might occur and things might break. If you find anything, please <a href="https://github.com/davidsaltacc/fractals/issues/new">open a issue on github.</a></p>
+                <p>This project is still very early in development. This means, new features will be added in the future. Bugs might occur and things might break. If you find anything, please <a href="https://github.com/davidsaltacc/fractals/issues/new">open a issue on github.</a></p>
                 <hr>
                 <h3>Other Versions:</h3>
                 <a href="https://old.fractals.top/v1" target="_blank">Version v1</a><br>
                 <a href="https://old.fractals.top/v2" target="_blank">Version v2</a><br>
                 <a href="https://old.fractals.top/v3" target="_blank">Version v3</a><br>
                 <a href="https://old.fractals.top/v4" target="_blank">Version v4</a><br>
-                <a href="https://turbowarp.org/907856776?fps=60&turbo" target="_blank">Scratch Version I made for some reason</a>
+                <a href="https://turbowarp.org/907856776?fps=60&turbo" target="_blank">Scratch Version (that I made for no reason)</a>
                 <hr>
                 <div id="whatarefractalsContainer">
                     <h3 id="whatarefractals">What are fractals?</h3>
