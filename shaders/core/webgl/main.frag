@@ -331,6 +331,6 @@ void main() {
         }
     }
 
-    fragmentColor = rcolor / float(sampleCount);
+    fragmentColor = vec4((rcolor / float(sampleCount)).rgb, 1.);
 
 }

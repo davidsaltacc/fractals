@@ -346,6 +346,6 @@ fn fragment(input: VertexOutput) -> @location(0) vec4<f32> {
             rcolor += color(color_v, input.fragmentPosition / noiseD + noiseO);
         }
     }
-    return rcolor / sampleCount;
+    return vec4((rcolor / sampleCount).rgb, 1.);
 }
 
