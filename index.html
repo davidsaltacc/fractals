@@ -80,6 +80,7 @@
                 <hr>
             </div>
         </div>
+
         <div class="toggleable">
             <div class="toggleable_title">
                 <h3>Colormap Selection:</h3>
@@ -89,6 +90,7 @@
                 <hr>
             </div>
         </div>
+
         <div class="toggleable">
             <div class="toggleable_title">
                 <h3>Color Method Selection:</h3>
@@ -98,6 +100,7 @@
                 <hr>
             </div>
         </div>
+
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
                 <h3>Fractal Modifier:</h3>
@@ -107,6 +110,7 @@
                 <hr>
             </div>
         </div>
+
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
                 <h3>Import</h3>
@@ -120,6 +124,7 @@
                 <hr>
             </div>
         </div>
+
         <div class="toggleable">
             <div class="toggleable_title">
                 <h3>Export</h3>
@@ -134,6 +139,7 @@
                 <hr>
             </div>
         </div>
+
         <div class="toggleable">
             <div class="toggleable_title">
                 <h3>Settings:</h3>
@@ -151,7 +157,7 @@
                 <p>Fractal Power:</p>
                 <input type="number" step="0.0001" id="power" value="2" onchange="setPower(this.value)">
                 <p>Juliaset Constant:</p>
-                <input type="number" id="constantRe" value="0" step="0.0001" onchange="setConstantX(this.value);"><input type="number" id="constantIm" value="0" step="0.0001" onchange="setConstantY(this.value);">
+                <input type="number" id="constantRe" value="0" step="0.0001" onchange="setConstantX(this.value);" class="input-half-width-left"><input type="number" id="constantIm" value="0" step="0.0001" onchange="setConstantY(this.value);" class="input-half-width-right">
                 <p>Interpolate between normal and juliaset:</p>
                 <input type="number" id="nji" value="1" step="0.0001" onchange="setInterpolation(this.value);">
                 <p>Canvas Size:</p>
@@ -169,6 +175,7 @@
                 <hr>
             </div>
         </div>
+
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
                 <h3>Noise</h3>
@@ -183,6 +190,7 @@
                 <hr>
             </div>
         </div>
+
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
                 <h3>Image Chunker</h3>
@@ -201,7 +209,27 @@
                 <hr>
             </div>
         </div>
+        
+        <div class="toggleable toggleable_default_hidden">
+            <div class="toggleable_title">
+                <h3>Override Parameters</h3>
+            </div>
+            <div class="toggleable_content">
+                <p>Use this if you want to set some of the values (zoom, center, ...) to a certain value. Or just edit a preset URL directly, whatever you prefer.</p>
+                <p>Zoom (main):</p>
+                <input type="number" value="" onchange="setZoom(this.value, false);" onkeypress="if (event.key == 'Enter') { setZoom(this.value, false); }">
+                <p>Zoom (juliaset):</p>
+                <input type="number" value="" onchange="setZoom(this.value, true);" onkeypress="if (event.key == 'Enter') { setZoom(this.value, true); }">
+                <p>Center (main):</p>
+                <input type="number" value="" onchange="setCenterX(this.value, false);" class="input-half-width-left" onkeypress="if (event.key == 'Enter') { setCenterX(this.value, false); }"><input type="number" value="" onchange="setCenterY(this.value, false);" class="input-half-width-right" onkeypress="if (event.key == 'Enter') { setCenterY(this.value, false); }">
+                <p>Center (juliaset):</p>
+                <input type="number" value="" onchange="setCenterX(this.value, true);" class="input-half-width-left" onkeypress="if (event.key == 'Enter') { setCenterX(this.value, true); }"><input type="number" value="" onchange="setCenterY(this.value, true);" class="input-half-width-right" onkeypress="if (event.key == 'Enter') { setCenterY(this.value, true); }">
+                <hr>
+            </div>
+        </div>
+
         <div id="pluginContainer"></div>
+
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
                 <h3>Customize Code</h3>
@@ -554,6 +582,7 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <p>- 5 new fractals</p>
                 <p>- Small UI changes</p>
                 <p>- Speed up WebGL chunked exporting & animation exporting a bit (WebGPU still slow, I just gave up at some point)</p>
+                <p>- Added ability to override things such as zoom and center</p>
                 <hr>
             </div>
         </div>

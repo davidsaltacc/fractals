@@ -1053,18 +1053,36 @@ function setCenter(center, isJuliaset, dontRerender) {
     } else {
         centerMain = center;
     }
-    if (!dontRerender) { renderBoth(); }
+    if (!dontRerender) { (isJuliaset ? renderJul : renderMain )(); }
+}
+
+function setCenterX(x, isJuliaset, dontRerender) {
+    if (isJuliaset) {
+        centerJul[0] = parseFloat(x);
+    } else {
+        centerMain[0] = parseFloat(x);
+    }
+    if (!dontRerender) { (isJuliaset ? renderJul : renderMain )(); }
+}
+
+function setCenterY(y, isJuliaset, dontRerender) {
+    if (isJuliaset) {
+        centerJul[1] = parseFloat(y);
+    } else {
+        centerMain[1] = parseFloat(y);
+    }
+    if (!dontRerender) { (isJuliaset ? renderJul : renderMain )(); }
 }
 
 function getCenter(juliaset) { return juliaset ? centerJul : centerMain; }
 
 function setZoom(zoom, isJuliaset, dontRerender) {
     if (isJuliaset) {
-        zoomJul = zoom;
+        zoomJul = parseFloat(zoom);
     } else {
-        zoomMain = zoom;
+        zoomMain = parseFloat(zoom);
     }
-    if (!dontRerender) { renderBoth(); }
+    if (!dontRerender) { (isJuliaset ? renderJul : renderMain )(); }
 }
 
 function getZoom(juliaset) { return juliaset ? zoomJul : zoomMain; }
@@ -1467,6 +1485,7 @@ const exports = {
     modifierButtons,
     importToCustomCode,
     setCenter, getCenter,
+    setCenterX, setCenterY,
     setZoom, getZoom, 
     updateUi,
     getMainCanvas, getJuliasetCanvas,

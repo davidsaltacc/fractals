@@ -30,13 +30,13 @@ input {
     width: 20%;
 }
 
-#constantRe {
+.input-half-width-left {
     margin-right: 4px;
-    width: 10%;
+    width: calc(10% - 2px);
 }
 
-#constantIm {
-    width: calc(10% - 4px);
+.input-half-width-right {
+    width: calc(10% - 2px);
 }
 
 #url {
