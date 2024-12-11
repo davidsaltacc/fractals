@@ -673,7 +673,6 @@ function draw(context, juliaset) {
         renderPass.end();
 
         wgpu_device.queue.submit([ encoder.finish() ]);
-        return wgpu_device.queue.onSubmittedWorkDone();
 
     } else if (USE_WEBGL) {
         
@@ -681,24 +680,6 @@ function draw(context, juliaset) {
 
         setUniforms(gl, !juliaset ? wgl_programMain : wgl_programJul, juliaset);
         gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
-
-        return new Promise((resolve, reject) => {
-            const sync = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
-            if (!sync) {
-                reject(new Error("Failed to create sync object"));
-                return;
-            }
-            function checkSync() { // TODO check if this might cause any issues
-                const status = gl.clientWaitSync(sync, 0, 0); 
-                if (status === gl.CONDITION_SATISFIED || status === gl.ALREADY_SIGNALED) {
-                    gl.deleteSync(sync); 
-                    resolve();
-                } else {
-                    setTimeout(checkSync, 10);
-                }
-            }
-            checkSync(); 
-        }); 
 
     }
 
