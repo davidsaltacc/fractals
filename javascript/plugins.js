@@ -1,5 +1,6 @@
 
 var _loadedPlugins = [];
+var _loadedPluginsURLs = [];
 
 class FXPluginUISection {
 
@@ -152,6 +153,8 @@ async function loadPluginCode(json, path) {
         return;
     }
 
+    _loadedPluginsURLs.push(path);
+
     var CreatePlugin = () => { return new FXPlugin(metadata.id, metadata.name, metadata.description, metadata.plugin_version, getFileFolderPath(path) + metadata.shaders); };
     eval(await (await fetch(getFileFolderPath(path) + metadata.entrypoint)).text());
 
@@ -159,8 +162,20 @@ async function loadPluginCode(json, path) {
 
 async function loadPluginUrl(url) { await loadPluginCode(await (await fetch(url)).text(), url); }
 
+function getLoadedPlugins() {
+    return _loadedPlugins;
+}
+
+function getLoadedPluginsURLs() {
+    return _loadedPluginsURLs;
+}
+
 const exports = {
     loadPluginUrl,
-    loadPluginCode
+    loadPluginCode,
+    getLoadedPlugins,
+    getLoadedPluginsURLs
 };
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
+
+onPluginsInitialized();

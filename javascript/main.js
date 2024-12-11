@@ -5,9 +5,9 @@ if (window.location.href.startsWith("http://127.0.0.1")) { // sorry
     el("sb").style.display = "none";
 }
 
-function logStatus(s) {
+function logStatus(s, noui) {
     console.log(s);
-    el("statusbar").innerHTML = s;
+    if (!noui) { el("statusbar").innerHTML = s };
 }
 
 logStatus("starting initialization");
@@ -346,6 +346,8 @@ function randomize() {
 
 }
 
+var skipNextCompilation = false;
+
 var wgpu_pipeline;
 var wgpu_bindGroup;
 var wgpu_uniformBuffer;
@@ -379,7 +381,7 @@ if (USE_WEBGPU) {
         + Uint32Array.BYTES_PER_ELEMENT // flags: u32
     ) / 8) * 8;
 
-    logStatus("uniform buffer size is " + uniformBufferSize);
+    logStatus("uniform buffer size is " + uniformBufferSize, true);
 
     wgpu_uniformBuffer = wgpu_device.createBuffer({
         size: uniformBufferSize,
@@ -557,13 +559,18 @@ async function fetchSubCode(object, type, customCode) {
 
 async function compileShaders(cmethod, cscheme, fractal, postf) {
 
+    if (skipNextCompilation) {
+        skipNextCompilation = false;
+        return;
+    }
+
     showLoadingWave();
     logStatus("compiling shader");
 
     var result = await _compileShaders(
         await fetchSubCode(cmethod, "colormethods"),
-        customCs ? document.getElementById("cscodei").value : await fetchSubCode(cscheme, "colorschemes"), //customCs ? el("cscodei").value : await fetchSubCode(cscheme, "colorschemes", pluginCs),
-        customFractal ? document.getElementById("fcodei").value : await fetchSubCode(fractal, "fractals"), //customFractal ? el("fcodei").value : await fetchSubCode(fractal, "fractals", pluginFractal),
+        customCs ? document.getElementById("cscodei").value : await fetchSubCode(cscheme, "colorschemes"),
+        customFractal ? document.getElementById("fcodei").value : await fetchSubCode(fractal, "fractals"),
         await fetchSubCode(postf, "modifiers")
     );
 
@@ -797,6 +804,10 @@ function renderBoth() {
 }
 
 async function compileAndRender() {
+    if (skipNextCompilation) {
+        skipNextCompilation = false;
+        return;
+    }
     await compileShaders(colorMethod, colorscheme, fractalType, modifier);
     renderBoth();
 }
@@ -1155,6 +1166,9 @@ function createUrlWithParameters() {
 
     var url = new URL(window.location.origin + window.location.pathname); 
     var params = url.searchParams;
+    
+    params.delete("forceWebGPU");
+    params.delete("forceWebGL");
 
     params.append("cxm", centerMain[0]);
     params.append("cym", centerMain[1]);
@@ -1166,10 +1180,6 @@ function createUrlWithParameters() {
     params.append("zj", zoomJul);
     params.append("r", radius);
     params.append("i", maxIterations);
-    params.append("f", Object.keys(FRACTALS).find(key => FRACTALS[key] === fractalType));
-    params.append("cm", Object.keys(COLOR_METHODS).find(key => COLOR_METHODS[key] === colorMethod));
-    params.append("cs", Object.keys(COLORSCHEMES).find(key => COLORSCHEMES[key] === colorscheme));
-    params.append("pf", Object.keys(MODIFIERS).find(key => MODIFIERS[key] === modifier));
     params.append("co", colorOffset);
     params.append("cf", colorfulness);
     params.append("sc", sampleCount);
@@ -1178,13 +1188,27 @@ function createUrlWithParameters() {
     params.append("csd", cloudSeed);
     params.append("cam", cloudAmplitude);
     params.append("cml", cloudMultiplier);
+    
+    params.append("f", Object.keys(FRACTALS).find(key => FRACTALS[key] === fractalType));
+    params.append("cm", Object.keys(COLOR_METHODS).find(key => COLOR_METHODS[key] === colorMethod));
+    params.append("cs", Object.keys(COLORSCHEMES).find(key => COLORSCHEMES[key] === colorscheme));
+    params.append("pf", Object.keys(MODIFIERS).find(key => MODIFIERS[key] === modifier));
 
-    params.delete("forceWebGPU");
-    params.delete("forceWebGL");
+    params.append("ccs", customCs);
+    params.append("cfr", customFractal);
+    params.append("ccsc", customCs ? document.getElementById("cscodei").value : "");
+    params.append("cfrc", customFractal ? document.getElementById("fcodei").value : "");
+
+    params.append("scb", usingBackend);
+
+    params.append("pgns", JSON.stringify(getLoadedPluginsURLs()));
 
     return window.location.origin + window.location.pathname + "?fxp=" + btoa(params.toString());
 
 }
+
+var _pluginsToLoad = [];
+var _actualShadersToBeLoaded = {};
 
 function _applyUrlWithParameters(url) {
 
@@ -1216,10 +1240,6 @@ function _applyUrlWithParameters(url) {
     zoomJul = parseFloat(params.get("zj") ?? zoomJul);
     radius = parseFloat(params.get("r") ?? radius);
     maxIterations = parseFloat(params.get("i") ?? maxIterations);
-    fractalType = params.get("f") ? FRACTALS[params.get("f")] : fractalType;
-    colorMethod = params.get("cm") ? COLOR_METHODS[params.get("cm")] : colorMethod;
-    colorscheme = params.get("cs") ? COLORSCHEMES[params.get("cs")] : colorscheme;
-    modifier = params.get("pf") ? MODIFIERS[params.get("pf")] : modifier;
     colorOffset = parseFloat(params.get("co") ?? colorOffset);
     colorfulness = parseFloat(params.get("cf") ?? colorfulness);
     sampleCount = parseInt(params.get("sc") ?? sampleCount);
@@ -1228,6 +1248,48 @@ function _applyUrlWithParameters(url) {
     cloudSeed = parseFloat(params.get("csd") ?? cloudSeed);
     cloudAmplitude = parseFloat(params.get("cam") ?? cloudAmplitude);
     cloudMultiplier = parseFloat(params.get("cml") ?? cloudMultiplier);
+    
+    fractalType = params.get("f") ? (FRACTALS[params.get("f")] ?? fractalType) : fractalType;
+    colorscheme = params.get("cs") ? (COLORSCHEMES[params.get("cs")] ?? colorscheme) : colorscheme;
+    colorMethod = params.get("cm") ? (COLOR_METHODS[params.get("cm")] ?? colorMethod) : colorMethod;
+    modifier = params.get("pf") ? (MODIFIERS[params.get("pf")] ?? modifier) : modifier;
+
+    _actualShadersToBeLoaded = {};
+
+    if (!FRACTALS[params.get("f")]) { _actualShadersToBeLoaded.fractal = params.get("f"); skipNextCompilation = true; }
+    if (!COLORSCHEMES[params.get("cs")]) { _actualShadersToBeLoaded.colorscheme = params.get("cs"); skipNextCompilation = true; }
+    if (!COLOR_METHODS[params.get("cm")]) { _actualShadersToBeLoaded.colorMethod = params.get("cm"); skipNextCompilation = true; }
+    if (!MODIFIERS[params.get("pf")]) { _actualShadersToBeLoaded.modifier = params.get("pf"); skipNextCompilation = true; }
+
+    if (params.get("scb") && params.get("scb") != usingBackend) {
+        [ console.error, alert ].forEach(f => f("Can't load custom shader code contained in preset. (Your backend: " + usingBackend + ", preset code backend: " + params.get("scb") + ")"));
+    } else {
+        customCs = params.get("ccs") == "true" ? true : false; // work on this, UI does not update properly (button names) // FIXME
+        customFractal = params.get("cfr") == "true" ? true : false; 
+        var cscc = params.get("ccsc"); if (cscc) { var cscodei = document.getElementById("cscodei"); cscodei.value = cscc; cscodei.style.height = cscc.split("\n").length * 16 + "px"; }
+        var cfrc = params.get("cfrc"); if (cfrc) { var fcodei = document.getElementById("fcodei"); fcodei.value = cfrc; fcodei.style.height = cfrc.split("\n").length * 16 + "px"; }
+    }
+    
+    if (params.get("pgns")) {
+        _pluginsToLoad = JSON.parse(params.get("pgns"));
+    }
+
+}
+
+async function onPluginsInitialized() {
+
+    await Promise.all(_pluginsToLoad.map(url => { return loadPluginUrl(url); })); // i am hacker
+
+    if (Object.keys(_actualShadersToBeLoaded).length == 0) {
+        return;
+    }
+
+    if (_actualShadersToBeLoaded.fractal) { fractalType = FRACTALS[_actualShadersToBeLoaded.fractal]; }
+    if (_actualShadersToBeLoaded.colorscheme) { colorscheme = COLORSCHEMES[_actualShadersToBeLoaded.colorscheme]; }
+    if (_actualShadersToBeLoaded.colorMethod) { colorMethod = COLOR_METHODS[_actualShadersToBeLoaded.colorMethod]; }
+    if (_actualShadersToBeLoaded.modifier) { modifier = MODIFIERS[_actualShadersToBeLoaded.modifier]; }
+
+    await compileAndRender();
 
 }
 
@@ -1471,6 +1533,7 @@ const exports = {
     updateUi,
     getMainCanvas, getJuliasetCanvas,
     showLoadingWave, hideLoadingWave,
-    logStatus
+    logStatus,
+    onPluginsInitialized
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
