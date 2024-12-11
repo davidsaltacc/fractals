@@ -185,6 +185,29 @@ const canvasJul = el("canvasJul");
 var contextMain;
 var contextJul;
 
+wgpu_format = "rgba8unorm"; // navigator.gpu.getPreferredCanvasFormat(); FIXME i think there was an issue with ..getPCF()
+
+function getInitializedCanvasContext(canvas) {
+
+    var context;
+    
+    if (USE_WEBGPU) {
+
+        context = canvas.getContext("webgpu", { preserveDrawingBuffer: true });
+
+        context.configure({
+            device: wgpu_device,
+            format: wgpu_format
+        });
+        
+    } else if (USE_WEBGL) {
+        context = canvas.getContext("webgl2", { preserveDrawingBuffer: true });
+    }
+
+    return context;
+
+}
+
 if (USE_WEBGPU) {
 
     logStatus("initializing WebGPU. if this takes more than a few seconds, the fractal explorer probably crashed the last time you used it. in that case, simply restart your browser. ");
@@ -192,21 +215,17 @@ if (USE_WEBGPU) {
     var wgpu_adapter = await navigator.gpu.requestAdapter();
     var wgpu_device = await wgpu_adapter.requestDevice();
 
-    contextMain = canvasMain.getContext("webgpu", { preserveDrawingBuffer: true });
-    contextJul = canvasJul.getContext("webgpu", { preserveDrawingBuffer: true });
-
 } else if (USE_WEBGL) {
     
     logStatus("initializing WebGL");
-  
-    contextMain = canvasMain.getContext("webgl2", { preserveDrawingBuffer: true });
-    contextJul = canvasJul.getContext("webgl2", { preserveDrawingBuffer: true });
 
-    if (contextMain == null || contextJul == null) {
-        logStatus("error initializing webgl. the fractal explorer probably crashed the last time you used it. in that case, simply restart your browser.");
-        throw new Error();
-    }
+}
 
+contextMain = getInitializedCanvasContext(canvasMain);
+contextJul = getInitializedCanvasContext(canvasJul);
+    
+if (contextMain == null || contextJul == null) {
+    [ logStatus, s => { throw new Error(s); } ].forEach(f => f("error initializing. the fractal explorer probably crashed the last time you used it. in that case, simply restart your browser."));
 }
 
 function gpuLost() {
@@ -337,9 +356,8 @@ var wgl_programJul;
 
 if (USE_WEBGPU) {
 
-    logStatus("setting up WebGPU uniform buffers")
+    logStatus("setting up WebGPU uniform buffers");
 
-    wgpu_format = "rgba8unorm"; // navigator.gpu.getPreferredCanvasFormat();
     var uniformBufferSize = Math.ceil((
         + 2 * Float32Array.BYTES_PER_ELEMENT // center: vec2<f32>
         + 2 * Float32Array.BYTES_PER_ELEMENT // juliasetConstant: vec2<f32>
@@ -368,14 +386,6 @@ if (USE_WEBGPU) {
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
     });
 
-    contextMain.configure({
-        device: wgpu_device,
-        format: wgpu_format
-    });
-    contextJul.configure({
-        device: wgpu_device,
-        format: wgpu_format
-    });
 }
 
 function insertCustomShaders(code, cmethod, cscheme, fractal, postf) {
@@ -505,7 +515,7 @@ async function _compileShaders(cmethod, cscheme, fractal, postf) {
                 returnValue = log;
             }
 
-            var vertexArray = new Float32Array([-1., -1., 1., -1., 1., 1., -1., 1.]);
+            var vertexArray = new Float32Array([-1, -1, 1, -1, 1, 1, -1, 1]);
             var vertexBuffer = glCtx.createBuffer();
             glCtx.bindBuffer(glCtx.ARRAY_BUFFER, vertexBuffer);
             glCtx.bufferData(glCtx.ARRAY_BUFFER, vertexArray, glCtx.STATIC_DRAW);
@@ -784,21 +794,7 @@ async function drawReturnImageData(context, juliaset, chunked, chunkerPos) {
 
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
-        const flippedPixels = new Uint8Array(pixels.length);
-
-        for (let y = 0; y < height; y++) {
-            for (let x = 0; x < width; x++) {
-                const srcIndex = (y * width + x) * 4;
-                const destIndex = ((height - 1 - y) * width + x) * 4; 
-                flippedPixels[destIndex] = pixels[srcIndex]; 
-                flippedPixels[destIndex + 1] = pixels[srcIndex + 1];
-                flippedPixels[destIndex + 2] = pixels[srcIndex + 2];
-                flippedPixels[destIndex + 3] = pixels[srcIndex + 3];
-            }
-        }
-
-
-        return flippedPixels;
+        return pixels;
 
     }
 
