@@ -331,7 +331,7 @@ const FRACTALS = {
     UNNAMED_11: {
         name: "Unnamed 11",
         radius: 10000000,
-        description: "It's juliasets somewhat remind of the Tippets Fractal's.", 
+        description: "It's juliasets (around Im(c)=0) somewhat remind of the Tippets Fractal's.", 
         formula: "z<sub>n+1</sub> = (Re(c) * Im(z<sub>n</sub>) + Im(c) + i * (Im(c) * Re(x) + Re(c)))<sup>POWER</sup> + z<sub>n</sub><sup>POWER</sup> + c",
         shader: "unnamed_11"
     },
