@@ -1261,13 +1261,14 @@ function _applyUrlWithParameters(url) {
     if (!COLOR_METHODS[params.get("cm")]) { _actualShadersToBeLoaded.colorMethod = params.get("cm"); skipNextCompilation = true; }
     if (!MODIFIERS[params.get("pf")]) { _actualShadersToBeLoaded.modifier = params.get("pf"); skipNextCompilation = true; }
 
-    if (params.get("scb") && params.get("scb") != usingBackend) {
+    if (params.get("scb") && params.get("scb") != usingBackend && (params.get("ccs") == "true" || params.get("cfr") == "true")) {
         [ console.error, alert ].forEach(f => f("Can't load custom shader code contained in preset. (Your backend: " + usingBackend + ", preset code backend: " + params.get("scb") + ")"));
     } else {
-        customCs = params.get("ccs") == "true" ? true : false; // work on this, UI does not update properly (button names) // FIXME
-        customFractal = params.get("cfr") == "true" ? true : false; 
-        var cscc = params.get("ccsc"); if (cscc) { var cscodei = document.getElementById("cscodei"); cscodei.value = cscc; cscodei.style.height = cscc.split("\n").length * 16 + "px"; }
-        var cfrc = params.get("cfrc"); if (cfrc) { var fcodei = document.getElementById("fcodei"); fcodei.value = cfrc; fcodei.style.height = cfrc.split("\n").length * 16 + "px"; }
+        if (params.get("ccs") == "true") { toggleCustomShader(el("tgshdcs"), "cs"); } 
+        if (params.get("cfr") == "true") { toggleCustomShader(el("tgshdf"), "f"); } 
+        customFractal = params.get("cfr") == "true"; 
+        var cscc = params.get("ccsc"); if (cscc) { var cscodei = el("cscodei"); cscodei.value = cscc; cscodei.style.height = cscc.split("\n").length * 16 + "px"; }
+        var cfrc = params.get("cfrc"); if (cfrc) { var fcodei = el("fcodei"); fcodei.value = cfrc; fcodei.style.height = cfrc.split("\n").length * 16 + "px"; }
     }
     
     if (params.get("pgns")) {
