@@ -550,6 +550,7 @@ function addAnimationTrack(id, name, property) {
 
     var trackDiv = document.createElement("div");
     trackDiv.className = "animation-track";
+    trackDiv.id = "track-" + property;
     document.getElementById("anim-track-container").appendChild(trackDiv);
 
     trackRemoveButton.onclick = evt => {
@@ -619,20 +620,31 @@ Object.keys(EASINGS).forEach(easing => {
 
 });
 
-[
-    ["centerX", "Center X"], ["centerY", "Center Y"], ["zoom", "Zoom"],
-    ["constantX", "Constant X"], ["constantY", "Constant Y"], ["radius", "Radius"],
-    ["power", "Power"], ["maxIterations", "Max Iterations"], ["sampleCount", "Sample Count"],
-    ["colorOffset", "Color Offset"], ["colorfulness", "Colorfulness"], 
-    ["juliasetInterpolation", "Juliaset Interp."], ["cloudSeed", "Cloud Seed"],
-    ["cloudAmplitude", "Cloud Amplitude"], ["cloudMultiplier", "Cloud Multiplier"]
-].forEach(property => {
+var properties = {
+    centerX: "Center X",
+    centerY: "Center Y",
+    zoom: "Zoom",
+    constantX: "Constant X",
+    constantY: "Constant Y",
+    radius: "Radius",
+    power: "Power",
+    maxIterations: "Max Iterations",
+    sampleCount: "Sample Count",
+    colorOffset: "Color Offset",
+    colorfulness: "Colorfulness",
+    juliasetInterpolation: "Juliaset Interp.",
+    cloudSeed: "Cloud Seed",
+    cloudAmplitude: "Cloud Amplitude",
+    cloudMultiplier: "Cloud Multiplier"
+};
+
+Object.keys(properties).forEach(property => {
 
     var a = document.createElement("a");
-    a.id = property[0] + "-addAnimTrack";
-    a.innerHTML = property[1];
+    a.id = property + "-addAnimTrack";
+    a.innerHTML = properties[property];
     a.onclick = _ => {
-        addAnimationTrack(a.id, property[1], property[0]);
+        addAnimationTrack(a.id, properties[property], property);
         toggleAddTrackDropdown();
     };
 
@@ -641,12 +653,18 @@ Object.keys(EASINGS).forEach(easing => {
 })
 
 document.addEventListener("click", evt => {
+    
+    if (!selectedKeyframe) {
+        return;
+    }
+
     if (evt.target.classList.contains("animation-keyframe") || evt.target.classList.contains("animation-track") || evt.target.closest("#edit-keyframe-container")) {
         return;
     }
 
     addedKeyframes.forEach(kf => kf.unselect());
     updateEditor();
+
 });
 
 function regenerateAnimation() {
@@ -790,6 +808,54 @@ async function setAnimationVideoCodec(codec) {
 
 }
 
+function getAnimationData() {
+
+    return {
+        length: animationLength,
+        keyframes: addedKeyframes.map(kf => { 
+            return { 
+                time: kf.time, 
+                property: kf.property,
+                value: kf.value,
+                easing: Object.keys(EASINGS).find(e => EASINGS[e] == kf.easing),
+                easingStrength: 2
+            };
+        })
+    };
+
+}
+
+function applyAnimationData(data) {
+
+    animation.setLength(data.length);
+    animationLength = data.length;
+
+    for (var btn of document.getElementsByClassName("remove-track")) {
+        btn.onclick();
+    }
+
+    var addedAnimTracks = [];
+
+    data.keyframes.forEach(kf => {
+
+        if (!addedAnimTracks.includes(kf.property)) {
+            addedAnimTracks.push(kf.property);
+            addAnimationTrack(kf.property + "-addAnimTrack", properties[kf.property], kf.property);
+        }
+
+        var keyframe = new UIKeyframe(document.getElementById("track-" + kf.property), kf.time, kf.property, kf.value);
+        keyframe.value = kf.value;
+        keyframe.easing = EASINGS[kf.easing];
+        keyframe.easingStrength = kf.easingStrength;
+
+        addedKeyframes.push(keyframe);
+
+    });
+
+    updateEditor();
+
+}
+
 addAnimationTrack("zoom-addAnimTrack", "Zoom", "zoom");
 updateEditor();
 
@@ -814,6 +880,10 @@ const exports = {
     exportAnimation,
     setAnimationFPS,
     setAnimationVideoContainer,
-    setAnimationVideoCodec
+    setAnimationVideoCodec,
+    getAnimationData,
+    applyAnimationData
 };
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
+
+onAnimationsInitialized();

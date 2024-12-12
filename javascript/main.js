@@ -1202,6 +1202,7 @@ function createUrlWithParameters() {
     params.append("scb", usingBackend);
 
     params.append("pgns", JSON.stringify(getLoadedPluginsURLs()));
+    params.append("an", JSON.stringify(getAnimationData()));
 
     return window.location.origin + window.location.pathname + "?fxp=" + btoa(params.toString());
 
@@ -1209,6 +1210,7 @@ function createUrlWithParameters() {
 
 var _pluginsToLoad = [];
 var _actualShadersToBeLoaded = {};
+var _animationToBeLoaded = {};
 
 function _applyUrlWithParameters(url) {
 
@@ -1275,6 +1277,8 @@ function _applyUrlWithParameters(url) {
         _pluginsToLoad = JSON.parse(params.get("pgns"));
     }
 
+    _animationToBeLoaded = JSON.parse(params.get("an")) ?? {};
+
 }
 
 async function onPluginsInitialized() {
@@ -1291,6 +1295,14 @@ async function onPluginsInitialized() {
     if (_actualShadersToBeLoaded.modifier) { modifier = MODIFIERS[_actualShadersToBeLoaded.modifier]; }
 
     await compileAndRender();
+
+}
+
+async function onAnimationsInitialized() {
+    
+    if (Object.keys(_animationToBeLoaded).length != 0) {
+        applyAnimationData(_animationToBeLoaded);
+    }
 
 }
 
@@ -1535,6 +1547,7 @@ const exports = {
     getMainCanvas, getJuliasetCanvas,
     showLoadingWave, hideLoadingWave,
     logStatus,
-    onPluginsInitialized
+    onPluginsInitialized,
+    onAnimationsInitialized
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
