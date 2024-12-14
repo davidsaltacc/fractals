@@ -284,7 +284,9 @@ void main() {
             ms_rand(100. + pos + float(nSample))
         ) / newZoom / canvasDimensions;
         c += pos;
-        c = vec2(c.x, -c.y);
+        if (((flags & 2u) >> 1) != 1u) {
+            c = vec2(c.x, -c.y);
+        }
 
         vec2 z = c;
         vec2 last_z = z;

@@ -65,6 +65,10 @@ if (usingBackend == "WebGPU") {
 
 function createUiSection(titleHTML, contentHTML, defaultHidden, insertInto) {
 
+    if (DEBUG_MODE) {
+        logStatus("creating UI section " + titleHTML.trim() + ", " + (defaultHidden ? "" : "not ") + "hidden by default, inserting into " + insertInto, true);
+    }
+
     var areaToggle = document.createElement("div");
     insertInto.appendChild(areaToggle);
     areaToggle.className = "collapsToggle";
@@ -114,7 +118,11 @@ function _createUiSection(toggleable) {
 
 Array.from(document.getElementsByClassName("toggleable")).forEach(toggleable => _createUiSection(toggleable));
 
-function _createShaderButton(name, clickHandler, buttons, item) {
+function _createShaderButton(name, clickHandler, buttons, item, definitions) {
+
+    if (DEBUG_MODE) {
+        logStatus("creating shader button '" + name + "' with shader '" + (definitions[item].shader_folder ?? "") + definitions[item].shader + ".frxs'", true);
+    }
 
     var button = document.createElement("button");
 
@@ -137,7 +145,7 @@ function initButtons(definitions, buttons, setFunction, containerId) {
 
     Object.keys(definitions).forEach(item => {
 
-        var button = _createShaderButton(definitions[item].name, () => setFunction(definitions[item]), buttons, item);
+        var button = _createShaderButton(definitions[item].name, () => setFunction(definitions[item]), buttons, item, definitions);
         el(containerId).appendChild(button);
 
     });
@@ -176,6 +184,10 @@ function parseFRXSFile(content) {
 
     }
 
+    if (DEBUG_MODE) {
+        logStatus("parsed .frxs file, \nINPUT:\n\n" + content + "\n\nOUTPUT:\n\n" + finalShaderContent, true);
+    }
+
     return finalShaderContent;
 
 }
@@ -185,7 +197,7 @@ const canvasJul = el("canvasJul");
 var contextMain;
 var contextJul;
 
-wgpu_format = "rgba8unorm"; // navigator.gpu.getPreferredCanvasFormat(); FIXME i think there was an issue with ..getPCF()
+wgpu_format = "rgba8unorm"; // FIXME using navigator.gpu.getPreferredCanvasFormat(), then chunked rendering in webgpu gets the colors f*ed up?
 
 function getInitializedCanvasContext(canvas) {
 
@@ -202,6 +214,10 @@ function getInitializedCanvasContext(canvas) {
         
     } else if (USE_WEBGL) {
         context = canvas.getContext("webgl2", { preserveDrawingBuffer: true });
+    }
+
+    if (DEBUG_MODE) {
+        logStatus("requested to initialize canvas context " + context, true);
     }
 
     return context;
@@ -250,15 +266,25 @@ function hideLoadingWave() {
 }
 
 function _canvasTooBig(size) {
-    return size > (window.innerWidth - window.innerWidth / 6) / 2 || size > window.innerHeight - window.innerHeight / 4;
+
+    var tooBig = size > (window.innerWidth - window.innerWidth / 6) / 2 || size > window.innerHeight - window.innerHeight / 4;
+
+    if (DEBUG_MODE) {
+        logStatus("checked if canvas of size " + size + " is too big for window of size " + window.innerWidth + "x" + window.innerHeight + ", result: " + tooBig, true);
+    }
+
+    return tooBig;
+
 }
 function canvasTooBig() {
     return _canvasTooBig(canvasMain.width);
 }
 
 function setCanvasesSticky(sticky) {
+
     el("canvasContainer").className = sticky ? "sticky" : (canvasTooBig() ? "unsticky unsticky-big" : "unsticky");
     el("descriptions").style.maxWidth = sticky ? "calc(100vw - 1100px)" : ""; 
+
 }
 
 function stickyCanvasesIfFit() {
@@ -381,7 +407,9 @@ if (USE_WEBGPU) {
         + Uint32Array.BYTES_PER_ELEMENT // flags: u32
     ) / 8) * 8;
 
-    logStatus("uniform buffer size is " + uniformBufferSize, true);
+    if (DEBUG_MODE) {
+        logStatus("webgpu uniform buffer size is " + uniformBufferSize, true);
+    }
 
     wgpu_uniformBuffer = wgpu_device.createBuffer({
         size: uniformBufferSize,
@@ -399,6 +427,10 @@ function insertCustomShaders(code, cmethod, cscheme, fractal, postf) {
 }
 
 async function _compileShaders(cmethod, cscheme, fractal, postf) {
+
+    if (DEBUG_MODE) {
+        logStatus("starting to compile shaders", true);
+    }
 
     if (USE_WEBGPU) {
 
@@ -545,7 +577,13 @@ async function _compileShaders(cmethod, cscheme, fractal, postf) {
 }
 
 async function fetchSubCode(object, type, customCode) {
+    if (DEBUG_MODE) {
+        logStatus("fetching " + type + " shader code", true);
+    }
     if (customCode) {
+        if (DEBUG_MODE) {
+            logStatus("custom shader code for " + type + " specified, not fetching", true);
+        }
         return customCode;
     }
     try {
@@ -598,6 +636,10 @@ async function importToCustomCode(type) {
 } 
 
 function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos) {
+
+    if (DEBUG_MODE) {
+        logStatus("setting uniforms (juliaset canvas: " + juliaset + ", for chunked rendering: " + (chunked ?? false) + (chunked ? (", chunk position: " + chunkerPos) : "") + ")" , true);
+    }
     
     if (USE_WEBGL) {
 
@@ -797,10 +839,8 @@ function renderJul() {
 }
 
 function renderBoth() {
-    return Promise.all([
-        renderMain(),
-        renderJul()
-    ]);
+    renderMain(),
+    renderJul();
 }
 
 async function compileAndRender() {
@@ -838,7 +878,7 @@ async function _renderAndExportChunked(isMain) {
         for (var y = 0; y < chunkerFinalSize; y += chunkerChunkSize) {
             logStatus("rendering chunked image " + Math.floor(y / chunkerFinalSize * 100) + "%");
             for (var x = 0; x < chunkerFinalSize; x += chunkerChunkSize) {
-                bigContext.putImageData(new ImageData(new Uint8ClampedArray(await drawReturnImageData(isMain ? contextMain : contextJul, !isMain, true, [x, y])), chunkerChunkSize, chunkerChunkSize), x, y);
+                bigContext.putImageData(new ImageData(new Uint8ClampedArray(await drawReturnImageData(isMain ? contextMain : contextJul, !isMain, true, [x, y])), chunkerChunkSize, chunkerChunkSize), x, USE_WEBGL ? (chunkerFinalSize - y - chunkerChunkSize) : y);
             }
         }
     } catch {
@@ -1120,6 +1160,10 @@ async function setModifier(func, dontRecompile) {
 
 function setCanvasSize(size) {
 
+    if (DEBUG_MODE) {
+        logStatus("set canvas size to " + size, true);
+    }
+
     canvasMain.width = canvasMain.height = size;
     canvasJul.width = canvasJul.height = size;
 
@@ -1204,6 +1248,10 @@ function createUrlWithParameters() {
     params.append("pgns", JSON.stringify(getLoadedPluginsURLs()));
     params.append("an", JSON.stringify(getAnimationData()));
 
+    if (DEBUG_MODE) {
+        logStatus("creating parameter URL, encoded parameters: " + params.toString(), true);
+    }
+
     return window.location.origin + window.location.pathname + "?fxp=" + btoa(params.toString());
 
 }
@@ -1214,7 +1262,14 @@ var _animationToBeLoaded = {};
 
 function _applyUrlWithParameters(url) {
 
+    if (DEBUG_MODE) {
+        logStatus("loading parameter URL " + url);
+    }
+
     if (new URL(url).searchParams.size == 0) {
+        if (DEBUG_MODE) {
+            logStatus("no parameters found in url");
+        }
         return;
     }
 
@@ -1223,6 +1278,9 @@ function _applyUrlWithParameters(url) {
     if (params.size == 0) {
         params = new URL(url).searchParams;
         if (params.size - (params.get("forceWebGL") == "1" || params.get("forceWebGPU") == "1") ? 1 : 0 >= 1) { // v4 url
+            if (DEBUG_MODE) {
+                logStatus("detected v4-2 url"); 
+            }
             params.set("f", params.get("f").toUpperCase());
             params.set("cm", params.get("cm").toUpperCase());
             params.set("cs", params.get("cs").toUpperCase());
@@ -1283,6 +1341,10 @@ function _applyUrlWithParameters(url) {
 
 async function onPluginsInitialized() {
 
+    if (DEBUG_MODE) {
+        logStatus("initializing any plugins contained in preset url");
+    }
+
     await Promise.all(_pluginsToLoad.map(url => { return loadPluginUrl(url); })); // i am hacker
 
     if (Object.keys(_actualShadersToBeLoaded).length == 0) {
@@ -1294,11 +1356,19 @@ async function onPluginsInitialized() {
     if (_actualShadersToBeLoaded.colorMethod) { colorMethod = COLOR_METHODS[_actualShadersToBeLoaded.colorMethod]; }
     if (_actualShadersToBeLoaded.modifier) { modifier = MODIFIERS[_actualShadersToBeLoaded.modifier]; }
 
+    if (DEBUG_MODE) {
+        logStatus("done initializing preset plugins");
+    }
+
     await compileAndRender();
 
 }
 
 async function onAnimationsInitialized() {
+
+    if (DEBUG_MODE) {
+        logStatus("loading animation data contained in preset url");
+    }
     
     if (Object.keys(_animationToBeLoaded).length != 0) {
         applyAnimationData(_animationToBeLoaded);
@@ -1320,6 +1390,10 @@ function createAndCopyUrl() {
 
 async function _export(canvas) {
 
+    if (DEBUG_MODE) {
+        logStatus("exporting canvas " + canvas + " to png");
+    }
+
     var paramUrl = createUrlWithParameters();
 
     var encoder = new TextEncoder();
@@ -1340,16 +1414,21 @@ async function _export(canvas) {
     a.remove();
 
 }
+
 function exportMain() {
     renderMain();
     _export(canvasMain);
 }
+
 function exportJul() {
     renderJul();
     _export(canvasJul);
 }
 
 function _loadParamsFromFileInput(input) {
+    if (DEBUG_MODE) {
+        logStatus("loading parameter url from input file");
+    }
     var file = input.files[0]; 
     var reader = new FileReader();
     reader.readAsText(file, "UTF-8");
@@ -1362,6 +1441,9 @@ function _loadParamsFromFileInput(input) {
         } else {
             split = content.split("301210301210301210_FRACTALEXPLORERPARAMETERURL:"); // v4 code. not proud of it
             if (split.length >= 2) {
+                if (DEBUG_MODE) {
+                    logStatus("v4 url detected in input file");
+                }
                 _applyUrlWithParameters(split[split.length - 1]);
                 compileAndRender();
             } else {
@@ -1427,9 +1509,15 @@ window.ondrop = objectDropped;
 async function toggleCustomShader(b, t) {
     if (t == "f") {
         customFractal = !customFractal;
+        if (DEBUG_MODE) {
+            logStatus("try toggling custom fractal shader " + customFractal ? "on" : "off");
+        }
     }
     if (t == "cs") {
         customCs = !customCs;
+        if (DEBUG_MODE) {
+            logStatus("try toggling custom fractal shader " + customCs ? "on" : "off");
+        }
     }
     var returnv = await compileShaders(colorMethod, colorscheme, fractalType, modifier);
     if (returnv == "success") {
@@ -1488,11 +1576,17 @@ async function updateShader(t) {
 }
 
 async function init() {
+    if (DEBUG_MODE) {
+        logStatus("beginning final initialization");
+    }
     window.addEventListener("resize", () => setCanvasesSticky(!canvasTooBig()));
     resetNoCompile();
     applyUrlWithParameters();
     stickyCanvasesIfFit();
     await compileAndRender();
+    if (DEBUG_MODE) {
+        logStatus("fully finished intializing main part of fractal explorer v" + METADATA.version);
+    }
 }
 
 await init();

@@ -24,25 +24,25 @@ class FXPluginUISection {
     }
 
     createCustomFractalButton(id) {
-        var button = _createShaderButton(FRACTALS[id.toUpperCase()].name, () => setFractal(FRACTALS[id.toUpperCase()]), fractalButtons, id.toUpperCase());
+        var button = _createShaderButton(FRACTALS[id.toUpperCase()].name, () => setFractal(FRACTALS[id.toUpperCase()]), fractalButtons, id.toUpperCase(), FRACTALS);
         this.element.appendChild(button);
         return button;
     }
 
     createCustomColorschemeButton(id) {
-        var button = _createShaderButton(COLORSCHEMES[id.toUpperCase()].name, () => setColorscheme(COLORSCHEMES[id.toUpperCase()]), colorschemeButtons, id.toUpperCase());
+        var button = _createShaderButton(COLORSCHEMES[id.toUpperCase()].name, () => setColorscheme(COLORSCHEMES[id.toUpperCase()]), colorschemeButtons, id.toUpperCase(), COLORSCHEMES);
         this.element.appendChild(button);
         return button;
     }
 
     createCustomColorMethodButton(id, name) {
-        var button = _createShaderButton(COLOR_METHODS[id.toUpperCase()].name, () => setColormethod(COLOR_METHODS[id.toUpperCase()]), colormethodButtons, id.toUpperCase());
+        var button = _createShaderButton(COLOR_METHODS[id.toUpperCase()].name, () => setColormethod(COLOR_METHODS[id.toUpperCase()]), colormethodButtons, id.toUpperCase(), COLOR_METHODS);
         this.element.appendChild(button);
         return button;
     }
 
     createCustomModifierButton(id, name) {        
-        var button = _createShaderButton(MODIFIERS[id.toUpperCase()].name, () => setModifiers(MODIFIERS[id.toUpperCase()]), modifierButtons, id.toUpperCase());
+        var button = _createShaderButton(MODIFIERS[id.toUpperCase()].name, () => setModifiers(MODIFIERS[id.toUpperCase()]), modifierButtons, id.toUpperCase(), MODIFIERS);
         this.element.appendChild(button);
         return button;
     }

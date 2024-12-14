@@ -4,6 +4,8 @@ const METADATA = {
     plugin_version: "7"
 };
 
+var DEBUG_MODE = true; // TODO disable for default
+
 const FRACTALS = {
 
     MANDELBROT: {
