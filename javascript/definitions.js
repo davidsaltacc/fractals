@@ -4,7 +4,7 @@ const METADATA = {
     plugin_version: "7"
 };
 
-var DEBUG_MODE = true; // TODO disable for default
+var DEBUG_MODE = false;
 
 const FRACTALS = {
 
