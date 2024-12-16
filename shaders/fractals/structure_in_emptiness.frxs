@@ -1,6 +1,6 @@
 
 #ifbackend[*]
 
-return apply_modifier(c_pow(z, power) + c_pow(z, -power * 2.)) + c;
+return apply_modifier(c_pow(z, power) + c_pow(z, -power * 2.), c) + c;
 
 #endbackend
