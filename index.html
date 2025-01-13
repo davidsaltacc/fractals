@@ -16,7 +16,6 @@
     <script src="/javascript/definitions.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/webm-muxer"></script>
     <script type="module" src="/javascript/load.js" defer></script>
-
 </head>
 <body>
     
@@ -38,7 +37,7 @@
 
     <div id="drop-screen">
         <div>
-            <h1>Drop Preset Here</h1>
+            <h1><fxp-translate key="drop_preset"></fxp-translate></h1>
         </div>
     </div>
 
@@ -46,12 +45,14 @@
        
         <h1 id="title">David's Fractal Explorer v6</h1>
         <p id="infobar">
-            version <span id="fxversion"></span> - using available <span id="fxbackend"></span>
+            <fxp-translate key="version" insert0="fxversion"></fxp-translate> - <fxp-translate key="using_available_backend" insert0="fxbackend"></fxp-translate> 
+            <span id="fxversion"></span>
+            <span id="fxbackend"></span>
         </p>
 
         <div class="toggleable">
             <div class="toggleable_title">
-                <h3>Descriptions</h3>
+                <h3><fxp-translate key="descriptions"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
                 <div id="descriptions">
@@ -64,7 +65,7 @@
                     <h4 id="modifierName"></h4>
                     <p id="fmdesc"></p>
                     <hr>
-                    <h4>Fractal Formula:</h4>
+                    <h4><fxp-translate key="fractal_formula"></fxp-translate></h4>
                     <p id="frfm"></p>
                 </div>
                 <hr>
@@ -73,7 +74,7 @@
 
         <div class="toggleable">
             <div class="toggleable_title">
-                <h3>Fractal Selection:</h3>
+                <h3><fxp-translate key="fractal_selection"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
                 <div id="fractalButtons"></div>
@@ -83,7 +84,7 @@
 
         <div class="toggleable">
             <div class="toggleable_title">
-                <h3>Colormap Selection:</h3>
+                <h3><fxp-translate key="colorscheme_selection"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
                 <div id="colorschemeButtons"></div>
@@ -93,7 +94,7 @@
 
         <div class="toggleable">
             <div class="toggleable_title">
-                <h3>Color Method Selection:</h3>
+                <h3><fxp-translate key="colormethod_selection"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
                 <div id="colormethodButtons"></div>
@@ -103,7 +104,7 @@
 
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
-                <h3>Fractal Modifier:</h3>
+                <h3><fxp-translate key="modifier_selection"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
                 <div id="modifierButtons"></div>
@@ -113,79 +114,79 @@
 
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
-                <h3>Import</h3>
+                <h3><fxp-translate key="import"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
-                <h4>Import from URL</h4>
+                <h4><fxp-translate key="import_url"></fxp-translate></h4>
                 <input type="url" id="impurlinp">
-                <button onclick="_applyUrlWithParameters(document.getElementById('impurlinp').value); compileAndRender();">Submit</button>
-                <h4>Import from exported PNG</h4>
-                <button onclick="loadParamsFromFile();">Select file</button>
+                <button onclick="_applyUrlWithParameters(document.getElementById('impurlinp').value); compileAndRender();"><fxp-translate key="submit"></fxp-translate></button>
+                <h4><fxp-translate key="import_png"></fxp-translate></h4>
+                <button onclick="loadParamsFromFile();"><fxp-translate key="select_file"></fxp-translate></button>
                 <hr>
             </div>
         </div>
 
         <div class="toggleable">
             <div class="toggleable_title">
-                <h3>Export</h3>
+                <h3><fxp-translate key="export"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
-                <h4>Export PNG</h4>
-                <button onclick="exportMain()">Export Main</button>
-                <button onclick="exportJul()">Export Juliaset</button>
-                <h4>Share as an URL</h4>
-                <button onclick="createAndOpenUrl();">Create & Open URL</button>
-                <button onclick="createAndCopyUrl();">Create & Copy URL</button>
+                <h4><fxp-translate key="export_png"></fxp-translate></h4>
+                <button onclick="exportMain()"><fxp-translate key="export_main"></fxp-translate></button>
+                <button onclick="exportJul()"><fxp-translate key="export_juliaset"></fxp-translate></button>
+                <h4><fxp-translate key="export_as_url"></fxp-translate></h4>
+                <button onclick="createAndOpenUrl();"><fxp-translate key="create_open_url"></fxp-translate></button>
+                <button onclick="createAndCopyUrl();"><fxp-translate key="create_copy_url"></fxp-translate></button>
                 <hr>
             </div>
         </div>
 
         <div class="toggleable">
             <div class="toggleable_title">
-                <h3>Settings:</h3>
+                <h3><fxp-translate key="settings"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
-                <button onclick="reset();" id="settingsReset">Reset Settings</button>
-                <button onclick="randomize();">Randomize Settings</button>
+                <button onclick="reset();" id="settingsReset"><fxp-translate key="reset_settings"></fxp-translate></button>
+                <button onclick="randomize();"><fxp-translate key="randomize_settings"></fxp-translate></button>
                 <br><br>
-                <p>Sticky canvases:</p>
+                <p><fxp-translate key="sticky_canvases"></fxp-translate></p>
                 <input type="checkbox" id="stickycanvases" checked="true" onchange="setCanvasesSticky(this.checked);">
-                <p>Escape Radius:</p>
+                <p><fxp-translate key="escape_radius"></fxp-translate></p>
                 <input type="number" id="radius" value="100000" onchange="setRadius(this.value)">
-                <p>Iterations:</p>
+                <p><fxp-translate key="iterations"></fxp-translate></p>
                 <input type="number" id="iterations" value="100" onchange="setIterations(this.value)">
-                <p>Fractal Power:</p>
+                <p><fxp-translate key="fractal_power"></fxp-translate></p>
                 <input type="number" step="0.0001" id="power" value="2" onchange="setPower(this.value)">
-                <p>Juliaset Constant:</p>
+                <p><fxp-translate key="juliaset_constant"></fxp-translate></p>
                 <input type="number" id="constantRe" value="0" step="0.0001" onchange="setConstantX(this.value);" class="input-half-width-left"><input type="number" id="constantIm" value="0" step="0.0001" onchange="setConstantY(this.value);" class="input-half-width-right">
-                <p>Interpolate between normal and juliaset:</p>
+                <p><fxp-translate key="interpolate_normal_juliaset"></fxp-translate></p>
                 <input type="number" id="nji" value="1" step="0.0001" onchange="setInterpolation(this.value);">
-                <p>Canvas Size:</p>
+                <p><fxp-translate key="canvas_size"></fxp-translate></p>
                 <input type="number" id="canvasSize" value="500" onchange="setCanvasSize(this.value)">
-                <p>Color offset:</p>
+                <p><fxp-translate key="color_offset"></fxp-translate></p>
                 <input type="number" step="0.0001" value="0" id="coloroffset" onchange="setColoroffset(this.value);">
-                <p>Colorfulness:</p>
+                <p><fxp-translate key="colorfulness"></fxp-translate></p>
                 <input type="number" step="0.0001" value="1" id="colorfulness" onchange="setColorfulness(this.value);">
-                <p>Sample Count:</p>
+                <p><fxp-translate key="sample_count"></fxp-translate></p>
                 <input type="number" value="1" id="sampleCount" onchange="setSampleCount(this.value)">
                 <hr>
-                <h4>Force Backend</h4>
-                <p><button onclick="forceWebGPU();">Use WebGPU</button> <span class="small">WebGPU uses more modern backends, providing a performance benefit, but isn't supported in every browser yet.</span></p>
-                <p><button onclick="forceWebGL();">Use WebGL</button> <span class="small">WebGL uses the more outdated OpenGL backend, which might be a bit worse performance-wise, but some browsers don't yet implement WebGPU.</span></p>
+                <h4><fxp-translate key="force_backend"></fxp-translate></h4>
+                <p><button onclick="forceWebGPU();"><fxp-translate key="use_webgpu"></fxp-translate></button> <span class="small"><fxp-translate key="webgpu_description"></fxp-translate></span></p>
+                <p><button onclick="forceWebGL();"><fxp-translate key="use_webgl"></fxp-translate></button> <span class="small"><fxp-translate key="webgl_description"></fxp-translate></span></p>
                 <hr>
             </div>
         </div>
 
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
-                <h3>Noise</h3>
+                <h3><fxp-translate key="noise"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
-                <p>Seed:</p>
+                <p><fxp-translate key="noise_seed"></fxp-translate></p>
                 <input type="number" value="33333" id="cloudSeed" onchange="setCloudSeed(this.value);">
-                <p>Amplitude:</p>
+                <p><fxp-translate key="noise_amplitude"></fxp-translate></p>
                 <input type="number" value="0" id="cloudAmplitude" onchange="setCloudAmplitude(this.value);">
-                <p>Multiplier:</p>
+                <p><fxp-translate key="noise_multiplier"></fxp-translate></p>
                 <input type="number" value="0.8" id="cloudMultiplier" onchange="setCloudMultiplier(this.value);">
                 <hr>
             </div>
@@ -193,36 +194,36 @@
 
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
-                <h3>Image Chunker</h3>
+                <h3><fxp-translate key="image_chunker"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
-                <h3>Render the fractal in chunks, to be able to render fractals at huge scales and at high iterations and sample counts.</h3>
-                <p>Forcing the backend to be WebGL may help a with the render time and export speed, if you are experiencing issues exporting or just find it slow, <button onclick="forceWebGL();">force WebGL</button>.</p>
-                <br><p>Final Image Size:</p>
+                <h3><fxp-translate key="chunker_description"></fxp-translate></h3>
+                <p><fxp-translate key="webgl_export_hint"></fxp-translate></p>
+                <br><p><fxp-translate key="final_image_size"></fxp-translate></p>
                 <input type="number" value="2000" onchange="setChunkerFinalSize(this.value);">
-                <p>Chunk Size:</p>
+                <p><fxp-translate key="chunk_size"></fxp-translate></p>
                 <input type="number" value="400" onchange="setChunkerChunkSize(this.value);">
                 <br><br>
-                <button onclick="renderAndExportChunkedMain();">Render and export Main</button>
-                <button onclick="renderAndExportChunkedJuliaset();">Render and export Juliaset</button> 
-                <h4>Note: If your browser freezes instead of displaying a loading screen, this is most likely due to the used backend being WebGL. This is a known issue, just be patient, and if you want a progress indicator, press f12 to open the console with logs. </h4>
+                <button onclick="renderAndExportChunkedMain();"><fxp-translate key="render_export_main"></fxp-translate></button>
+                <button onclick="renderAndExportChunkedJuliaset();"><fxp-translate key="render_export_juliaset"></fxp-translate></button> 
+                <h4><fxp-translate key="export_freeze_note"></fxp-translate></h4>
                 <hr>
             </div>
         </div>
         
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
-                <h3>Override Parameters</h3>
+                <h3><fxp-translate key="override_parameters"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
-                <p>Use this if you want to set some of the values (zoom, center, ...) to a certain value. Or just edit a preset URL directly, whatever you prefer.</p>
-                <p>Zoom (main):</p>
+                <p><fxp-translate key="override_description"></fxp-translate></p>
+                <p><fxp-translate key="zoom_main"></fxp-translate></p>
                 <input type="number" value="" onchange="setZoom(this.value, false);" onkeypress="if (event.key == 'Enter') { setZoom(this.value, false); }">
-                <p>Zoom (juliaset):</p>
+                <p><fxp-translate key="zoom_juliaset"></fxp-translate></p>
                 <input type="number" value="" onchange="setZoom(this.value, true);" onkeypress="if (event.key == 'Enter') { setZoom(this.value, true); }">
-                <p>Center (main):</p>
+                <p><fxp-translate key="center_main"></fxp-translate></p>
                 <input type="number" value="" onchange="setCenterX(this.value, false);" class="input-half-width-left" onkeypress="if (event.key == 'Enter') { setCenterX(this.value, false); }"><input type="number" value="" onchange="setCenterY(this.value, false);" class="input-half-width-right" onkeypress="if (event.key == 'Enter') { setCenterY(this.value, false); }">
-                <p>Center (juliaset):</p>
+                <p><fxp-translate key="center_juliaset"></fxp-translate></p>
                 <input type="number" value="" onchange="setCenterX(this.value, true);" class="input-half-width-left" onkeypress="if (event.key == 'Enter') { setCenterX(this.value, true); }"><input type="number" value="" onchange="setCenterY(this.value, true);" class="input-half-width-right" onkeypress="if (event.key == 'Enter') { setCenterY(this.value, true); }">
                 <hr>
             </div>
@@ -232,92 +233,97 @@
 
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
-                <h3>Customize Code</h3>
+                <h3><fxp-translate key="customize_code"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
-                <h4>Custom Fractal:</h4>
+                <h4><fxp-translate key="custom_fractal"></fxp-translate></h4>
                 <div class="codearea">
                     <div class="tab">
-                        <button class="ftablink" id="fcodeb" onclick="openTabF(event, 'fcode');">Fractal Code</button>
-                        <button class="ftablink" onclick="openTabF(event, 'fhelp');">Help</button>
+                        <button class="ftablink" id="fcodeb" onclick="openTabF(event, 'fcode');"><fxp-translate key="fractal_code"></fxp-translate></button>
+                        <button class="ftablink" onclick="openTabF(event, 'fhelp');"><fxp-translate key="help"></fxp-translate></button>
                     </div>
                     <div id="fcode" class="ftabcontent">
                         <pre><code class="fixedCode" id="fractalFunctionCode"></code></pre>
                         <textarea id="fcodei" class="code language-javascript" spellcheck="false" type="text" oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight + 11) + 'px';"></textarea>
                         <pre class="endcodepre"><code class="fixedCode">}</code></pre>
-                        <p class="small">(Using Backend: <span class="backend"></span>)</p><br>
-                        <button class="submitShader" onclick="importToCustomCode('fractal')">Insert Currently Selected</button><br>
-                        <button class="submitShader" id="tgshdf" onclick="toggleCustomShader(this, 'f')">Enable Custom Fractal Shader</button><br>
-                        <button class="submitShader" onclick="updateShader('f')">Update Custom Fractal Shader</button>
-                        <h4>Compile Output:</h4>
+                        <p class="small"><fxp-translate key="using_backend" insert0="using_backend_backend"></fxp-translate></p><br>
+                        <span class="backend" id="using_backend_backend"></span>
+                        <button class="submitShader" onclick="importToCustomCode('fractal')"><fxp-translate key="insert_currently_selected"></fxp-translate></button><br>
+                        <button class="submitShader" id="tgshdf" onclick="toggleCustomShader(this, 'f')"><fxp-translate key="enable_custom_fractal_shader"></fxp-translate></button><br>
+                        <button class="submitShader" onclick="updateShader('f')"><fxp-translate key="update_custom_fractal_shader"></fxp-translate></button>
+                        <h4><fxp-translate key="compile_output"></fxp-translate></h4>
                         <pre><code id="fcompileout"></code></pre>
                     </div>
                     <div id="fhelp" class="ftabcontent">
-                        <h3>Note: the below examples are written in WGSL. Depending on the used backend, you might need to adjust the code.</h3>
-                        <h4>Here you can enter a custom formula for a fractal.</h4>
-                        <p>As an example, here is the mandelbrot set:</p>
+                        <h3><fxp-translate key="fhelp_wgsl_note"></fxp-translate></h3>
+                        <h4><fxp-translate key="fhelp_custom_function"></fxp-translate></h4>
+                        <p><fxp-translate key="fhelp_mandelbrot_example"></fxp-translate></p>
                         <pre><code class="fixedCode">return c_pow(z, power) + c;</code></pre>
-                        <p>In this example, <code class="fixedCode">c_pow()</code> raises a complex number z to a float power (usually 2), and adds c.</p>
+                        <p><fxp-translate key="fhelp_example_explanation" insert0="fhelp_insert_code_0" insert1="fhelp_insert_code_1"></fxp-translate></p>
+                        <code class="fixedCode" id="fhelp_insert_code_0">c_pow()</code>
+                        <code class="fixedCode" id="fhelp_insert_code_1">float</code>
                         <br>
-                        <h4>All available functions:</h4>
-                        <p>NOTE: When experimenting around, sometimes you should use some of these with a low radius. That produces better results sometimes.</p>
+                        <h4><fxp-translate key="fhelp_all_available_functions"></fxp-translate></h4>
+                        <p><fxp-translate key="fhelp_low_radius_note"></fxp-translate></p>
                         <br>
-                        <p><code class="fixedCode">complex(re, im)</code>: Creates a complex number. Can also be written as <code class="fixedCode">vec2&lt;f32&gt;();</code></p>
+                        <p><code class="fixedCode">complex(re, im)</code>: <fxp-translate key="fhelp_func_complex" insert0="fhelp_insert_code_2"></fxp-translate></p>
+                        <code class="fixedCode" id="fhelp_insert_code_2">vec2&lt;f32&gt;();</code>
                         <br>
-                        <p><code class="fixedCode">c_multiplication(a, b)</code>: Multiplies two complex numbers together.</p><br>
-                        <p><code class="fixedCode">c_division(a, b)</code>: Divides two complex numbers.</p><br>
-                        <p><code class="fixedCode">c_pow(z, p)</code>: Raises a complex number to a (float) power.</p><br>
-                        <p><code class="fixedCode">c_cpow(z, p)</code>: Raises a complex number to a (complex) power. </p><br>
+                        <p><code class="fixedCode">c_multiplication(a, b)</code>: <fxp-translate key="fhelp_func_c_multiplication"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_division(a, b)</code>: <fxp-translate key="fhelp_func_c_division"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_pow(z, p)</code>: <fxp-translate key="fhelp_func_c_pow"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_cpow(z, p)</code>: <fxp-translate key="fhelp_func_c_cpow"></fxp-translate></p><br>
                         <br>
-                        <p><code class="fixedCode">c_sin(z)</code>: Complex Sine</p><br>
-                        <p><code class="fixedCode">c_cos(z)</code>: Complex Cosine</p><br>
-                        <p><code class="fixedCode">c_tan(z)</code>: Complex Tangent</p><br>
+                        <p><code class="fixedCode">c_sin(z)</code>: <fxp-translate key="fhelp_func_c_sin"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_cos(z)</code>: <fxp-translate key="fhelp_func_c_cos"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_tan(z)</code>: <fxp-translate key="fhelp_func_c_tan"></fxp-translate></p><br>
                         <br>
-                        <p><code class="fixedCode">c_sinh(z)</code>: Complex Hyperbolic Sine</p><br>
-                        <p><code class="fixedCode">c_cosh(z)</code>: Complex Hyperbolic Cosine</p><br>
-                        <p><code class="fixedCode">c_tanh(z)</code>: Complex Hyperbolic Tangent</p><br>
+                        <p><code class="fixedCode">c_sinh(z)</code>: <fxp-translate key="fhelp_func_c_sinh"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_cosh(z)</code>: <fxp-translate key="fhelp_func_c_cosh"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_tanh(z)</code>: <fxp-translate key="fhelp_func_c_tanh"></fxp-translate></p><br>
                         <br>
-                        <p><code class="fixedCode">c_asin(z)</code>: Complex Arcsine</p><br>
-                        <p><code class="fixedCode">c_acos(z)</code>: Complex Arccosine</p><br>
-                        <p><code class="fixedCode">c_atan(z)</code>: Complex Arctangent</p><br>
+                        <p><code class="fixedCode">c_asin(z)</code>: <fxp-translate key="fhelp_func_c_asin"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_acos(z)</code>: <fxp-translate key="fhelp_func_c_acos"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_atan(z)</code>: <fxp-translate key="fhelp_func_c_atan"></fxp-translate></p><br>
                         <br>
-                        <p><code class="fixedCode">c_asinh(z)</code>: Complex Hyperbolic Arcsine</p><br>
-                        <p><code class="fixedCode">c_acosh(z)</code>: Complex Hyperbolic Arccosine</p><br>
-                        <p><code class="fixedCode">c_atanh(z)</code>: Complex Hyperbolic Arctangent</p><br>
+                        <p><code class="fixedCode">c_asinh(z)</code>: <fxp-translate key="fhelp_func_c_asinh"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_acosh(z)</code>: <fxp-translate key="fhelp_func_c_acosh"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_atanh(z)</code>: <fxp-translate key="fhelp_func_c_atanh"></fxp-translate></p><br>
                         <br>
-                        <p><code class="fixedCode">c_log(z)</code>: Complex Logarithm</p><br>
-                        <p><code class="fixedCode">c_exp(z)</code>: Complex Exponential</p><br>
-                        <p><code class="fixedCode">c_sqrt(z)</code>: Complex Square Root</p><br>
-                        <p><code class="fixedCode">c_abs(z)</code>: Complex Absolute (kind of, just takes the absolute of both sides)</p><br>
+                        <p><code class="fixedCode">c_log(z)</code>: <fxp-translate key="fhelp_func_c_log"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_exp(z)</code>: <fxp-translate key="fhelp_func_c_exp"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_sqrt(z)</code>: <fxp-translate key="fhelp_func_c_sqrt"></fxp-translate></p><br>
+                        <p><code class="fixedCode">c_abs(z)</code>: <fxp-translate key="fhelp_func_c_abs"></fxp-translate></p><br>
                         <br>
-                        <p>You have access to all built-in WGSL/GLSL functions aswell.</p>
-                        <h4>All available constants:</h4>
-                        <p><code class="fixedCode">pi</code>: Pi</p><br>
-                        <p><code class="fixedCode">e</code>: e</p><br>
-                        <p><code class="fixedCode">ln2</code>: Natural Logarithm of 2</p><br>
-                        <p><code class="fixedCode">phi</code>: Golden ratio.</p><br>
+                        <p><fxp-translate key="fhelp_access_functions"></fxp-translate></p>
+                        <h4><fxp-translate key="fhelp_all_available_constants"></fxp-translate></h4>
+                        <p><code class="fixedCode">pi</code>: <fxp-translate key="pi"></fxp-translate></p><br>
+                        <p><code class="fixedCode">e</code>: <fxp-translate key="e"></fxp-translate></p><br>
+                        <p><code class="fixedCode">ln2</code>: <fxp-translate key="ln2"></fxp-translate></p><br>
+                        <p><code class="fixedCode">phi</code>: <fxp-translate key="phi"></fxp-translate></p><br>
                     </div>
                 </div>
-                <h4>Custom Colorscheme:</h4>
+                <h4><fxp-translate key="custom_colorscheme"></fxp-translate></h4>
                 <div class="codearea">
                     <div class="tab">
-                        <button class="cstablink" id="cscodeb" onclick="openTabCs(event, 'cscode');">Coloscheme Code</button>
-                        <button class="cstablink" onclick="openTabCs(event, 'cshelp');">Help</button>
+                        <button class="cstablink" id="cscodeb" onclick="openTabCs(event, 'cscode');"><fxp-translate key="colorscheme_code"></fxp-translate></button>
+                        <button class="cstablink" onclick="openTabCs(event, 'cshelp');"><fxp-translate key="help"></button>
                     </div>
                     <div id="cscode" class="cstabcontent">
                         <pre><code class="fixedCode" id="colorschemeFunctionCode"></code></pre>
                         <textarea id="cscodei" spellcheck="false" type="text" oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight + 11) + 'px';"></textarea>
                         <pre class="endcodepre"><code class="fixedCode">}</code></pre>
-                        <p class="small">(Using Backend: <span class="backend"></span>)</p><br>
-                        <button class="submitShader" onclick="importToCustomCode('colorscheme')">Insert Currently Selected</button><br>
-                        <button class="submitShader" id="tgshdcs" onclick="toggleCustomShader(this, 'cs')">Enable Custom Colorscheme Shader</button><br>
-                        <button class="submitShader" onclick="updateShader('cs')">Update Custom Colorscheme Shader</button>
-                        <h4>Compile Output:</h4>
+                        <p class="small"><fxp-translate key="using_backend" insert0="using_backend_backend"></fxp-translate></p><br>
+                        <span class="backend" id="using_backend_backend"></span>
+                        <button class="submitShader" onclick="importToCustomCode('colorscheme')"><fxp-translate key="insert_currently_selected"></fxp-translate></button><br>
+                        <button class="submitShader" id="tgshdcs" onclick="toggleCustomShader(this, 'cs')"><fxp-translate key="enable_custom_colorscheme_shader"></fxp-translate></button><br>
+                        <button class="submitShader" onclick="updateShader('cs')"><fxp-translate key="update_custom_colorscheme_shader"></fxp-translate></button>
+                        <h4><fxp-translate key="compile_output"></fxp-translate></h4>
                         <pre><code id="cscompileout"></code></pre>
                     </div>
                     <div id="cshelp" class="cstabcontent">
-                        <h3>Note: the below examples are written in WGSL. Depending on the used backend, you might need to adjust the code.</h3>
-                        <h4>For a custom colorscheme, you can either use a formula involving maths, like this:</h4>
+                        <h3><fxp-translate key="cshelp_wgsl_note"></fxp-translate></h3>
+                        <h4><fxp-translate key="cshelp_custom_colorscheme_help"></fxp-translate></h4>
                         <pre><code class="fixedCode">var xp: f32 = x * pi * 2.;
 return vec4&lt;f32&gt;(
     .5 + sin(xp) / 2.,
@@ -325,8 +331,8 @@ return vec4&lt;f32&gt;(
     .5 + sin(xp + 2.) / 2.,
     1.
 );</code></pre>
-                        <p>This code uses a few sines to create the "classic" colorscheme.</p>
-                        <h4>Or, you could just use interpolation. An example is here:</h4>
+                        <p><fxp-translate key="cshelp_classic_cs_note"></fxp-translate></p>
+                        <h4><fxp-translate key="cshelp_interpolation_note"></fxp-translate></h4>
                         <pre><code class="fixedCode">
 var xv: f32 = x;
 var red: vec3&lt;f32&gt; = vec3&lt;f32&gt;(1., 0., 0.);
@@ -356,7 +362,7 @@ if (xv <= 6.) {
 }
 return vec4&lt;f32&gt;(0., 0., 0., 1.);
                         </code></pre>
-                        <p>While this might look a little confusing at first, you can also just try modifying the colors at the top, changing (1., 0., 1.) to whatever color (in RGB) you like.<br>This example creates the "rainbow" colorscheme.</p>
+                        <p><fxp-translate key="cshelp_confusing_note"></fxp-translate></p>
                     </div>
                 </div>
                 <script>
@@ -390,20 +396,20 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
 
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
-                <h3>Load Plugin</h3>
+                <h3><fxp-translate key="load_plugin"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
                 <div>
                     <div class="tab">
-                        <button class="ptablink" id="purlb" onclick="openTabP(event, 'purl');">From Url</button>
-                        <button class="ptablink" onclick="openTabP(event, 'pfeat');">Featured (mine :P)</button>
+                        <button class="ptablink" id="purlb" onclick="openTabP(event, 'purl');"><fxp-translate key="from_url"></fxp-translate></button>
+                        <button class="ptablink" onclick="openTabP(event, 'pfeat');"><fxp-translate key="featured_plugins"></fxp-translate></button>
                     </div>
                     <div id="purl" class="ptabcontent">
                         <input id="purlinp" spellcheck="false" type="text"><br><br>
-                        <button onclick="loadPluginUrl(document.getElementById('purlinp').value);">Submit</button>
+                        <button onclick="loadPluginUrl(document.getElementById('purlinp').value);"><fxp-translate key="submit"></fxp-translate></button>
                     </div>
                     <div id="pfeat" class="ptabcontent">
-                        <button onclick="loadPluginUrl('/plugins/mandelbrot_variants/plugin.json');">Mandelbrot Variants</button>
+                        <button onclick="loadPluginUrl('/plugins/mandelbrot_variants/plugin.json');" class="loadPluginButton"><fxp-translate key="mandelbrot_variants"></fxp-translate></button>
                     </div>
                 </div>
                 <script>
@@ -425,10 +431,10 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
 
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
-                <h3>Animation</h3>
+                <h3><fxp-translate key="animation"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
-                <h3>Edit Animation</h3>
+                <h3><fxp-translate key="edit_animation"></fxp-translate></h3>
                 <div class="keyframe-editor-labels" id="anim-track-labels"></div>
                 <div class="keyframe-editor" id="keyframe-editor">
                     <div class="animation-track-container" id="anim-track-container"></div>
@@ -436,27 +442,27 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                     <div class="animation-timestamps-container" id="anim-timestamp-container"></div>
                 </div>
                 <br>
-                <div><span>Add Track</span> 
+                <div><span><fxp-translate key="add_track"></fxp-translate></span> 
                     <div class="dropdown">
                         <script>
                             function toggleAddTrackDropdown() {
                                 document.getElementById("addTrackDropdownContent").classList.toggle("show-dropdown");
                             }
                         </script>
-                        <button onclick="toggleAddTrackDropdown()" class="dropdown-button">Select Parameter</button>
+                        <button onclick="toggleAddTrackDropdown()" class="dropdown-button"><fxp-translate key="select_parameter"></fxp-translate></button>
                         <div id="addTrackDropdownContent" class="dropdown-content"></div>
                     </div>
                 </div>
-                <p>Animation Length (seconds): <input type="number" style="width: 60px;" value="10" oninput="setAnimationLength(this.value)"/></p>
-                <p><button onclick="increaseAnimZoom();">Increase Zoom</button> <button onclick="decreaseAnimZoom();">Decrease Zoom</button></p>
+                <p><fxp-translate key="animation_length"></fxp-translate> <input type="number" style="width: 60px;" value="10" oninput="setAnimationLength(this.value)"/></p>
+                <p><button onclick="increaseAnimZoom();"><fxp-translate key="increase_zoom"></fxp-translate></button> <button onclick="decreaseAnimZoom();"><fxp-translate key="decrease_zoom"></fxp-translate></button></p>
                 <div id="edit-keyframe-container">
-                    <h3 style="padding-bottom: 0; margin-bottom: 0;">Edit Selected Keyframe</h3>
+                    <h3 style="padding-bottom: 0; margin-bottom: 0;"><fxp-translate key="edit_selected_keyframe"></fxp-translate></h3>
                     <br>
-                    <p>Time: </p>
+                    <p><fxp-translate key="keyframe_time"></fxp-translate></p>
                     <input type="number" id="keyframe-time" onchange="setKeyframeTime(this.value);">
-                    <p>Value: </p>
+                    <p><fxp-translate key="keyframe_value"></fxp-translate></p>
                     <input type="number" id="keyframe-value" onchange="setKeyframeValue(this.value);">
-                    <p>Easing (from previous): </p>
+                    <p><fxp-translate key="keyframe_easing"></fxp-translate></p>
                     <div>
                         <div class="dropdown">
                             <script>
@@ -467,68 +473,67 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                                     document.getElementById("easing-name").innerHTML = name;
                                 }
                             </script>
-                            <button onclick="toggleAnimEasingDropdown()" class="dropdown-button" id="easing-name">Linear</button>
+                            <button onclick="toggleAnimEasingDropdown()" class="dropdown-button" id="easing-name"></button>
                             <div id="animEasingDropdownContent" class="dropdown-content"></div>
                         </div>
                     </div>
-                    <p>Easing Strength (1-∞): </p>
+                    <p><fxp-translate key="keyframe_easing_strength"></fxp-translate></p>
                     <input type="number" id="keyframe-easing-strength" onchange="setKeyframeEasingStrength(this.value);">
                     <br><br>
-                    <button onclick="removeKeyframe();">Remove Keyframe</button>
+                    <button onclick="removeKeyframe();"><fxp-translate key="remove_keyframe"></fxp-translate></button>
                 </div>
                 <br>
-                <h3>Run & Export</h3>
-                <p>Forcing the backend to be WebGL may help a with the render time and export speed, if you are experiencing issues exporting or just find it slow, <button onclick="forceWebGL();">force WebGL</button> (will not preserve animation).</p>
-                <p>Why? There is no way in WebGPU to render to a texture or buffer instead of a canvas efficiently at most resolutions, because the size must be a multiple of 256. Exporting at resolutions other than multiples of 64 (64 * 4 channels = 256) will require adding some extra empty space, leading to performance impacts. (Maybe there is a better solution, but I am not all-knowing either, so instead just use WebGL)</p>
-                <button onclick="playAnimation(false);">Run animation for main</button>
-                <button onclick="playAnimation(true);">Run animation for juliaset</button>
+                <h3><fxp-translate key="run_and_export"></fxp-translate></h3>
+                <p><fxp-translate key="anim_webgl_note"></fxp-translate></p>
+                <button onclick="playAnimation(false);"><fxp-translate key="run_anim_main"></fxp-translate></button>
+                <button onclick="playAnimation(true);"><fxp-translate key="run_anim_juliaset"></fxp-translate></button>
                 <br>
-                <button onclick="stopAnimation();">Stop Animation</button>
+                <button onclick="stopAnimation();"><fxp-translate key="stop_anim"></fxp-translate></button>
                 <br>
                 <br>
-                <button onclick="exportAnimation(false);">Export animation for main</button>
-                <button onclick="exportAnimation(true);">Export animation for juliaset</button>
+                <button onclick="exportAnimation(false);"><fxp-translate key="export_anim_main"></fxp-translate></button>
+                <button onclick="exportAnimation(true);"><fxp-translate key="export_anim_juliaset"></fxp-translate></button>
                 <br>
-                <h3>Export Options</h3>
-                <p>Video Container</p>
+                <h3><fxp-translate key="export_options"></fxp-translate></h3>
+                <p><fxp-translate key="video_container"></fxp-translate></p>
                 <button id="mkv-btn" onclick="setAnimationVideoContainer('mkv')">.mkv</button>
                 <button id="webm-btn" onclick="setAnimationVideoContainer('webm')">.webm</button>
-                <p>Video Codec</p>
+                <p><fxp-translate key="video_codec"></fxp-translate></p>
                 <button id="vp8-btn" onclick="setAnimationVideoCodec('vp8')">VP8</button>
                 <button id="vp9-btn" onclick="setAnimationVideoCodec('vp9')">VP9</button>
-                <p>Video Framerate</p>
+                <p><fxp-translate key="video_framerate"></fxp-translate></p>
                 <input type="number" onchange="setAnimationFPS(this.value)" style="width: 60px;" value="60">
                 <br><br>
-                <p>Q: Why not MP4 & H.264 and others?</p>
-                <p>A: Most browsers can't encode into AVC/H.264, but you can use ffmpeg or other tools to convert the output file manually. </p>
+                <p><fxp-translate key="anim_avc_note"></fxp-translate></p>
             </div>
         </div>
 
         <div class="toggleable">
             <div class="toggleable_title">
-                <h3>Information</h3>
+                <h3><fxp-translate key="information"></fxp-translate></h3>
             </div>
             <div class="toggleable_content">
-                <h3>Reporting Issues:</h3>
-                <p>This project is still very early in development. This means, new features will be added in the future. Bugs might occur and things might break. If you find anything, please <a href="https://github.com/davidsaltacc/fractals/issues/new">open a issue on github.</a></p>
+                <h3><fxp-translate key="reporting_issues"></fxp-translate></h3>
+                <p><fxp-translate key="reporting_note" insert0="report_issue_link"></fxp-translate></p>
+                <a id="report_issue_link" href="https://github.com/davidsaltacc/fractals/issues/new" target="_blank">github</a>
                 <hr>
-                <h3>Other Versions:</h3>
-                <a href="https://old.fractals.top/v1" target="_blank">Version v1</a><br>
-                <a href="https://old.fractals.top/v2" target="_blank">Version v2</a><br>
-                <a href="https://old.fractals.top/v3" target="_blank">Version v3</a><br>
-                <a href="https://old.fractals.top/v4" target="_blank">Version v4</a><br>
-                <a href="https://turbowarp.org/907856776?fps=60&turbo" target="_blank">Scratch Version (that I made for no reason)</a>
+                <h3><fxp-translate key="other_versions"></fxp-translate></h3>
+                <a href="https://old.fractals.top/v1" target="_blank">v1</a><br>
+                <a href="https://old.fractals.top/v2" target="_blank">v2</a><br>
+                <a href="https://old.fractals.top/v3" target="_blank">v3</a><br>
+                <a href="https://old.fractals.top/v4" target="_blank">v4</a><br>
+                <a href="https://old.fractals.top/v5" target="_blank">v5</a><br>
                 <hr>
                 <div id="whatarefractalsContainer">
-                    <h3 id="whatarefractals">What are fractals?</h3>
+                    <h3 id="whatarefractals"><fxp-translate key="what_are_fractals"></fxp-translate></h3>
+                    <a href="https://blinry.org/mandelbrot/" target="_blank">blinry.org/mandelbrot</a><br>
                     <a href="https://en.wikipedia.org/wiki/Fractal" target="_blank">en.wikipedia.org/wiki/Fractal</a><br>
                     <a href="https://en.wikipedia.org/wiki/Mandelbrot_set" target="_blank">en.wikipedia.org/wiki/Mandelbrot_set</a><br>
                     <a href="https://en.wikipedia.org/wiki/Julia_set" target="_blank">en.wikipedia.org/wiki/Julia_set</a><br>
-                    <a href="https://blinry.org/mandelbrot/" target="_blank">blinry.org/mandelbrot</a><br>
                     <a href="http://www.paulbourke.net/fractals/" target="_blank">www.paulbourke.net/fractals</a>
                 </div>
                 <hr>
-                <h3>Special Thanks:</h3>
+                <h3><fxp-translate key="special_thanks"></fxp-translate></h3>
                 <p><a href="https://nathansolomon1678.github.io/fractals" target="_blank">This</a> project by nathansolomon1678 on github, where I got a lot of insipration (and a bit of code) from</p>
                 <p><a href="https://github.com/BenjaminAster/WebGPU-Mandelbrot" target="_blank">This</a> project by BenjaminAster on github, that helped me a little since I wasn't too experienced with WebGPU/WGSL</p>
                 <p>Paul Bourke's <a href="http://www.paulbourke.net/fractals/" target="_blank">page on fractals</a>, where I got lots of the fractals and insipration from</p>
@@ -543,54 +548,59 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <p>My friends (who did nothing for this project)</p>
                 <p>You, for visiting and testing my project</p>
                 <hr>
-                <h3>Changelog</h3>
-                <h4>0.5.0</h4>
-                <p>- Added WebGL backend along with existing WebGPU to ensure maximum compatibility and performance</p>
-                <p>- UI redesign</p>
-                <p>- Faster load time</p>
-                <p>- Several bugfixes</p>
-                <p>- Replace the wacky preset URL system</p>
-                <p>- Bought a domain for the website</p>
-                <p>- Everything else new in v5</p>
-                <h4>0.5.1</h4>
-                <p>- Image chunker</p>
-                <p>- Halved loading time due to double compilation</p>
-                <p>- Fixed small possible bugs</p>
-                <p>- Improved exporting speed by a huge margin</p>
-                <h4>0.5.1a</h4>
-                <p>- Fix bug with importing fractals being completely broken in most cases</p>
-                <p>- Fix bug where exporting chunked juliasets is broken</p>
-                <h4>0.5.2</h4>
-                <p>- 2 new colorschemes (purple, brown)</p>
-                <p>- Fix small bug when opening the window at a small scale, text will be squished a lot</p>
-                <p>- Canvases now automatically stick and unstick with the window being resized</p>
-                <p>- Added this changelog</p>
-                <p>- Slightly modifier the randomizer</p>
-                <p>- Fix noise not appearing correctly in chunked renders</p>
-                <p>- You can now drag and drop exported images (and preset urls) to automatically import the preset</p>
-                <p>- Fix a lot of messy code that will make working on some things easier</p>
-                <p>- Fix Fractal buttons by plugins not properly being highlighted</p>
-                <p>- Change the description section a bit</p>
-                <h4>0.6.0</h4>
-                <p>- Animation System </p>
-                <p>- Add an option to insert the currently selected shader in the custom code section for easy modification</p>
-                <p>- Rename postFunction to modifier in code, no impact on the user experience but sounds better</p>
-                <p>- Fix a bug with parts of the UI not updating properly</p>
-                <p>- Fix possible other bugs by fixing some spaghetti code</p>
-                <p>- Fix formula not updating when power is changed</p>
-                <p>- Minor cleanups (visual and codebase)</p>
-                <p>- 5 new fractals</p>
-                <p>- UI changes</p>
-                <p>- Speed up WebGL chunked exporting & animation exporting a bit (WebGPU still slow, I just gave up at some point)</p>
-                <p>- Added ability to override things such as zoom and center</p>
-                <p>- Custom shader code and loaded plugins (aswell as animations) are contained in preset links</p>
+                <div class="changelog">
+                    <h2><fxp-translate key="changelog"></fxp-translate></h2>
+                    <h4>0.5.0</h4>
+                    <p>- Added WebGL backend along with existing WebGPU to ensure maximum compatibility and performance</p>
+                    <p>- UI redesign</p>
+                    <p>- Faster load time</p>
+                    <p>- Several bugfixes</p>
+                    <p>- Replace the wacky preset URL system</p>
+                    <p>- Bought a domain for the website</p>
+                    <p>- Everything else new in v5</p>
+                    <h4>0.5.1</h4>
+                    <p>- Image chunker</p>
+                    <p>- Halved loading time due to double compilation</p>
+                    <p>- Fixed small possible bugs</p>
+                    <p>- Improved exporting speed by a huge margin</p>
+                    <h4>0.5.1a</h4>
+                    <p>- Fix bug with importing fractals being completely broken in most cases</p>
+                    <p>- Fix bug where exporting chunked juliasets is broken</p>
+                    <h4>0.5.2</h4>
+                    <p>- 2 new colorschemes (purple, brown)</p>
+                    <p>- Fix small bug when opening the window at a small scale, text will be squished a lot</p>
+                    <p>- Canvases now automatically stick and unstick with the window being resized</p>
+                    <p>- Added this changelog</p>
+                    <p>- Slightly modifier the randomizer</p>
+                    <p>- Fix noise not appearing correctly in chunked renders</p>
+                    <p>- You can now drag and drop exported images (and preset urls) to automatically import the preset</p>
+                    <p>- Fix a lot of messy code that will make working on some things easier</p>
+                    <p>- Fix Fractal buttons by plugins not properly being highlighted</p>
+                    <p>- Change the description section a bit</p>
+                    <h4>0.6.0</h4>
+                    <p>- Animation System </p>
+                    <p>- Add an option to insert the currently selected shader in the custom code section for easy modification</p>
+                    <p>- Rename postFunction to modifier in code, no impact on the user experience but sounds better</p>
+                    <p>- Fix a bug with parts of the UI not updating properly</p>
+                    <p>- Fix possible other bugs by fixing some spaghetti code</p>
+                    <p>- Very minor optimisations</p>
+                    <p>- Fix formula not updating when power is changed</p>
+                    <p>- Minor cleanups (visual and codebase)</p>
+                    <p>- 5 new fractals</p>
+                    <p>- UI changes</p>
+                    <p>- Speed up WebGL chunked exporting & animation exporting a bit (WebGPU still slow, I just gave up at some point)</p>
+                    <p>- Added ability to override things such as zoom and center</p>
+                    <p>- Custom shader code and loaded plugins (aswell as animations) are contained in preset links</p>
+                    <p>- Translation system & German translations (more to come?)</p>
+                    <p>- Fix not loading when WebGPU is available but no valid adapter is found</p>
+                </div>
                 <hr>
             </div>
         </div>
     </div>
     <div id="walkthroughDarken"></div>
     <div class="support-banner" id="sb">
-        <p onclick="window.open('https://ko-fi.com/justacoder');">Support my work!</p><span onclick="this.parentElement.remove();">X</span>
+        <p onclick="window.open('https://ko-fi.com/justacoder');"><fxp-translate key="support_me"></fxp-translate></p><span onclick="this.parentElement.remove();">X</span>
     </div>
 
 </body>

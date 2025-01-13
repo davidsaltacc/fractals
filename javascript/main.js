@@ -12,14 +12,14 @@ function logStatus(s, noui) {
 
 logStatus("starting initialization");
 
-var USE_WEBGPU = "gpu" in navigator;
+var USE_WEBGPU = "gpu" in navigator && !!(await navigator.gpu.requestAdapter());
 var USE_WEBGL = !USE_WEBGPU && (typeof WebGL2RenderingContext !== "undefined");
 var DISABLED = !USE_WEBGPU && !USE_WEBGL;
 
 if (DISABLED) {
     [ "statusbar", "loadingwave-center" ].forEach(i => el(i).remove());
     el("loadingscreen").style.backgroundColor = "rgb(0, 0, 0)";
-    [ alert, e => { throw new Error(e) } ].forEach(f => f("Neither WebGPU nor WebGL are supported in your browser. "));
+    [ alert, e => { throw new Error(e) } ].forEach(f => f(translate("no_gpu_supported")));
 }
 
 var usingBackend = (USE_WEBGPU ? "WebGPU" : (USE_WEBGL ? "WebGL" : "this should not appear"));
@@ -145,7 +145,7 @@ function initButtons(definitions, buttons, setFunction, containerId) {
 
     Object.keys(definitions).forEach(item => {
 
-        var button = _createShaderButton(definitions[item].name, () => setFunction(definitions[item]), buttons, item, definitions);
+        var button = _createShaderButton(translatable(definitions[item].name).outerHTML, () => setFunction(definitions[item]), buttons, item, definitions);
         el(containerId).appendChild(button);
 
     });
@@ -197,7 +197,7 @@ const canvasJul = el("canvasJul");
 var contextMain;
 var contextJul;
 
-wgpu_format = "rgba8unorm"; // FIXME using navigator.gpu.getPreferredCanvasFormat(), then chunked rendering in webgpu gets the colors f*ed up?
+wgpu_format = "rgba8unorm"; 
 
 function getInitializedCanvasContext(canvas) {
 
@@ -247,7 +247,7 @@ if (contextMain == null || contextJul == null) {
 function gpuLost() {
     renderMain();
     renderJul();
-    alert("Lost contact to your GPU. Please reload this page, and if neccessary, restart your browser. You also have the option to copy the link from the export section to avoid data loss. In case you experience black flashes on your screen after, please restart your PC.");
+    alert(translate("gpu_lost"));
 }
 
 if (USE_WEBGPU) {
@@ -859,7 +859,7 @@ var chunkerChunkSize = 400;
 async function _renderAndExportChunked(isMain) {
 
     if (chunkerFinalSize % chunkerChunkSize != 0) {
-        alert("The final size needs to be divisible by the chunk size.");
+        alert(translate("chunker_size_indivisible"));
         return;
     }
 
@@ -882,7 +882,7 @@ async function _renderAndExportChunked(isMain) {
             }
         }
     } catch {
-        alert("Failed to render and merge chunks. This is probably due to the size being too big.")
+        alert(translate("chunking_failed"));
         return;
     }
 
@@ -938,7 +938,7 @@ canvasMain.onmousemove = event => {
         updateMouseCoordsMain(event);
         juliasetConstant[0] = mouseMainX;
         juliasetConstant[1] = mouseMainY;
-        updateUi();
+        updateJsetConstants();
         renderJul();
 
     }
@@ -952,7 +952,7 @@ canvasMain.onmousedown = event => {
         mouseClickedMain = true;
         juliasetConstant[0] = mouseMainX;
         juliasetConstant[1] = mouseMainY;
-        updateUi();
+        updateJsetConstants();
         renderJul();
 
     } else if (event.button == 2) {
@@ -1043,28 +1043,33 @@ function buttonPressed(otherButtons, definitions, type) {
 
 }
 
+function updateJsetConstants() {
+    el("constantRe").value = juliasetConstant[0];
+    el("constantIm").value = juliasetConstant[1];
+}
+
 function updateUi() {
     
-    el("fractalName").innerHTML = fractalType.name + " Fractal";
-    el("colorschemeName").innerHTML = colorscheme.name + " Colorscheme";
-    el("colorMethodName").innerHTML = colorMethod.name + " Colormethod";
-    el("modifierName").innerHTML = modifier.name + " Modifier";
+    el("fractalName").innerHTML = translatable("desc_title_fractal", translatable(fractalType.name)).outerHTML;
+    el("colorschemeName").innerHTML = translatable("desc_title_colorscheme", translatable(colorscheme.name)).outerHTML;
+    el("colorMethodName").innerHTML = translatable("desc_title_colormethod", translatable(colorMethod.name)).outerHTML;
+    el("modifierName").innerHTML = translatable("desc_title_modifier", translatable(modifier.name)).outerHTML;
 
-    el("frdesc").innerHTML = fractalType.description;
-    el("csdesc").innerHTML = colorscheme.description;
-    el("cmdesc").innerHTML = colorMethod.description;
-    el("fmdesc").innerHTML = modifier.description;
+    el("frdesc").innerHTML = translatable(fractalType.description).outerHTML;
+    el("csdesc").innerHTML = translatable(colorscheme.description).outerHTML;
+    el("cmdesc").innerHTML = translatable(colorMethod.description).outerHTML;
+    el("fmdesc").innerHTML = translatable(modifier.description).outerHTML;
 
     el("radius").value = radius;
     el("iterations").value = maxIterations;
     el("power").value = power;
-    el("constantRe").value = juliasetConstant[0];
-    el("constantIm").value = juliasetConstant[1];
     el("nji").value = juliasetInterpolation;
     el("canvasSize").value = canvasMain.width;
     el("coloroffset").value = colorOffset;
     el("colorfulness").value = colorfulness;
     el("sampleCount").value = sampleCount;
+
+    updateJsetConstants();
 
     el("cloudSeed").value = cloudSeed;
     el("cloudAmplitude").value = cloudAmplitude;
@@ -1322,7 +1327,7 @@ function _applyUrlWithParameters(url) {
     if (!MODIFIERS[params.get("pf")]) { _actualShadersToBeLoaded.modifier = params.get("pf"); skipNextCompilation = true; }
 
     if (params.get("scb") && params.get("scb") != usingBackend && (params.get("ccs") == "true" || params.get("cfr") == "true")) {
-        [ console.error, alert ].forEach(f => f("Can't load custom shader code contained in preset. (Your backend: " + usingBackend + ", preset code backend: " + params.get("scb") + ")"));
+        [ console.error, alert ].forEach(f => f(translate("preset_shader_not_loaded").replaceAll("usingBackend", usingBackend).replaceAll("presetBackend", params.get("scb"))));
     } else {
         if (params.get("ccs") == "true") { toggleCustomShader(el("tgshdcs"), "cs"); } 
         if (params.get("cfr") == "true") { toggleCustomShader(el("tgshdf"), "f"); } 
@@ -1447,7 +1452,7 @@ function _loadParamsFromFileInput(input) {
                 _applyUrlWithParameters(split[split.length - 1]);
                 compileAndRender();
             } else {
-                alert("No URL could be found in the uploaded image.");
+                alert(translate("no_url_found_image"));
             }
         }
     }
@@ -1521,12 +1526,12 @@ async function toggleCustomShader(b, t) {
     }
     var returnv = await compileShaders(colorMethod, colorscheme, fractalType, modifier);
     if (returnv == "success") {
-        document.getElementById(t + "compileout").innerHTML = "successfully compiled and loaded new shader";
+        document.getElementById(t + "compileout").innerHTML = "&#10003;";
         if (t == "f") {
-            b.innerHTML = (customFractal ? "Disable" : "Enable") + " Custom Fractal Shader";
+            b.innerHTML = translatable((customFractal ? "disable" : "enable") + "_custom_fractal_shader").outerHTML;
         }
         if (t == "cs") {
-            b.innerHTML = (customCs ? "Disable" : "Enable") + " Custom Colorscheme Shader";
+            b.innerHTML = translatable((customCs ? "disable" : "enable") + "_custom_colorscheme_shader").outerHTML;
         }
         renderBoth();
         updateUi();
@@ -1551,24 +1556,24 @@ async function updateShader(t) {
     customFractal = cfo;
     customCs = ccso;
     if (returnv == "success") {
-        document.getElementById(t + "compileout").innerHTML = "successfully compiled and loaded new shader";
+        document.getElementById(t + "compileout").innerHTML = "&#10003;";
         renderBoth();
         customFractal = t == "f";
         customCs = t == "cs";
         if (t == "f") {
-            document.getElementById("tgshdf").innerHTML = "Disable Custom Fractal Shader";
+            document.getElementById("tgshdf").innerHTML = translatable("disable_custom_fractal_shader").outerHTML;
         }
         if (t == "cs") {
-            document.getElementById("tgshdcs").innerHTML = "Disable Custom Colorscheme Shader";
+            document.getElementById("tgshdcs").innerHTML = translatable("disable_custom_colorscheme_shader").outerHTML;
         }
     } else {
         document.getElementById(t + "compileout").innerHTML = returnv;
         if (t == "f") {
-            document.getElementById("tgshdf").innerHTML = "Enable Custom Fractal Shader"; 
+            document.getElementById("tgshdf").innerHTML = translatable("enable_custom_fractal_shader").outerHTML;
             customFractal = false;
         }
         if (t == "cs") {
-            document.getElementById("tgshdcs").innerHTML = "Enable Custom Colorscheme Shader";
+            document.getElementById("tgshdcs").innerHTML = translatable("enable_custom_colorschemes_shader").outerHTML;
             customCs = false;
         }
         compileAndRender();

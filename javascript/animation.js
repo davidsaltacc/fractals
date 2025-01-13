@@ -449,7 +449,7 @@ function updateEditor() {
         document.getElementById("keyframe-time").value = selectedKeyframe.time;
         document.getElementById("keyframe-value").value = selectedKeyframe.value;
         document.getElementById("keyframe-easing-strength").value = selectedKeyframe.easingStrength;
-        keyframeEasingNameSet(selectedKeyframe.easing.name);
+        keyframeEasingNameSet(translatable(selectedKeyframe.easing.name).outerHTML);
 
     } else {
         editKfContainer.style.opacity = "40%";
@@ -610,7 +610,7 @@ Object.keys(EASINGS).forEach(easing => {
 
     var a = document.createElement("a");
     a.id = easing.toLowerCase() + "-animEasing";
-    a.innerHTML = EASINGS[easing].name;
+    a.innerHTML = translatable(EASINGS[easing].name).outerHTML;
     a.onclick = () => {
         setKeyframeEasing(EASINGS[easing]);
         toggleAnimEasingDropdown();
@@ -621,21 +621,21 @@ Object.keys(EASINGS).forEach(easing => {
 });
 
 var properties = {
-    centerX: "Center X",
-    centerY: "Center Y",
-    zoom: "Zoom",
-    constantX: "Constant X",
-    constantY: "Constant Y",
-    radius: "Radius",
-    power: "Power",
-    maxIterations: "Max Iterations",
-    sampleCount: "Sample Count",
-    colorOffset: "Color Offset",
-    colorfulness: "Colorfulness",
-    juliasetInterpolation: "Juliaset Interp.",
-    cloudSeed: "Cloud Seed",
-    cloudAmplitude: "Cloud Amplitude",
-    cloudMultiplier: "Cloud Multiplier"
+    centerX: translatable("anim_center_x").outerHTML,
+    centerY: translatable("anim_center_y").outerHTML,
+    zoom: translatable("anim_zoom").outerHTML,
+    constantX: translatable("anim_constant_x").outerHTML,
+    constantY: translatable("anim_constant_y").outerHTML,
+    radius: translatable("anim_radius").outerHTML,
+    power: translatable("anim_power").outerHTML,
+    maxIterations: translatable("anim_max_iterations").outerHTML,
+    sampleCount: translatable("anim_sample_count").outerHTML,
+    colorOffset: translatable("anim_color_offset").outerHTML,
+    colorfulness: translatable("anim_colorfulness").outerHTML,
+    juliasetInterpolation: translatable("anim_juliaset_interpolation").outerHTML,
+    cloudSeed: translatable("anim_cloud_seed").outerHTML,
+    cloudAmplitude: translatable("anim_cloud_amp").outerHTML,
+    cloudMultiplier: translatable("anim_cloud_multiplier").outerHTML
 };
 
 Object.keys(properties).forEach(property => {
@@ -785,11 +785,11 @@ async function codecSupported(codec) {
 async function setAnimationVideoCodec(codec) {
     if (codec == "vp8" || codec == "vp9") {
         if (codec == "vp8" && !codecSupported("vp8")) {
-            [ console.warn, alert ].forEach(f => f("VP8 not supported in your browser."));
+            [ console.warn, alert ].forEach(f => f(translate("vcodec_not_supported", "VP8")));
             return;
         } 
         if (codec == "vp9" && !codecSupported("vp09.00.10.08")) {
-            [ console.warn, alert ].forEach(f => f("VP9 not supported in your browser."));
+            [ console.warn, alert ].forEach(f => f(translate("vcodec_not_supported", "VP9")));
             return;
         } 
         videoCodec = codec;
@@ -856,8 +856,10 @@ function applyAnimationData(data) {
 
 }
 
-addAnimationTrack("zoom-addAnimTrack", "Zoom", "zoom");
+addAnimationTrack("zoom-addAnimTrack", translatable("anim_zoom").outerHTML, "zoom");
 updateEditor();
+
+keyframeEasingNameSet(translatable(EASINGS.LINEAR.name).outerHTML);
 
 setAnimationVideoCodec(codecSupported("vp9") ? "vp9" : "vp8");
 setAnimationVideoContainer("mkv");

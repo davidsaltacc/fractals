@@ -491,7 +491,7 @@ a, a:active {
 .support-banner span {
 	position: absolute;
 	top: 4px;
-	right: 8px;
+	left: 9px;
 	font-size: x-large;
 	color: #ffffff;
 	transition: 0.1s;
@@ -734,4 +734,20 @@ a, a:active {
     background-position: center;
     background-repeat: no-repeat;
     background-size: 80%;
+}
+
+.loadPluginButton {
+    padding: 10px;
+}
+
+.changelog {
+    font-size: 0.85rem;
+}
+
+#unusedTranslationInsertions {
+    display: none !important;
+}
+
+fxp-translate {
+    color: blue !important;
 }
