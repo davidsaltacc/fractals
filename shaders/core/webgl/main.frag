@@ -228,7 +228,7 @@ vec4 colorscheme(float x) {
 }
 
 float rand2d(vec2 p) {
-    return fract(sin(dot(vec2(mod(p.x, 1000.), mod(p.y, 1000.)), vec2(12.9898, 78.233))) * cloudSeed);
+    return fract(sin(dot(vec2(mod(p.x, 1000.), mod(p.y, 1000.)), vec2(12.9898, 78.233)) + cloudSeed) * 43758.5453);
 }
 
 float sm_noise(vec2 pos) {

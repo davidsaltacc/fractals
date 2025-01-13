@@ -234,7 +234,7 @@ fn colorscheme(x: f32) -> vec4<f32> {
 
 fn rand2d(pos: vec2<f32>) -> f32 {
     var p: vec2<f32> = vec2<f32>(pos.x % 1000, pos.y % 1000);
-    return fract(sin(dot(p, vec2<f32>(12.9898, 78.233))) * uniforms.cloudSeed);
+    return fract(sin(dot(p, vec2<f32>(12.9898, 78.233)) + uniforms.cloudSeed) * 43758.5453);
 }
 
 fn sm_noise(pos: vec2<f32>) -> f32 {
