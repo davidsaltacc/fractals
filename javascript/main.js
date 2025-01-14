@@ -310,9 +310,9 @@ var juliasetConstant;
 var juliasetInterpolation;
 var colorfulness;
 var sampleCount;
-var cloudSeed ;
-var cloudAmplitude;
-var cloudMultiplier;
+var noiseSeed ;
+var noiseAmplitude;
+var noiseMultiplier;
 
 function reset(noCompile) {
 
@@ -332,9 +332,9 @@ function reset(noCompile) {
     juliasetInterpolation = 1;
     colorfulness = 1;
     sampleCount = 4;
-    cloudSeed = 33333;
-    cloudAmplitude = 0;
-    cloudMultiplier = 0.8;
+    noiseSeed = 33333;
+    noiseAmplitude = 0;
+    noiseMultiplier = 0.8;
 
     if (!noCompile) {
         compileAndRender();
@@ -396,9 +396,9 @@ if (USE_WEBGPU) {
         + Float32Array.BYTES_PER_ELEMENT // colorOffset: f32
         + Float32Array.BYTES_PER_ELEMENT // juliasetInterpolation: f32
         + Float32Array.BYTES_PER_ELEMENT // colorfulness: f32
-        + Float32Array.BYTES_PER_ELEMENT // cloudSeed: f32
-        + Float32Array.BYTES_PER_ELEMENT // cloudAmplitude: f32
-        + Float32Array.BYTES_PER_ELEMENT // cloudMultiplier: f32
+        + Float32Array.BYTES_PER_ELEMENT // noiseSeed: f32
+        + Float32Array.BYTES_PER_ELEMENT // noiseAmplitude: f32
+        + Float32Array.BYTES_PER_ELEMENT // noiseMultiplier: f32
         + Uint32Array.BYTES_PER_ELEMENT // maxIterations: u32
         + Uint32Array.BYTES_PER_ELEMENT // sampleCount: u32
         + Uint32Array.BYTES_PER_ELEMENT // chunkerFinalSize: u32
@@ -652,9 +652,9 @@ function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos) {
         context.uniform1f(context.getUniformLocation(wgl_program, "colorOffset"), colorOffset);
         context.uniform1f(context.getUniformLocation(wgl_program, "juliasetInterpolation"), juliasetInterpolation);
         context.uniform1f(context.getUniformLocation(wgl_program, "colorfulness"), colorfulness);
-        context.uniform1f(context.getUniformLocation(wgl_program, "cloudSeed"), cloudSeed);
-        context.uniform1f(context.getUniformLocation(wgl_program, "cloudAmplitude"), cloudAmplitude);
-        context.uniform1f(context.getUniformLocation(wgl_program, "cloudMultiplier"), cloudMultiplier);
+        context.uniform1f(context.getUniformLocation(wgl_program, "noiseSeed"), noiseSeed);
+        context.uniform1f(context.getUniformLocation(wgl_program, "noiseAmplitude"), noiseAmplitude);
+        context.uniform1f(context.getUniformLocation(wgl_program, "noiseMultiplier"), noiseMultiplier);
         context.uniform1ui(context.getUniformLocation(wgl_program, "maxIterations"), maxIterations);
         context.uniform1ui(context.getUniformLocation(wgl_program, "sampleCount"), sampleCount);
         context.uniform1ui(context.getUniformLocation(wgl_program, "chunkerFinalSize"), chunked ? chunkerFinalSize : 0);
@@ -679,9 +679,9 @@ function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos) {
             colorOffset,
             juliasetInterpolation,
             colorfulness,
-            cloudSeed,
-            cloudAmplitude,
-            cloudMultiplier
+            noiseSeed,
+            noiseAmplitude,
+            noiseMultiplier
         ]);
 
         new Uint32Array(arrayBuffer, 15 * Float32Array.BYTES_PER_ELEMENT).set([
@@ -1071,9 +1071,9 @@ function updateUi() {
 
     updateJsetConstants();
 
-    el("cloudSeed").value = cloudSeed;
-    el("cloudAmplitude").value = cloudAmplitude;
-    el("cloudMultiplier").value = cloudMultiplier;
+    el("noiseSeed").value = noiseSeed;
+    el("noiseAmplitude").value = noiseAmplitude;
+    el("noiseMultiplier").value = noiseMultiplier;
 
     el("frfm").innerHTML = fractalType.formula.replaceAll("POWER", power);
     
@@ -1190,9 +1190,9 @@ function setInterpolation(value, dontRerender) { juliasetInterpolation = parseFl
 function setColoroffset(value, dontRerender) { colorOffset = parseFloat(value); if (!dontRerender) { renderBoth(); } }
 function setColorfulness(value, dontRerender) { colorfulness = parseFloat(value); if (!dontRerender) { renderBoth(); } }
 function setSampleCount(value, dontRerender) { sampleCount = parseInt(value); if (!dontRerender) { renderBoth(); } }
-function setCloudSeed(value, dontRerender) { cloudSeed = parseInt(value); if (!dontRerender) { renderBoth(); } }
-function setCloudAmplitude(value, dontRerender) { cloudAmplitude = parseFloat(value); if (!dontRerender) { renderBoth(); } }
-function setCloudMultiplier(value, dontRerender) { cloudMultiplier = parseFloat(value); if (!dontRerender) { renderBoth(); } }
+function setNoiseSeed(value, dontRerender) { noiseSeed = parseInt(value); if (!dontRerender) { renderBoth(); } }
+function setNoiseAmplitude(value, dontRerender) { noiseAmplitude = parseFloat(value); if (!dontRerender) { renderBoth(); } }
+function setNoiseMultiplier(value, dontRerender) { noiseMultiplier = parseFloat(value); if (!dontRerender) { renderBoth(); } }
 function setChunkerFinalSize(value) { chunkerFinalSize = parseInt(value); }
 function setChunkerChunkSize(value) { chunkerChunkSize = parseInt(value); }
 
@@ -1204,9 +1204,9 @@ function getInterpolation() { return juliasetInterpolation; }
 function getColorOffset() { return colorOffset; }
 function getColorfulness() { return colorfulness; }
 function getSampleCount() { return sampleCount; }
-function getCloudSeed() { return cloudSeed; }
-function getCloudAmplitude() { return cloudAmplitude; }
-function getCloudMultiplier() { return cloudMultiplier; }
+function getNoiseSeed() { return noiseSeed; }
+function getNoiseAmplitude() { return noiseAmplitude; }
+function getNoiseMultiplier() { return noiseMultiplier; }
 
 function getMainCanvas() { return canvasMain };
 function getJuliasetCanvas() { return canvasJul };
@@ -1234,9 +1234,9 @@ function createUrlWithParameters() {
     params.append("sc", sampleCount);
     params.append("nji", juliasetInterpolation);
     params.append("p", power);
-    params.append("csd", cloudSeed);
-    params.append("cam", cloudAmplitude);
-    params.append("cml", cloudMultiplier);
+    params.append("csd", noiseSeed);
+    params.append("cam", noiseAmplitude);
+    params.append("cml", noiseMultiplier);
     
     params.append("f", Object.keys(FRACTALS).find(key => FRACTALS[key] === fractalType));
     params.append("cm", Object.keys(COLOR_METHODS).find(key => COLOR_METHODS[key] === colorMethod));
@@ -1310,9 +1310,9 @@ function _applyUrlWithParameters(url) {
     sampleCount = parseInt(params.get("sc") ?? sampleCount);
     juliasetInterpolation = parseFloat(params.get("nji") ?? juliasetInterpolation);
     power = parseFloat(params.get("p") ?? power);
-    cloudSeed = parseFloat(params.get("csd") ?? cloudSeed);
-    cloudAmplitude = parseFloat(params.get("cam") ?? cloudAmplitude);
-    cloudMultiplier = parseFloat(params.get("cml") ?? cloudMultiplier);
+    noiseSeed = parseFloat(params.get("csd") ?? noiseSeed);
+    noiseAmplitude = parseFloat(params.get("cam") ?? noiseAmplitude);
+    noiseMultiplier = parseFloat(params.get("cml") ?? noiseMultiplier);
     
     fractalType = params.get("f") ? (FRACTALS[params.get("f")] ?? fractalType) : fractalType;
     colorscheme = params.get("cs") ? (COLORSCHEMES[params.get("cs")] ?? colorscheme) : colorscheme;
@@ -1613,9 +1613,9 @@ const exports = {
     setColoroffset, getColorOffset,
     setColorfulness, getColorfulness,
     setSampleCount, getSampleCount,
-    setCloudSeed, getCloudSeed,
-    setCloudAmplitude, getCloudAmplitude,
-    setCloudMultiplier, getCloudMultiplier,
+    setNoiseSeed, getNoiseSeed,
+    setNoiseAmplitude, getNoiseAmplitude,
+    setNoiseMultiplier, getNoiseMultiplier,
     exportMain, exportJul,
     applyUrlWithParameters,
     _applyUrlWithParameters,

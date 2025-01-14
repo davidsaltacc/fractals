@@ -18,9 +18,9 @@ uniform float power;
 uniform float colorOffset;
 uniform float juliasetInterpolation;
 uniform float colorfulness;
-uniform float cloudSeed;
-uniform float cloudAmplitude;
-uniform float cloudMultiplier;
+uniform float noiseSeed;
+uniform float noiseAmplitude;
+uniform float noiseMultiplier;
 uniform uint maxIterations;
 uniform uint sampleCount;
 uniform uint chunkerFinalSize;
@@ -228,7 +228,7 @@ vec4 colorscheme(float x) {
 }
 
 float rand2d(vec2 p) {
-    return fract(sin(dot(vec2(mod(p.x, 1000.), mod(p.y, 1000.)), vec2(12.9898, 78.233)) + cloudSeed) * 43758.5453);
+    return fract(sin(dot(vec2(mod(p.x, 1000.), mod(p.y, 1000.)), vec2(12.9898, 78.233)) + noiseSeed) * 43758.5453);
 }
 
 float sm_noise(vec2 pos) {
@@ -242,23 +242,23 @@ float sm_noise(vec2 pos) {
     return mix(a, b, u.x) + (c - a) * u.y * (1. - u.x) + (d - b) * u.x * u.y - .5;
 }
 
-float clouds(vec2 pos) {
-    if (cloudAmplitude == 0.) {
+float noise(vec2 pos) {
+    if (noiseAmplitude == 0.) {
         return 0.;
     }
     vec2 p = pos + 5.;
     float v = 0.;
-    float a = cloudAmplitude * (1.3 - cloudMultiplier);
+    float a = noiseAmplitude * (1.3 - noiseMultiplier);
     for (int i = 0; i < 20; i++) {
         v += a * sm_noise(p);
         p *= mat2( 1.2, .9, -.9, 1.2 );
-        a *= cloudMultiplier;
+        a *= noiseMultiplier;
     }
     return v;
 }
 
 vec4 color(float x, vec2 pos) {
-    return colorscheme(x * colorfulness * (float(maxIterations) / 100.) + clouds(pos) + colorOffset);
+    return colorscheme(x * colorfulness * (float(maxIterations) / 100.) + noise(pos) + colorOffset);
 }
 
 

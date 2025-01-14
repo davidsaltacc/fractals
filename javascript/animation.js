@@ -33,9 +33,9 @@ class KeyframeGroup {
         this.colorOffset = properties.colorOffset ?? null;
         this.juliasetInterpolation = properties.juliasetInterpolation ?? null;
         this.colorfulness = properties.colorfulness ?? null;
-        this.cloudSeed = properties.cloudSeed ?? null;
-        this.cloudAmplitude = properties.cloudAmplitude ?? null;
-        this.cloudMultiplier = properties.cloudMultiplier ?? null;
+        this.noiseSeed = properties.noiseSeed ?? null;
+        this.noiseAmplitude = properties.noiseAmplitude ?? null;
+        this.noiseMultiplier = properties.noiseMultiplier ?? null;
         this.maxIterations = properties.maxIterations ?? null;
         this.sampleCount = properties.sampleCount ?? null;
         this.priority = 0;
@@ -53,9 +53,9 @@ class KeyframeGroup {
             isValidValue(this.colorOffset) &&
             isValidValue(this.juliasetInterpolation) &&
             isValidValue(this.colorfulness) &&
-            isValidValue(this.cloudSeed) &&
-            isValidValue(this.cloudAmplitude) &&
-            isValidValue(this.cloudMultiplier) &&
+            isValidValue(this.noiseSeed) &&
+            isValidValue(this.noiseAmplitude) &&
+            isValidValue(this.noiseMultiplier) &&
             isValidValue(this.maxIterations) &&
             isValidValue(this.sampleCount)
         );
@@ -71,9 +71,9 @@ class KeyframeGroup {
         setColoroffset(this.colorOffset, true);
         setInterpolation(this.juliasetInterpolation, true);
         setColorfulness(this.colorfulness, true);
-        setCloudSeed(this.cloudSeed, true);
-        setCloudAmplitude(this.cloudAmplitude, true);
-        setCloudMultiplier(this.cloudMultiplier, true);
+        setNoiseSeed(this.noiseSeed, true);
+        setNoiseAmplitude(this.noiseAmplitude, true);
+        setNoiseMultiplier(this.noiseMultiplier, true);
         setIterations(this.maxIterations, true);
         setSampleCount(this.sampleCount, true);
     }
@@ -172,9 +172,9 @@ class Sequence {
         var interpColorOffset = this.getSingleInterpolatedValueAtTime(time, "colorOffset"); ifValidValue(interpColorOffset, () => setColoroffset(interpColorOffset, true));
         var interpInterpolation = this.getSingleInterpolatedValueAtTime(time, "juliasetInterpolation"); ifValidValue(interpInterpolation, () => setInterpolation(interpInterpolation, true));
         var interpColorfulness = this.getSingleInterpolatedValueAtTime(time, "colorfulness"); ifValidValue(interpColorfulness, () => setColorfulness(interpColorfulness, true));
-        var interpCloudSeed = this.getSingleInterpolatedValueAtTime(time, "cloudSeed"); ifValidValue(interpCloudSeed, () => setCloudSeed(interpCloudSeed, true));
-        var interpCloudAmplitude = this.getSingleInterpolatedValueAtTime(time, "cloudAmplitude"); ifValidValue(interpCloudAmplitude, () => setCloudAmplitude(interpCloudAmplitude, true));
-        var interpCloudMultiplier = this.getSingleInterpolatedValueAtTime(time, "cloudMultiplier"); ifValidValue(interpCloudMultiplier, () => setCloudMultiplier(interpCloudMultiplier, true));
+        var interpNoiseSeed = this.getSingleInterpolatedValueAtTime(time, "noiseSeed"); ifValidValue(interpNoiseSeed, () => setNoiseSeed(interpNoiseSeed, true));
+        var interpNoiseAmplitude = this.getSingleInterpolatedValueAtTime(time, "noiseAmplitude"); ifValidValue(interpNoiseAmplitude, () => setNoiseAmplitude(interpNoiseAmplitude, true));
+        var interpNoiseMultiplier = this.getSingleInterpolatedValueAtTime(time, "noiseMultiplier"); ifValidValue(interpNoiseMultiplier, () => setNoiseMultiplier(interpNoiseMultiplier, true));
         var interpMaxIterations = this.getSingleInterpolatedValueAtTime(time, "maxIterations"); ifValidValue(interpMaxIterations, () => setIterations(interpMaxIterations, true));
         var interpSampleCount = this.getSingleInterpolatedValueAtTime(time, "sampleCount"); ifValidValue(interpSampleCount, () => setSampleCount(interpSampleCount, true));
 
@@ -195,9 +195,9 @@ class Sequence {
             colorOffset: linear, 
             juliasetInterpolation: linear, 
             colorfulness: linear, 
-            cloudSeed: linear, 
-            cloudAmplitude: linear, 
-            cloudMultiplier: linear, 
+            noiseSeed: linear, 
+            noiseAmplitude: linear, 
+            noiseMultiplier: linear, 
             maxIterations: linear, 
             sampleCount: linear
         }, 
@@ -212,9 +212,9 @@ class Sequence {
             colorOffset: getColorOffset(), 
             juliasetInterpolation: getInterpolation(), 
             colorfulness: getColorfulness(), 
-            cloudSeed: getCloudSeed(), 
-            cloudAmplitude: getCloudAmplitude(), 
-            cloudMultiplier: getCloudMultiplier(), 
+            noiseSeed: getNoiseSeed(), 
+            noiseAmplitude: getNoiseAmplitude(), 
+            noiseMultiplier: getNoiseMultiplier(), 
             maxIterations: getIterations(), 
             sampleCount: getSampleCount()
         });
@@ -633,9 +633,9 @@ var properties = {
     colorOffset: translatable("anim_color_offset").outerHTML,
     colorfulness: translatable("anim_colorfulness").outerHTML,
     juliasetInterpolation: translatable("anim_juliaset_interpolation").outerHTML,
-    cloudSeed: translatable("anim_cloud_seed").outerHTML,
-    cloudAmplitude: translatable("anim_cloud_amp").outerHTML,
-    cloudMultiplier: translatable("anim_cloud_multiplier").outerHTML
+    noiseSeed: translatable("anim_noise_seed").outerHTML,
+    noiseAmplitude: translatable("anim_noise_amp").outerHTML,
+    noiseMultiplier: translatable("anim_noise_multiplier").outerHTML
 };
 
 Object.keys(properties).forEach(property => {
@@ -716,9 +716,9 @@ function regenerateAnimation() {
             colorOffset: keyframeEasingForProperty(keyframes, "colorOffset"),
             juliasetInterpolation: keyframeEasingForProperty(keyframes, "juliasetInterpolation"),
             colorfulness: keyframeEasingForProperty(keyframes, "colorfulness"),
-            cloudSeed: keyframeEasingForProperty(keyframes, "cloudSeed"),
-            cloudAmplitude: keyframeEasingForProperty(keyframes, "cloudAmplitude"),
-            cloudMultiplier: keyframeEasingForProperty(keyframes, "cloudMultiplier"),
+            noiseSeed: keyframeEasingForProperty(keyframes, "noiseSeed"),
+            noiseAmplitude: keyframeEasingForProperty(keyframes, "noiseAmplitude"),
+            noiseMultiplier: keyframeEasingForProperty(keyframes, "noiseMultiplier"),
             maxIterations: keyframeEasingForProperty(keyframes, "maxIterations"),
             sampleCount: keyframeEasingForProperty(keyframes, "sampleCount")
         }, 
@@ -733,9 +733,9 @@ function regenerateAnimation() {
             colorOffset: keyframeValueForProperty(keyframes, "colorOffset"),
             juliasetInterpolation: keyframeValueForProperty(keyframes, "juliasetInterpolation"),
             colorfulness: keyframeValueForProperty(keyframes, "colorfulness"),
-            cloudSeed: keyframeValueForProperty(keyframes, "cloudSeed"),
-            cloudAmplitude: keyframeValueForProperty(keyframes, "cloudAmplitude"),
-            cloudMultiplier: keyframeValueForProperty(keyframes, "cloudMultiplier"),
+            noiseSeed: keyframeValueForProperty(keyframes, "noiseSeed"),
+            noiseAmplitude: keyframeValueForProperty(keyframes, "noiseAmplitude"),
+            noiseMultiplier: keyframeValueForProperty(keyframes, "noiseMultiplier"),
             maxIterations: keyframeValueForProperty(keyframes, "maxIterations"),
             sampleCount: keyframeValueForProperty(keyframes, "sampleCount")
         }));

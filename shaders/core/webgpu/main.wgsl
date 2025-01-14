@@ -13,9 +13,9 @@ struct Uniforms {
     colorOffset: f32,
     juliasetInterpolation: f32,
 	colorfulness: f32,
-	cloudSeed: f32,
-	cloudAmplitude: f32,
-	cloudMultiplier: f32,
+	noiseSeed: f32,
+	noiseAmplitude: f32,
+	noiseMultiplier: f32,
 	maxIterations: u32,
 	sampleCount: u32,
     chunkerFinalSize: u32,
@@ -234,7 +234,7 @@ fn colorscheme(x: f32) -> vec4<f32> {
 
 fn rand2d(pos: vec2<f32>) -> f32 {
     var p: vec2<f32> = vec2<f32>(pos.x % 1000, pos.y % 1000);
-    return fract(sin(dot(p, vec2<f32>(12.9898, 78.233)) + uniforms.cloudSeed) * 43758.5453);
+    return fract(sin(dot(p, vec2<f32>(12.9898, 78.233)) + uniforms.noiseSeed) * 43758.5453);
 }
 
 fn sm_noise(pos: vec2<f32>) -> f32 {
@@ -248,23 +248,23 @@ fn sm_noise(pos: vec2<f32>) -> f32 {
     return mix(a, b, u.x) + (c - a) * u.y * (1. - u.x) + (d - b) * u.x * u.y - .5;
 }
 
-fn clouds(pos: vec2<f32>) -> f32 {
-    if uniforms.cloudAmplitude == 0. {
+fn noise(pos: vec2<f32>) -> f32 {
+    if uniforms.noiseAmplitude == 0. {
         return 0.;
     }
     var p: vec2<f32> = pos + 5.;
     var v: f32 = 0.;
-    var a: f32 = uniforms.cloudAmplitude * (1.3 - uniforms.cloudMultiplier);
+    var a: f32 = uniforms.noiseAmplitude * (1.3 - uniforms.noiseMultiplier);
     for (var i: i32; i < 20; i++) {
         v += a * sm_noise(p);
         p *= mat2x2<f32>(1.2, 0.9, -0.9, 1.2);
-        a *= uniforms.cloudMultiplier;
+        a *= uniforms.noiseMultiplier;
     }
     return v;
 }
 
 fn color(x: f32, pos: vec2<f32>) -> vec4<f32> {
-    return colorscheme(x * uniforms.colorfulness * (f32(uniforms.maxIterations) / 100.) + clouds(pos) + uniforms.colorOffset);
+    return colorscheme(x * uniforms.colorfulness * (f32(uniforms.maxIterations) / 100.) + noise(pos) + uniforms.colorOffset);
 } 
 
 fn ms_rand(c: vec2<f32>) -> f32 {

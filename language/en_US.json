@@ -178,9 +178,9 @@
     "anim_color_offset": "Color Offset",
     "anim_colorfulness": "Colorfulness",
     "anim_juliaset_interpolation": "Jset. Interp.",
-    "anim_cloud_seed": "Cloud Seed",
-    "anim_cloud_amp": "Cloud Amp",
-    "anim_cloud_multiplier": "Cloud Multiplier",
+    "anim_noise_seed": "Noise Seed",
+    "anim_noise_amp": "Noise Amp",
+    "anim_noise_multiplier": "Noise Multiplier",
 
     "vcodec_not_supported": "{0} is not supported in your browser.",
 
