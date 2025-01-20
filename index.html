@@ -149,8 +149,6 @@
                 <button onclick="reset();" id="settingsReset"><fxp-translate key="reset_settings"></fxp-translate></button>
                 <button onclick="randomize();"><fxp-translate key="randomize_settings"></fxp-translate></button>
                 <br><br>
-                <p><fxp-translate key="sticky_canvases"></fxp-translate></p>
-                <input type="checkbox" id="stickycanvases" checked="true" onchange="setCanvasesSticky(this.checked);">
                 <p><fxp-translate key="escape_radius"></fxp-translate></p>
                 <input type="number" id="radius" value="100000" onchange="setRadius(this.value)">
                 <p><fxp-translate key="iterations"></fxp-translate></p>
@@ -169,6 +167,13 @@
                 <input type="number" step="0.0001" value="1" id="colorfulness" onchange="setColorfulness(this.value);">
                 <p><fxp-translate key="sample_count"></fxp-translate></p>
                 <input type="number" value="1" id="sampleCount" onchange="setSampleCount(this.value)">
+                <hr>
+                <p><fxp-translate key="sticky_canvases"></fxp-translate></p>
+                <input type="checkbox" id="stickycanvases" checked="true" onchange="setCanvasesSticky(this.checked);">
+                <p><fxp-translate key="camera_smoothing"></fxp-translate></p>
+                <input type="checkbox" checked="true" onchange="setSmoothing(this.checked);">
+                <p><fxp-translate key="camera_smoothing_value"></fxp-translate></p>
+                <input type="number" value="0.7" onchange="setSmoothingValue(this.value);">
                 <hr>
                 <h4><fxp-translate key="force_backend"></fxp-translate></h4>
                 <p><button onclick="forceWebGPU();"><fxp-translate key="use_webgpu"></fxp-translate></button> <span class="small"><fxp-translate key="webgpu_description"></fxp-translate></span></p>

@@ -90,7 +90,7 @@ input {
     font-size: 40px;
 }
 
-#stickycanvases {
+input[type=checkbox] {
     width: 15px;
     height: 15px;
 }

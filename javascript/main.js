@@ -896,144 +896,155 @@ async function _renderAndExportChunked(isMain) {
 
 }
 
-function renderAndExportChunkedMain() { _renderAndExportChunked(true) }
-function renderAndExportChunkedJuliaset() { _renderAndExportChunked(false) }
+function renderAndExportChunkedMain() { _renderAndExportChunked(true); }
+function renderAndExportChunkedJuliaset() { _renderAndExportChunked(false); }
 
-var mouseMainX = 0;
-var mouseMainY = 0;
-var mouseClickedMain = false;
-var mouseClickedRightMain = false;
+var targetXMain = 0;
+var targetYMain = 0;
+var targetZMain = 0.4;
+var smoothingMainRunning = false;
 
-var mouseJulX = 0;
-var mouseJulY = 0;
-var mouseClickedJul = false;
-var mouseClickedRightJul = false;
+var targetXJul = 0;
+var targetYJul = 0;
+var targetZJul = 0.4;
+var smoothingJulRunning = false;
 
-var zoomSpeed = 1 / 500;
+var smoothing = 0.7;
+var smoothingEnabled = true;
 
-function updateMouseCoords(event, canvas, zoom, center) {
-    var rect = event.target.getBoundingClientRect();
-    var x = (2 * (event.clientX - rect.left) - canvas.clientWidth) / Math.min(canvas.clientWidth, canvas.clientHeight);
-    var y = -1 * (2 * (event.clientY - rect.top) - canvas.clientHeight) / Math.min(canvas.clientWidth, canvas.clientHeight);
-    return [x / zoom + center[0], y / zoom + center[1]];
+function prepareSmoothingAnimation(main) {
+    if (main && !smoothingMainRunning) {
+        targetXMain = centerMain[0];
+        targetYMain = centerMain[1];
+        targetZMain = zoomMain;
+    }
+    if (!main && !smoothingJulRunning) {
+        targetXJul = centerJul[0];
+        targetYJul = centerJul[1];
+        targetZJul = zoomJul;
+    }
+} 
+
+function startSmoothingAnimation(main) {
+    if (main && !smoothingMainRunning) {
+        requestAnimationFrame(animateSmoothingMain);
+    }
+    if (!main && !smoothingJulRunning) {
+        requestAnimationFrame(animateSmoothingJul);
+    }
 }
 
-function updateMouseCoordsMain(event) { [mouseMainX, mouseMainY] = updateMouseCoords(event, canvasMain, zoomMain, centerMain); }
-function updateMouseCoordsJul(event)  { [mouseJulX, mouseJulY] = updateMouseCoords(event, canvasJul, zoomJul, centerJul);      }
+canvasMain.onmousedown = evt => {
+    if (evt.button == 0) { 
+        juliasetConstant = [
+            (2 * (evt.offsetX / canvasMain.width) - 1) / zoomMain + centerMain[0], 
+            (2 * (evt.offsetY / canvasMain.height) - 1) / zoomMain - centerMain[1]
+        ]; 
+        renderJul(); 
+        updateJsetConstants(); 
+    }
+};
 
-canvasMain.onmousemove = event => {
+canvasMain.onmousemove = evt => {
+    if (evt.buttons & 2) {
+        prepareSmoothingAnimation(true);
+        targetXMain += -2 * evt.movementX / canvasMain.width / zoomMain;
+        targetYMain += 2 * evt.movementY / canvasMain.height / zoomMain;
+        startSmoothingAnimation(true);
+    }
+    if (evt.buttons & 1) {
+        juliasetConstant = [
+            (2 * (evt.offsetX / canvasMain.width) - 1) / zoomMain + centerMain[0], 
+            (2 * (evt.offsetY / canvasMain.height) - 1) / zoomMain - centerMain[1]
+        ]; 
+        renderJul(); 
+        updateJsetConstants(); 
+    }
+};
 
-    if (mouseClickedRightMain) {
+canvasMain.onwheel = evt => {
+    evt.preventDefault();
+    var z = Math.exp(-evt.deltaY * 1 / 500);
+    prepareSmoothingAnimation(true);
+    targetXMain = -(2 * (evt.offsetX / canvasMain.width) - 1) / zoomMain + centerMain[0] + (2 * (evt.offsetX / canvasMain.width) - 1) / zoomMain * z;
+    targetYMain = (2 * (evt.offsetY / canvasMain.height) - 1) / zoomMain + centerMain[1] - (2 * (evt.offsetY / canvasMain.height) - 1) / zoomMain * z;
+    targetZMain = targetZMain * z;
+    startSmoothingAnimation(true);
+};
 
-        var oldX = mouseMainX;
-        var oldY = mouseMainY;
-        updateMouseCoordsMain(event);
-        centerMain[0] += oldX - mouseMainX;
-        centerMain[1] += oldY - mouseMainY;
-        updateMouseCoordsMain(event);
+function animateSmoothingMain() {
+    if (!smoothingEnabled) {
+        smoothingMainRunning = false;
+        centerMain[0] = targetXMain;
+        centerMain[1] = targetYMain;
+        zoomMain = targetZMain;
         renderMain();
-
-    } else if (mouseClickedMain) {
-
-        updateMouseCoordsMain(event);
-        juliasetConstant[0] = mouseMainX;
-        juliasetConstant[1] = mouseMainY;
-        updateJsetConstants();
-        renderJul();
-
+        return;
     }
-
-};
-
-canvasMain.onmousedown = event => {
-
-    if (event.button == 0) {
-
-        mouseClickedMain = true;
-        juliasetConstant[0] = mouseMainX;
-        juliasetConstant[1] = mouseMainY;
-        updateJsetConstants();
-        renderJul();
-
-    } else if (event.button == 2) {
-        mouseClickedRightMain = true;
+    if (smoothingMainRunning && !(
+        Math.abs(targetXMain - centerMain[0]) > 0.01 / zoomMain ||
+        Math.abs(targetYMain - centerMain[1]) > 0.01 / zoomMain ||
+        Math.abs(targetZMain - zoomMain) > 0.01
+    )) {
+        smoothingMainRunning = false;
+        return;
     }
-    
-    updateMouseCoordsMain(event);
-};
-
-canvasMain.onmouseup = event => {
-
-    if (event.button == 0) {
-        mouseClickedMain = false;
-    } else if (event.button == 2) {
-        mouseClickedRightMain = false;
-    }
-
-};
-
-canvasMain.onwheel = event => {
-
-    event.preventDefault();
-    var z = Math.exp(-event.deltaY * zoomSpeed);
-    updateMouseCoordsMain(event);
-    centerMain[0] = mouseMainX + (centerMain[0] - mouseMainX) / z;
-    centerMain[1] = mouseMainY + (centerMain[1] - mouseMainY) / z;
-    zoomMain *= z;
+    smoothingMainRunning = true;
+    centerMain[0] = (1 - smoothing) * targetXMain + smoothing * centerMain[0];
+    centerMain[1] = (1 - smoothing) * targetYMain + smoothing * centerMain[1];
+    zoomMain = (1 - smoothing) * targetZMain + smoothing * zoomMain;
     renderMain();
+    requestAnimationFrame(animateSmoothingMain);
+}
 
+
+
+canvasJul.onmousemove = evt => {
+    if (evt.buttons & 2) {
+        prepareSmoothingAnimation(false);
+        targetXJul += -2 * evt.movementX / canvasJul.width / zoomJul;
+        targetYJul += 2 * evt.movementY / canvasJul.height / zoomJul;
+        startSmoothingAnimation(false);
+    }
 };
 
-canvasMain.oncontextmenu = event => event.preventDefault();
+canvasJul.onwheel = evt => {
+    evt.preventDefault();
+    var z = Math.exp(-evt.deltaY * 1 / 500);
+    prepareSmoothingAnimation(false);
+    targetXJul = -(2 * (evt.offsetX / canvasJul.width) - 1) / zoomJul + centerJul[0] + (2 * (evt.offsetX / canvasJul.width) - 1) / zoomJul * z;
+    targetYJul = (2 * (evt.offsetY / canvasJul.height) - 1) / zoomJul + centerJul[1] - (2 * (evt.offsetY / canvasJul.height) - 1) / zoomJul * z;
+    targetZJul = targetZJul * z;
+    startSmoothingAnimation(false);
+};
 
-
-canvasJul.onmousemove = event => {
-
-    if (mouseClickedRightJul) {
-
-        var oldX = mouseJulX;
-        var oldY = mouseJulY;
-        updateMouseCoordsJul(event);
-        centerJul[0] += oldX - mouseJulX;
-        centerJul[1] += oldY - mouseJulY;
-        updateMouseCoordsJul(event);
+function animateSmoothingJul() {
+    if (!smoothingEnabled) {
+        smoothingJulRunning = false;
+        centerJul[0] = targetXJul;
+        centerJul[1] = targetYJul;
+        zoomJul = targetZJul;
         renderJul();
-
+        return;
     }
-
-};
-
-canvasJul.onmousedown = event => {
-
-    if (event.button == 2) {
-        mouseClickedRightJul = true;
+    if (smoothingJulRunning && !(
+        Math.abs(targetXJul - centerJul[0]) > 0.01 / zoomJul ||
+        Math.abs(targetYJul - centerJul[1]) > 0.01 / zoomJul ||
+        Math.abs(targetZJul - zoomJul) > 0.01
+    )) {
+        smoothingJulRunning = false;
+        return;
     }
-    updateMouseCoordsJul(event);
-
-};
-
-canvasJul.onmouseup = event => {
-
-    if (event.button == 2) {
-        mouseClickedRightJul = false;
-    }
-
-};
-
-canvasJul.onwheel = event => {
-
-    event.preventDefault();
-    var z = Math.exp(-event.deltaY * zoomSpeed);
-    updateMouseCoordsJul(event);
-    centerJul[0] = mouseJulX + (centerJul[0] - mouseJulX) / z;
-    centerJul[1] = mouseJulY + (centerJul[1] - mouseJulY) / z;
-    zoomJul *= z;
+    smoothingJulRunning = true;
+    centerJul[0] = (1 - smoothing) * targetXJul + smoothing * centerJul[0];
+    centerJul[1] = (1 - smoothing) * targetYJul + smoothing * centerJul[1];
+    zoomJul = (1 - smoothing) * targetZJul + smoothing * zoomJul;
     renderJul();
+    requestAnimationFrame(animateSmoothingJul);
+}
 
-};
-
-
-canvasJul.oncontextmenu = event => event.preventDefault();
+canvasMain.oncontextmenu = evt => evt.preventDefault();
+canvasJul.oncontextmenu = evt => evt.preventDefault();
 
 
 function buttonPressed(otherButtons, definitions, type) {
@@ -1195,6 +1206,8 @@ function setNoiseAmplitude(value, dontRerender) { noiseAmplitude = parseFloat(va
 function setNoiseMultiplier(value, dontRerender) { noiseMultiplier = parseFloat(value); if (!dontRerender) { renderBoth(); } }
 function setChunkerFinalSize(value) { chunkerFinalSize = parseInt(value); }
 function setChunkerChunkSize(value) { chunkerChunkSize = parseInt(value); }
+function setSmoothing(value) { smoothingEnabled = value; }
+function setSmoothingValue(value) { smoothing = parseFloat(value); }
 
 function getRadius() { return radius; }
 function getIterations() { return maxIterations; }
@@ -1647,6 +1660,8 @@ const exports = {
     showLoadingWave, hideLoadingWave,
     logStatus,
     onPluginsInitialized,
-    onAnimationsInitialized
+    onAnimationsInitialized,
+    setSmoothing,
+    setSmoothingValue
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
