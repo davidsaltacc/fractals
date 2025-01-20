@@ -1,0 +1,12 @@
+
+#ifbackend[*]
+distance_to_orbit_trap = min(distance_to_orbit_trap, abs(z.y));
+#endbackend
+
+#ifbackend[webgpu]
+color_v = pow(distance_to_orbit_trap, 0.2) * (100. / f32(maxIterations));
+#endbackend
+
+#ifbackend[webgl]
+color_v = pow(distance_to_orbit_trap, 0.2) * (100. / float(maxIterations));
+#endbackend

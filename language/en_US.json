@@ -66,6 +66,9 @@
 
     "force_backend": "Force Backend",
 
+    "camera_smoothing": "Camera Smoothing",
+    "camera_smoothing_value": "Camera Smoothing Intensity",
+
     "use_webgpu": "Use WebGPU",
     "use_webgl": "Use WebGL",
 
@@ -360,6 +363,8 @@
     "interior_2": "Interior 2",
     "interior_stripes": "Interior Stripes",
     "pickover_stalk": "Pickover Stalk",
+    "pickover_stalk_1": "Pickover Stalk Variation 1",
+    "pickover_stalk_2": "Pickover Stalk Variation 2",
 
     "terraced_desc": "\"Mathematically accurate\" coloring method. Not smoothed, colored based on how long it takes for z to escape to infinity.",
     "smooth_desc": "Smooth coloring.",
@@ -375,6 +380,8 @@
     "interior_2_desc": "Another interior coloring method, a little different that the first one.",
     "interior_stripes_desc": "Stripes, but on the interior. A little messy, most of the time it only looks really good on the juliasets.",
     "pickover_stalk_desc": "Another attempt at orbit traps. Looks quite nice, actually. Even though I don't understand half of it. Has a lot of thin lines, so maybe put in a higher sample count.",
+    "pickover_stalk_1_desc": "Small variation of the pickover stalk coloring method.",
+    "pickover_stalk_2_desc": "Another variation.",
 
     "classic": "Classic",
     "ultra_fractal": "Ultra Fractal",

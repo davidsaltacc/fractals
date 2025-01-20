@@ -432,6 +432,16 @@ const COLOR_METHODS = {
         name: "pickover_stalk",
         description: "pickover_stalk_desc",
         shader: "pickover_stalk"
+    },
+    PICKOVER_STALK_VAR_1: {
+        name: "pickover_stalk_1",
+        description: "pickover_stalk_1_desc",
+        shader: "pickover_stalk_var_1"
+    },
+    PICKOVER_STALK_VAR_2: {
+        name: "pickover_stalk_1",
+        description: "pickover_stalk_2_desc",
+        shader: "pickover_stalk_var_2"
     }
 
 };
