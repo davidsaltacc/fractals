@@ -228,8 +228,12 @@ if (USE_WEBGPU) {
 
     logStatus("initializing WebGPU. if this takes more than a few seconds, the fractal explorer probably crashed the last time you used it. in that case, simply restart your browser. ");
 
-    var wgpu_adapter = await navigator.gpu.requestAdapter();
-    var wgpu_device = await wgpu_adapter.requestDevice();
+    try {
+        var wgpu_adapter = await navigator.gpu.requestAdapter();
+        var wgpu_device = await wgpu_adapter.requestDevice();
+    } catch {
+        logStatus("failed to initialize WebGPU. ");
+    }
 
 } else if (USE_WEBGL) {
     
@@ -1224,6 +1228,17 @@ function getNoiseMultiplier() { return noiseMultiplier; }
 function getMainCanvas() { return canvasMain };
 function getJuliasetCanvas() { return canvasJul };
 
+var presetIncludesAnimation = true;
+var presetIncludesPlugins = true;
+
+function includeAnimationInPreset(value) {
+    presetIncludesAnimation = value;
+}
+
+function includePluginsInPreset(value) {
+    presetIncludesPlugins = value;
+}
+
 function createUrlWithParameters() {
 
     var url = new URL(window.location.origin + window.location.pathname); 
@@ -1263,8 +1278,8 @@ function createUrlWithParameters() {
 
     params.append("scb", usingBackend);
 
-    params.append("pgns", JSON.stringify(getLoadedPluginsURLs()));
-    params.append("an", JSON.stringify(getAnimationData()));
+    if (presetIncludesPlugins) { params.append("pgns", JSON.stringify(getLoadedPluginsURLs())); }
+    if (presetIncludesAnimation) { params.append("an", JSON.stringify(getAnimationData())); }
 
     if (DEBUG_MODE) {
         logStatus("creating parameter URL, encoded parameters: " + params.toString(), true);
@@ -1662,6 +1677,8 @@ const exports = {
     onPluginsInitialized,
     onAnimationsInitialized,
     setSmoothing,
-    setSmoothingValue
+    setSmoothingValue,
+    includeAnimationInPreset,
+    includePluginsInPreset
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
