@@ -149,7 +149,7 @@ class Sequence {
         var valueBefore = this.keyframeGroups[nearestBeforeIndex][value];
         var valueAfter = this.keyframeGroups[nearestAfterIndex][value];
 
-        return lerp(valueBefore, valueAfter, this.keyframeGroups[nearestAfterIndex].easings[value]((time - timeBefore) / (timeAfter - timeBefore)));
+        return nearestBeforeIndex == nearestAfterIndex ? valueBefore : lerp(valueBefore, valueAfter, this.keyframeGroups[nearestAfterIndex].easings[value]((time - timeBefore) / (timeAfter - timeBefore)));
 
     }
 
@@ -176,7 +176,7 @@ class Sequence {
         var interpNoiseAmplitude = this.getSingleInterpolatedValueAtTime(time, "noiseAmplitude"); ifValidValue(interpNoiseAmplitude, () => setNoiseAmplitude(interpNoiseAmplitude, true));
         var interpNoiseMultiplier = this.getSingleInterpolatedValueAtTime(time, "noiseMultiplier"); ifValidValue(interpNoiseMultiplier, () => setNoiseMultiplier(interpNoiseMultiplier, true));
         var interpMaxIterations = this.getSingleInterpolatedValueAtTime(time, "maxIterations"); ifValidValue(interpMaxIterations, () => setIterations(interpMaxIterations, true));
-        var interpSampleCount = this.getSingleInterpolatedValueAtTime(time, "sampleCount"); ifValidValue(interpSampleCount, () => setSampleCount(interpSampleCount, true));
+        var interpSampleCount = this.getSingleInterpolatedValueAtTime(time, "sampleCount"); ifValidValue(interpSampleCount, () => setSampleCount(interpSampleCount, true)); 
 
     }
 
@@ -856,6 +856,10 @@ function applyAnimationData(data) {
 
 }
 
+function getAnimation() {
+    return animation;
+}
+
 addAnimationTrack("zoom-addAnimTrack", translatable("anim_zoom").outerHTML, "zoom");
 updateEditor();
 
@@ -884,7 +888,8 @@ const exports = {
     setAnimationVideoContainer,
     setAnimationVideoCodec,
     getAnimationData,
-    applyAnimationData
+    applyAnimationData,
+    getAnimation
 };
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
 
