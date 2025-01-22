@@ -344,8 +344,12 @@ class Sequence {
         async function addFrame() {
             var bitmap = await drawReturnImageData(ofJuliaset ? contextJul : contextMain);
             var timestamp = frameIndex * frameDuration * 1000;
-            videoEncoder.encode(new VideoFrame(bitmap, { timestamp }));
-            bitmap.close();
+            videoEncoder.encode(new VideoFrame(bitmap, { 
+                timestamp, 
+                codedHeight: canvas.height, 
+                codedWidth: canvas.width, 
+                format: "RGBA" 
+            }));
         }
 
         for (; frameIndex < frameAmount; frameIndex++) {

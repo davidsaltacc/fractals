@@ -1679,6 +1679,7 @@ const exports = {
     setSmoothing,
     setSmoothingValue,
     includeAnimationInPreset,
-    includePluginsInPreset
+    includePluginsInPreset,
+    drawReturnImageData
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
