@@ -1,0 +1,354 @@
+{
+
+    "MANDELBROT": {
+        "name": "mandelbrot",
+        "radius": 10000000,
+        "description": "mandelbrot_desc",
+        "formula": "z<sub>n+1</sub> = z<sub>n</sub><sup>POWER</sup> + c",
+        "shader": "mandelbrot"
+    },
+    "BURNING_SHIP": {
+        "name": "burning_ship",
+        "radius": 10000000,
+        "description": "burning_ship_desc",
+        "formula": "z<sub>n+1</sub> = (|Re(z<sub>n</sub><sup>POWER</sup>)| + Im(z<sub>n</sub><sup>POWER</sup>)i) + c",
+        "shader": "burning_ship"
+    },
+    "CELTIC": {
+        "name": "celtic",
+        "radius": 10000000,
+        "description": "celtic_desc",
+        "formula": "z<sub>n+1</sub> = (Re(z<sub>n</sub><sup>POWER</sup>) + |Im(z<sub>n</sub><sup>POWER</sup>)|i) + c",
+        "shader": "celtic"
+    },
+    "BUFFALO": {
+        "name": "buffalo",
+        "radius": 10000000,
+        "description": "buffalo_desc",
+        "formula": "z<sub>n+1</sub> = (|Re(z<sub>n</sub><sup>POWER</sup>)| + |Im(z<sub>n</sub><sup>POWER</sup>)|i) + c",
+        "shader": "buffalo"
+    },
+    "TRICORN": {
+        "name": "tricorn",
+        "radius": 10000000,
+        "description": "tricorn_desc",
+        "formula": "z<sub>n+1</sub> = (-Re(z<sub>n</sub><sup>POWER</sup>) + Im(z<sub>n</sub><sup>POWER</sup>)i) + c",
+        "shader": "tricorn"
+    },
+    "DUCK": {
+        "name": "duck",
+        "radius": 10000000,
+        "description": "duck_desc",
+        "formula": "polar = toPolar(z<sub>n</sub>)<br>r = Re(polar)<sup>POWER</sup><br>t = POWER * |Im(polar)|;<br>z<sub>n+1</sub> = (r * cos(t) + i * r * sin(t)) + c",
+        "shader": "duck"
+    },
+    "ASS": {
+        "name": "b_fractal",
+        "radius": 10000000,
+        "description": "b_fractal_desc",
+        "formula": "x<sub>n+1</sub> = x<sub>n</sub><sup>3</sup> - y<sub>n</sub><sup>2</sup> * abs(y<sub>n</sub>) + c<sub>x</sub><br>y<sub>n+1</sub> = 2 * x<sub>n</sub> * y<sub>n</sub> + c<sub>y</sub>",
+        "shader": "ass"
+    },
+    "SINE": {
+        "name": "sine",
+        "radius": 50,
+        "description": "sine_desc",
+        "formula": "z<sub>n+1</sub> = sin(z)<sup>POWER</sup> + c",
+        "shader": "sine"
+    },
+    "POPCORN": {
+        "name": "popcorn",
+        "radius": 2,
+        "description": "popcorn_desc",
+        "formula": "x<sub>n+1</sub> = x<sub>n</sub> - c<sub>x</sub> * (y<sub>n</sub> + tan(3 * y<sub>n</sub>))<br>y<sub>n+1</sub> = y<sub>n</sub> - c<sub>y</sub> * (x<sub>n</sub> + tan(3 * x<sub>n</sub>))",
+        "shader": "popcorn"
+    },
+    "THORN": {
+        "name": "thorn",
+        "radius": 10000000,
+        "description": "thorn_desc",
+        "formula": "x<sub>n+1</sub> = x<sub>n</sub> / cos(y<sub>n</sub>) + c<sub>x</sub><br>y<sub>n+1</sub> = y<sub>n</sub> / sin(x<sub>n</sub>) + c<sub>y</sub>",
+        "shader": "thorn"
+    },
+    "HENON": {
+        "name": "henon",
+        "radius": 20000,
+        "description": "henon_desc",
+        "formula": "x<sub>n+1</sub> = 1 - c<sub>x</sub> * x<sub>n</sub><sup>2</sup> + y<sub>n</sub><br>x<sub>n+1</sub> = c<sub>y</sub> * x<sub>n</sub>",
+        "shader": "henon"
+    },
+    "DUFFING": {
+        "name": "duffing",
+        "radius": 200,
+        "description": "duffing_desc",
+        "formula": "x<sub>n+1</sub> = y<sub>n</sub><br>y<sub>n+1</sub> = -1 * c<sub>y</sub> * x<sub>n</sub> + c<sub>x</sub> * y<sub>n</sub> - y<sub>n</sub><sup>3</sup>",
+        "shader": "duffing"
+    },
+    "CHIRIKOV": {
+        "name": "chirikov",
+        "radius": 100, 
+        "description": "chirikov_desc",
+        "formula": "x<sub>n+1</sub> = x<sub>n</sub> + c<sub>x</sub> * y<sub>n</sub><br>y<sub>n+1</sub> = y<sub>n</sub> + c<sub>y</sub> * sin(x<sub>n</sub>)",
+        "shader": "chirikov"
+    },
+    "IKEDA": {
+        "name": "ikeda",
+        "radius": 20000,
+        "description": "ikeda_desc",
+        "formula": "t = 0.4 - 6 / (1 + x<sub>n</sub><sup>2</sup> + y<sub>n</sub><sup>2</sup>)<br>x<sub>n+1</sub> = 1 + c<sub>x</sub> * (x<sub>n</sub> * cos(t) - y<sub>n</sub> * sin(t))<br>x<sub>n+1</sub> = c<sub>y</sub> * (x<sub>n</sub> * sin(t) + y<sub>n</sub> * cos(t))",
+        "shader": "ikeda"
+    },
+    "FEATHER": {
+        "name": "feather",
+        "radius": 50, 
+        "description": "feather_desc",
+        "formula": "z<sub>n</sub><sup>3</sup> / (1 + (Re(z)<sup>2</sup> + i * Im(z)<sup>2</sup>)) + c",
+        "shader": "feather"
+    },
+    "HEART": {
+        "name": "heart",
+        "radius": 10000000,
+        "description": "heart_desc",
+        "formula": "x<sub>n+1</sub> = 2 * x<sub>n</sub> * y<sub>n</sub> + c<sub>x</sub><br>y<sub>n+1</sub> = |y<sub>n</sub>| - |x<sub>n</sub>| + c<sub>y</sub>",
+        "shader": "heart"
+    },
+    "ASS_2": {
+        "name": "sunglasses",
+        "radius": 10000,
+        "description": "sunglasses_desc",
+        "formula": "x<sub>n+1</sub> = sinh(x<sub>n</sub>) * sin(y<sub>n</sub>) + c<sub>x</sub><br>y<sub>n+1</sub> = cosh(y<sub>n</sub>) * cos(x<sub>n</sub>) + c<sub>y</sub>",
+        "shader": "ass_2"
+    },
+    "TRIANGLE": {
+        "name": "triangle",
+        "radius": 10000,
+        "description": "triangle_desc",
+        "formula": "x<sub>n+1</sub> = sin(x<sub>n</sub>) * sinh(y<sub>n</sub>) + c<sub>x</sub><br>y<sub>n+1</sub> = cos(y<sub>n</sub>) * cosh(x<sub>n</sub>) + c<sub>y</sub>",
+        "shader": "triangle"
+    },
+    "SHARK_FIN": {
+        "name": "shark_fin",
+        "radius": 10000000,
+        "description": "shark_fin_desc",
+        "formula": "x<sub>n+1</sub> = x<sub>n</sub><sup>2</sup> - |y<sub>n</sub>| * y<sub>n</sub><br>y<sub>n+1</sub> = 2 * x<sub>n</sub> * y<sub>n</sub>",
+        "shader": "shark_fin"
+    },
+    "TIPPETS": {
+        "name": "tippets",
+        "radius": 10000000,
+        "description": "tippets_desc",
+        "formula": "x<sub>n+1</sub> = x<sub>n</sub><sup>2</sup> - y<sub>n</sub><sup>2</sup> + c<sub>x</sub><br>y<sub>n+1</sub> = 2 * x<sub>n+1</sub> * y<sub>n</sub> + c<sub>y</sub>",
+        "shader": "tippets"
+    },
+    "ZUBIETA": {
+        "name": "zubieta",
+        "radius": 10000000,
+        "description": "zubieta_desc",
+        "formula": "z<sub>n+1</sub> = z<sup>POWER</sup> + c / z",
+        "shader": "zubieta"
+    },
+    "SINH": {
+        "name": "hyperbolic_sine",
+        "radius": 70,
+        "description": "hyperbolic_sine_desc",
+        "formula": "z<sub>n+1</sub> = sinh(z)<sup>POWER</sup> + c",
+        "shader": "sinh"
+    },
+    "UNNAMED_1": {
+        "name": "unnamed_1",
+        "radius": 10000000,
+        "description": "unnamed_1_desc",
+        "formula": "z<sub>n+1</sub> = z<sub>n</sub><sup>POWER</sup> - (-z)<sup>c<sub>x</sub></sup> + c<sub>y</sub>",
+        "shader": "unnamed_1"
+    },
+    "UNNAMED_2": {
+        "name": "unnamed_2",
+        "radius": 10000000,
+        "description": "unnamed_2_desc",
+        "formula": "z<sub>n+1</sub> = (z<sub>n</sub> - (z<sub>n</sub><sup>3</sup> - 1) / (3 * z<sub>n</sub><sup>2</sup>))<sup>POWER</sup> + c",
+        "shader": "unnamed_2"
+    },
+    "UNNAMED_3": {
+        "name": "unnamed_3",
+        "radius": 10000000,
+        "description": "unnamed_3_desc",
+        "formula": "((z<sub>n</sub><sup>2</sup> + c - 1) / (z * (2 + 2i) + c - 2))<sup>POWER</sup>",
+        "shader": "unnamed_3"
+    },
+    "FISH": {
+        "name": "fish",
+        "radius": 10000000,
+        "description": "fish_desc",
+        "formula": "x<sub>n+1</sub> = |x<sub>n</sub> - y<sub>n</sub>|<br>y<sub>n+1</sub> = 2 * x<sub>n</sub> * y<sub>n</sub>",
+        "shader": "fish"
+    },
+    "WAVY": {
+        "name": "wavy",
+        "radius": 10000000,
+        "description": "wavy_desc",
+        "formula": "a = y<sub>n</sub> + 1 - (1.4 + sin(y<sub>n</sub>  * pi) * 0.4 + c<sub>x</sub>) * x<sub>n</sub><sup>2</sup><br>b = (0.3 + cos((x<sub>n</sub> + y<sub>n</sub>) * pi) * 0.2 + c<sub>y</sub>) * a<br>x<sub>n+1</sub> = (4 + cos(x<sub>n</sub> * pi) * 3 + (c<sub>x</sub> + c<sub>y</sub>)) * a * (1 - a)<br>y<sub>n+1</sub> = b",
+        "shader": "wavy"
+    },
+    "COLLATZ": {
+        "name": "collatz",
+        "radius": 20,
+        "description": "collatz_desc",
+        "formula": "z<sub>n+1</sub> = 0.25 * (1 + 4 * z<sub>n</sub> - (1 + 2 * z<sub>n</sub>) * cos(pi * z<sub>n</sub>)) + c",
+        "shader": "collatz"
+    },
+    "UNNAMED_4": {
+        "name": "unnamed_4",
+        "radius": 10000000,
+        "description": "unnamed_4_desc",
+        "formula": "z<sub>n+1</sub> = ((Im(z<sub>n</sub>) - sign(Re(z<sub>n</sub>)) * sqrt(|Im(c) * Re(z<sub>n</sub>) - (Re(c) + Im(c))|)) + i(Re(c) - Re(z<sub>n</sub>)))<sup>POWER</sup>",
+        "shader": "unnamed_4"
+    },
+    "SEPTAGON": {
+        "name": "septagon",
+        "radius": 10,
+        "description": "septagon_desc",
+        "formula": "z<sub>n+1</sub> = (z<sub>n</sub><sup>7</sup> + (c<sub>x</sub>/c<sub>y</sub> + i(c<sub>x</sub>/c<sub>y</sub>))) / z<sub>n</sub>",
+        "shader": "septagon"
+    },
+    "UNNAMED_5": {
+        "name": "unnamed_5",
+        "radius": 10000000,
+        "description": "unnamed_5_desc",
+        "formula": "z<sub>n+1</sub> = z<sub>n</sub><sup>POWER</sup> + ((|Re(z)| + i|Im(z)|) + i) / ((|Re(z)| + i|Im(z)|) + 1) + c",
+        "shader": "unnamed_5"
+    },
+    "UNNAMED_6": {
+        "name": "unnamed_6",
+        "radius": 1000000,
+        "description": "unnamed_6_desc",
+        "formula": "z<sub>n+1</sub> = (z<sub>n</sub><sup>4</sup> + (1 + i * Re(c))) / (z<sub>n</sub><sup>2</sup> + (1 + i * Im(c)))",
+        "shader": "unnamed_6"
+    },
+    "CACTUS": {
+        "name": "cactus",
+        "radius": 10000000,
+        "description": "cactus_desc",
+        "formula": "z<sub>n+1</sub> = z<sub>n</sub><sup>3</sup> + (c - 1) * z<sub>n</sub> - c",
+        "shader": "cactus"
+    },
+    "UNNAMED_7": {
+        "name": "unnamed_7",
+        "radius": 10,
+        "description": "unnamed_7_desc",
+        "formula": "t = c * z<sub>n</sub><sup>2</sup> * (z<sub>n</sub><sup>2</sup> + 1) / (z<sub>n</sub><sup>2</sup> - 1)<sup>2</sup><br>z<sub>n+1</sub> = (Re(t) - Im(t)) / |t|<sup>2</sup>",
+        "shader": "unnamed_7"
+    },
+    "POWER_CIRCLE": {
+        "name": "power_circle",
+        "radius": 16,
+        "description": "power_circle_desc",
+        "formula": "z<sub>n+1</sub> = z<sub>n</sub><sup>c</sup>",
+        "shader": "power_circle"
+    },
+    "BITTEN_MANDELBROT": {
+        "name": "bitten_mandelbrot",
+        "radius": 10000000,
+        "description": "bitten_mandelbrot_desc",
+        "formula": "z<sub>n+1</sub> = (z + c)<sup>POWER</sup> - c / (z + i)",
+        "shader": "bitten_mandelbrot"
+    },
+    "UNNAMED_8": {
+        "name": "unnamed_8",
+        "radius": 10000000,
+        "description": "unnamed_8_desc",
+        "formula": "z<sub>n+1</sub> = (sqrt(z<sub>n</sub><sup>2</sup> / c) - c / z<sub>n</sub><sup>2</sup>)<sup>POWER</sup> * 0.5",
+        "shader": "unnamed_8"
+    },
+    "UNNAMED_9": {
+        "name": "unnamed_9",
+        "radius": 30,
+        "description": "unnamed_9_desc",
+        "formula": "z<sub>n+1</sub> = (log((Im(z<sub>n</sub>) + i * Re(z<sub>n</sub>)) * c + c))<sup>3</sup>",
+        "shader": "unnamed_9"
+    },
+    "SMALL_BROT": {
+        "name": "smallbrot",
+        "radius": 30,
+        "description": "smallbrot_desc",
+        "formula": "z<sub>n+1</sub> = z<sub>n</sub><sup>POWER</sup> + c * 2",
+        "shader": "small_brot"
+    },
+    "MAGNET": {
+        "name": "magnet",
+        "radius": 10000000,
+        "description": "magnet_desc",
+        "formula": "((z<sub>n</sub><sup>POWER</sup> + c - 1) / (2 * z<sub>n</sub> + c - 2))<sup>POWER</sup>",
+        "shader": "magnet"
+    },
+    "TREE": {
+        "name": "tree",
+        "radius": 10,
+        "description": "tree_desc",
+        "formula": "z<sub>n+1</sub> = sqrt(z<sub>n</sub><sup>POWER+1</sup>) + c",
+        "shader": "tree"
+    },
+    "UNNAMED_10": {
+        "name": "unnamed_10",
+        "radius": 10000000,
+        "description": "unnamed_10_desc",
+        "formula": "z<sub>n+1</sub> = z<sub>n</sub><sup>3</sup> + z<sub>n</sub> + c",
+        "shader": "unnamed_10"
+    },
+    "NOT_MANDELBROT": {
+        "name": "not_mandelbrot",
+        "radius": 10000000,
+        "description": "not_mandelbrot_desc",
+        "formula": "z<sub>n+1</sub> = (((1 - i) * z<sub>n</sub>) / 2) * (((1 + i) * (z<sub>n</sub> - 1)) / 2) + c",
+        "shader": "not_mandelbrot"
+    },
+    "SIERPINSKY": {
+        "name": "sierpinsky",
+        "radius": 1000000000000000,
+        "description": "sierpinsky_desc",
+        "formula": "if (Im(z<sub>n</sub>) > 0.5) then: z<sub>n+1</sub> = (2 * Re(z<sub>n</sub>) + i * 2 * Im(z<sub>n</sub>) - 1) <br>else if (Re(z<sub>n</sub>) > 0.5) then: z<sub>n+1</sub> = (2 * Re(z<sub>n</sub>) - 1, i* 2 * Im(z<sub>n</sub>)) <br>else: z<sub>n+1</sub> = (2 * Re(z<sub>n</sub>) + i * 2 * Im(z<sub>n</sub>))",
+        "shader": "sierpinsky"
+    },
+    "BARNSLEY": {
+        "name": "barnsley",
+        "radius": 10,
+        "description": "barnsley_desc",
+        "formula": "z<sub>n+1</sub> = (z<sub>n</sub> - sign(Re(z<sub>n</sub>))) * c",
+        "shader": "barnsley"
+    },
+    "STRUCTURE_IN_EMPTINESS": {
+        "name": "structure_in_emptiness",
+        "radius": 10000000,
+        "description": "structure_in_emptiness_desc",
+        "formula": "z<sub>n+1</sub> = z<sub>n</sub><sup>POWER</sup> + z<sub>n</sub><sup>-2*POWER</sup> + c",
+        "shader": "structure_in_emptiness"
+    },
+    "UNNAMED_11": {
+        "name": "unnamed_11",
+        "radius": 10000000,
+        "description": "unnamed_11_desc",
+        "formula": "z<sub>n+1</sub> = (Re(c) * Im(z<sub>n</sub>) + Im(c) + i * (Im(c) * Re(x) + Re(c)))<sup>POWER</sup> + z<sub>n</sub><sup>POWER</sup> + c",
+        "shader": "unnamed_11"
+    },
+    "UNNAMED_12": {
+        "name": "unnamed_12",
+        "radius": 10000000,
+        "description": "unnamed_12_desc",
+        "formula": "z<sub>n+1</sub> = Re(c) * Re(z<sub>n</sub>)<sup>2</sup> - sin(Im(z<sub>n</sub>)<sup>2</sup>) + |Im(z<sub>n</sub>) - Re(z<sub>n</sub>)| + i * (Im(c) * (Im(z<sub>n</sub>)<sup>3</sup>) - cos(Re(z<sub>n</sub>)<sup>2</sup>) + 2 * Re(z<sub>n</sub>))",
+        "shader": "unnamed_12"
+    },
+    "WTF": {
+        "name": "what",
+        "radius": 10000000,
+        "description": "what_desc",
+        "formula": "z<sub>n+1</sub> = c * z<sub>n</sub><sup>POWER</sup> + c",
+        "shader": "wtf"
+    },
+    "UNNAMED_13": {
+        "name": "unnamed_13",
+        "radius": 10000000,
+        "description": "unnamed_13_desc",
+        "formula": "z<sub>n+1</sub> = z<sub>n</sub><sup>POWER</sup> + c<sup>z<sub>n</sub></sup>",
+        "shader": "unnamed_13"
+    }
+
+}

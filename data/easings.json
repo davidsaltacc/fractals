@@ -1,0 +1,18 @@
+{
+    "LINEAR": {
+        "name": "linear",
+        "function": "(x, _) => x"
+    },
+    "EASE_IN": {
+        "name": "ease_in",
+        "function": "(x, s) => Math.pow(x, s)"
+    },
+    "EASE_OUT": {
+        "name": "ease_out",
+        "function": "(x, s) => 1 - Math.pow(1 - x, s)"
+    },
+    "EASE_IN_OUT": {
+        "name": "ease_in_out",
+        "function": "(x, s) => x < 0.5 ? Math.pow(2, s - 1) * Math.pow(x, s) : 1 - Math.pow(-2 * x + 2, s) / 2"
+    }
+}

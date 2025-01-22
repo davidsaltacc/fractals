@@ -1,0 +1,104 @@
+{
+
+    "CLASSIC": {
+        "name": "classic",
+        "description": "classic_desc",
+        "shader": "classic"
+    },
+    "ULTRA_FRACTAL": {
+        "name": "ultra_fractal",
+        "description": "ultra_fractal_desc",
+        "shader": "ultra_fractal"
+    },
+    "RED_BLUE": {
+        "name": "red_blue",
+        "description": "red_blue_desc",
+        "shader": "red_blue"
+    },
+    "SAND": {
+        "name": "sand",
+        "description": "sand_desc",
+        "shader": "sand"
+    },
+    "RAINBOW": {
+        "name": "rainbow",
+        "description": "rainbow_desc",
+        "shader": "rainbow"
+    },
+    "DAVIDS": {
+        "name": "davids",
+        "description": "davids_desc",
+        "shader": "davids"
+    },
+    "LAVA_WAVES": {
+        "name": "lava_waves",
+        "description": "lava_waves_desc",
+        "shader": "lava_waves"
+    },
+    "MORNING_GLORY": {
+        "name": "morning_glory",
+        "description": "morning_glory_desc",
+        "shader": "morning_glory"
+    },
+    "CHOCOLATE": {
+        "name": "chocolate",
+        "description": "chocolate_desc",
+        "shader": "chocolate"
+    },
+    "CONTRASTED_CLASSIC": {
+        "name": "contrasted_classic",
+        "description": "contrasted_classic_desc",
+        "shader": "contrasted_classic"
+    },
+    "BLACK_WHITE": {
+        "name": "black_white",
+        "description": "black_white_desc",
+        "shader": "black_white"
+    },
+    "TWILIGHT": {
+        "name": "twilight",
+        "description": "twilight_desc",
+        "shader": "twilight"
+    },
+    "RED": {
+        "name": "red",
+        "description": "red_desc",
+        "shader": "red"
+    },
+    "GREEN": {
+        "name": "green",
+        "description": "green_desc",
+        "shader": "green"
+    },
+    "BLUE": {
+        "name": "blue",
+        "description": "blue_desc",
+        "shader": "blue"
+    },
+    "COLD": {
+        "name": "cold",
+        "description": "cold_desc",
+        "shader": "cold"
+    },
+    "WINTER": {
+        "name": "winter",
+        "description": "winter_desc",
+        "shader": "winter"
+    },
+    "GLOW": {
+        "name": "glow",
+        "description": "glow_desc",
+        "shader": "glow"
+    },
+    "PURPLE": {
+        "name": "purple",
+        "description": "purple_desc",
+        "shader": "purple"
+    },
+    "BROWN": {
+        "name": "brown",
+        "description": "brown_desc",
+        "shader": "brown"
+    }
+
+}

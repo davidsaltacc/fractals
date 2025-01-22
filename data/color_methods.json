@@ -1,0 +1,84 @@
+{
+
+    "TERRACED": {
+        "name": "terraced",
+        "description": "terraced_desc",
+        "shader": "terraced"
+    },
+    "SMOOTH": {
+        "name": "smooth",
+        "description": "smooth_desc",
+        "shader": "smooth"
+    },
+    "INTERIOR": {
+        "name": "interior",
+        "description": "interior_desc",
+        "shader": "interior"
+    },
+    "RINGS": {
+        "name": "rings",
+        "description": "rings_desc",
+        "shader": "rings"
+    },
+    "STRIPES": {
+        "name": "stripes",
+        "description": "stripes_desc",
+        "shader": "stripes"
+    },
+    "ACCURATE": {
+        "name": "accurate",
+        "description": "accurate_desc",
+        "shader": "accurate"
+    },
+    "SMOOTH_STRIPES": {
+        "name": "smooth_stripes",
+        "description": "smooth_stripes_desc",
+        "shader": "smooth_stripes"
+    },
+    "EDGY": {
+        "name": "edgy",
+        "description": "edgy_desc",
+        "shader": "edgy"
+    },
+    "SQUARED": {
+        "name": "squared",
+        "description": "squared_desc",
+        "shader": "squared"
+    },
+    "SPIKY": {
+        "name": "spiky",
+        "description": "spiky_desc",
+        "shader": "spiky"
+    },
+    "STRIPY_RINGS": {
+        "name": "stripy_rings",
+        "description": "stripy_rings_desc",
+        "shader": "stripy_rings"
+    },
+    "INTERIOR_2": {
+        "name": "interior_2",
+        "description": "interior_2_desc",
+        "shader": "interior_2"
+    },
+    "INTERIOR_STRIPES": {
+        "name": "interior_stripes",
+        "description": "interior_stripes_desc",
+        "shader": "interior_stripes"
+    },
+    "PICKOVER_STALK": {
+        "name": "pickover_stalk",
+        "description": "pickover_stalk_desc",
+        "shader": "pickover_stalk"
+    },
+    "PICKOVER_STALK_VAR_1": {
+        "name": "pickover_stalk_1",
+        "description": "pickover_stalk_1_desc",
+        "shader": "pickover_stalk_var_1"
+    },
+    "PICKOVER_STALK_VAR_2": {
+        "name": "pickover_stalk_1",
+        "description": "pickover_stalk_2_desc",
+        "shader": "pickover_stalk_var_2"
+    }
+
+}
