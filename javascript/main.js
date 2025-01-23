@@ -1373,12 +1373,12 @@ function _applyUrlWithParameters(url) {
 }
 
 async function onPluginsInitialized() {
-
+    
     if (DEBUG_MODE) {
         logStatus("initializing any plugins contained in preset url");
     }
 
-    await Promise.all(_pluginsToLoad.map(url => { return loadPluginUrl(url); })); // i am hacker
+    await Promise.all(_pluginsToLoad.map(url => { return loadPluginUrl(url); }));
 
     if (Object.keys(_actualShadersToBeLoaded).length == 0) {
         return;
