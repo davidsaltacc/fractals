@@ -1,15 +1,36 @@
 
 var language;
 var translations;
+var translationsInitialized = false;
 
-await setLanguage("en_US", true);
+language = "en_US";
+
+var languageFiles = {};
+
+function addLanguageFile(lang, path) {
+    if (!languageFiles[lang]) { languageFiles[lang] = []; }
+    languageFiles[lang].push(path);
+}
+
+function getLanguageFiles() {
+    return languageFiles;
+}
+
+addLanguageFile("en_US", "/language/en_US.json");
+addLanguageFile("de_DE", "/language/de_DE.json");
 
 async function setLanguage(lang, doNotReload) {
 
     language = lang;
 
     try {
-        translations = JSON.parse(await (await fetch("/language/" + language + ".json")).text());
+        translations = {};
+        for (var file of languageFiles[lang]) {
+            var t = JSON.parse(await (await fetch(file)).text());
+            for (var key of Object.keys(t)) {
+                translations[key] = t[key];
+            }
+        }
     } catch (e) {
         console.error("failed to load translations:", e);
         translations = { "_": "[error]" }
@@ -31,6 +52,9 @@ function reloadTranslations() {
 }
 
 function translate(input, ...insertions) {
+    if (!translationsInitialized) {
+        return "";
+    }
     var translation = translations[input];
     if (!translation) {
         console.warn("missing translation for " + input + " in language " + language);
@@ -42,12 +66,15 @@ function translate(input, ...insertions) {
 }
 
 function translatable(key, ...insertions) {
+    if (!translationsInitialized) {
+        return "";
+    }
     var t = document.createElement("fxp-translate");
     t.setAttribute("key", key);
     for (var i = 0; i < insertions.length; i++) {
         insertions[i].id = key + "_insertion_" + i;
         unusedInsertions.appendChild(insertions[i]);
-        t.setAttribute("insert" + i, insertions[i].id)
+        t.setAttribute("insert" + i, insertions[i].id);
     }
     return t;
 }
@@ -64,6 +91,10 @@ class Translatable extends HTMLElement {
 
     loadTranslation() {
 
+        if (!translationsInitialized) {
+            return;
+        }
+
         var allInsertions = this.getAttributeNames().filter(s => s.match(/insert\d+/g));
         allInsertions.forEach(i => {
             var element = document.getElementById(this.getAttribute(i));
@@ -72,7 +103,7 @@ class Translatable extends HTMLElement {
             }
         });
 
-        var translation = translate(this.getAttribute("key") ?? "_").trim();
+        var translation = translate(this.getAttribute("key") ?? "_");
         var toInsert = translation.match(/\{\d+\}/g) ?? [];
 
         toInsert.forEach(n => {
@@ -95,13 +126,28 @@ class Translatable extends HTMLElement {
 
 }
 
+function getLanguage() {
+    return language;
+}
+
+function translationsReady() {
+    return translationsInitialized;
+}
+
 customElements.define("fxp-translate", Translatable);
+
+await setLanguage(language);
+translationsInitialized = true;
 
 const exports = {
     Translatable,
     translate,
     translatable,
     reloadTranslations,
-    setLanguage
+    setLanguage,
+    addLanguageFile,
+    getLanguage,
+    getLanguageFiles,
+    translationsReady
 };
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }

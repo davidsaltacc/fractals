@@ -7,5 +7,11 @@
     "plugin_version": "1.0",
     
     "entrypoint": "main.js",
-    "shaders": "shaders/"
+    "shaders": "shaders/",
+    "translations": "language/",
+
+    "supportedLanguages": [
+        "en_US"
+    ]
+
 }

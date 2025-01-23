@@ -4,24 +4,24 @@ var ui = plugin.createUiSection();
 
 plugin.addCustomFractal(
     "burn_ship_mand_bar",
-    "Burning Ship Mandlebar", 
-    "Apparently the lower half of the Burning Ship, mirrored horizontally.",
+    "burn_ship_mand_bar", 
+    "burn_ship_mand_bar_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "celt_mand_bar",
-    "Celtic Mandlebar",
-    "Like the celtic, but a little different.",
+    "celt_mand_bar",
+    "celt_mand_bar_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "buff_mand_bar",
-    "Buffalo Mandlebar",
-    "Its mouth looks a little like the one the celtic fractal has.",
+    "buff_mand_bar",
+    "buff_mand_bar_desc",
     "not done yet",
     1000000
 );

@@ -13,7 +13,7 @@ class FXPluginUISection {
     createButton(name, clickHandler) {
 
         var button = document.createElement("button");
-        button.innerHTML = name;
+        button.innerHTML = translatable(name).outerHTML;
         button.onclick = clickHandler;
         button.className = "shaderButton";
 
@@ -24,25 +24,25 @@ class FXPluginUISection {
     }
 
     createCustomFractalButton(id) {
-        var button = _createShaderButton(FRACTALS[id.toUpperCase()].name, () => setFractal(FRACTALS[id.toUpperCase()]), fractalButtons, id.toUpperCase(), FRACTALS);
+        var button = _createShaderButton(translatable(FRACTALS[id.toUpperCase()].name).outerHTML, () => setFractal(FRACTALS[id.toUpperCase()]), fractalButtons, id.toUpperCase(), FRACTALS);
         this.element.appendChild(button);
         return button;
     }
 
     createCustomColorschemeButton(id) {
-        var button = _createShaderButton(COLORSCHEMES[id.toUpperCase()].name, () => setColorscheme(COLORSCHEMES[id.toUpperCase()]), colorschemeButtons, id.toUpperCase(), COLORSCHEMES);
+        var button = _createShaderButton(translatable(COLORSCHEMES[id.toUpperCase()].name).outerHTML, () => setColorscheme(COLORSCHEMES[id.toUpperCase()]), colorschemeButtons, id.toUpperCase(), COLORSCHEMES);
         this.element.appendChild(button);
         return button;
     }
 
-    createCustomColorMethodButton(id, name) {
-        var button = _createShaderButton(COLOR_METHODS[id.toUpperCase()].name, () => setColormethod(COLOR_METHODS[id.toUpperCase()]), colormethodButtons, id.toUpperCase(), COLOR_METHODS);
+    createCustomColorMethodButton(id) {
+        var button = _createShaderButton(translatable(COLOR_METHODS[id.toUpperCase()].name).outerHTML, () => setColormethod(COLOR_METHODS[id.toUpperCase()]), colormethodButtons, id.toUpperCase(), COLOR_METHODS);
         this.element.appendChild(button);
         return button;
     }
 
-    createCustomModifierButton(id, name) {        
-        var button = _createShaderButton(MODIFIERS[id.toUpperCase()].name, () => setModifiers(MODIFIERS[id.toUpperCase()]), modifierButtons, id.toUpperCase(), MODIFIERS);
+    createCustomModifierButton(id) {        
+        var button = _createShaderButton(translatable(MODIFIERS[id.toUpperCase()].name).outerHTML, () => setModifiers(MODIFIERS[id.toUpperCase()]), modifierButtons, id.toUpperCase(), MODIFIERS);
         this.element.appendChild(button);
         return button;
     }
@@ -155,6 +155,15 @@ async function loadPluginCode(json, path) {
 
     _loadedPluginsURLs.push(path);
 
+    var translationsFolder = getFileFolderPath(path) + metadata.translations;
+    for (var lang of metadata.supportedLanguages) {
+        addLanguageFile(lang, (translationsFolder.endsWith("/") ? translationsFolder : translationsFolder + "/").replaceAll("//", "/") + lang + ".json");
+    }
+
+    if (translationsReady()) {
+        await setLanguage(getLanguage());
+    }
+
     var CreatePlugin = () => { return new FXPlugin(metadata.id, metadata.name, metadata.description, metadata.plugin_version, getFileFolderPath(path) + metadata.shaders); };
     eval(await (await fetch(getFileFolderPath(path) + metadata.entrypoint)).text());
 
@@ -178,4 +187,4 @@ const exports = {
 };
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
 
-onPluginsInitialized();
+await onPluginsInitialized();
