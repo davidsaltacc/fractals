@@ -28,8 +28,8 @@ plugin.addCustomFractal(
 
 plugin.addCustomFractal(
     "perp_mand",
-    "Perpendicular Mandelbrot",
-    "Shares a lot of features with the mandelbrot set.",
+    "perp_mand",
+    "perp_mand_desc",
     "not done yet",
     1000000
 );
