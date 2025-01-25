@@ -33,554 +33,555 @@ plugin.addCustomFractal(
     "not done yet",
     1000000
 );
+
 plugin.addCustomFractal(
     "perp_ship",
-    "Perpendicular Burning Ship",
-    "Already in the fractal explorer as the \"Duck\" fractal, but I put it in here anyways.",
+    "perp_ship",
+    "perp_ship_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "perp_celt",
-    "Perpendicular Celtic",
-    "Looks a little similar to the Celtic Mandlebar.",
+    "perp_celt",
+    "perp_celt_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "perp_buff",
-    "Perpendicular Buffalo",
-    "not done yet",
+    "perp_buff",
+    "perp_buff_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "airship",
-    "\"Airship\"",
-    "not done yet",
+    "airship",
+    "airship_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "tail",
-    "\"Tail\"",
-    "not done yet",
+    "tail",
+    "tail_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "quill",
-    "\"Quill\"",
-    "not done yet",
+    "quill",
+    "quill_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "shark_fin",
-    "\"Shark Fin\"",
-    "Already Included as a standart fractal. Still put it in here for completeness.",
+    "shark_fin",
+    "shark_fin_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "power_drill",
-    "\"Power Drill\"",
-    "Pizza slice near its needle. I wonder how it tastes.",
+    "power_drill",
+    "power_drill_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
-    "big_and_little", 
-    "\"Big and Little\"",
-    "not done yet",
+    "big_and_little",
+    "big_and_little",
+    "big_and_little_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
-    "halo", 
-    "\"Halo\"",
-    "Really tiny and hidden halo.",
+    "halo",
+    "halo",
+    "halo_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "genie_lamp",
-    "\"Genie Lamp\"",
-    "not done yet",
+    "genie_lamp",
+    "genie_lamp_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
-    "hook", 
-    "\"Hook\"",
-    "The head of the duck/perpendicular burning ship?",
+    "hook",
+    "hook",
+    "hook_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "cow",
-    "\"Cow\"",
-    "Buffalo but no buffalo.",
+    "cow",
+    "cow_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "sideways_ship",
-    "\"Sideways Ship\"",
-    "Turn it upside down, maybe then you can see it.",
+    "sideways_ship",
+    "sideways_ship_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "inner_snake",
-    "\"Inner Snake\"",
-    "I didn't name it. I also have no idea where there might be a snake.",
+    "inner_snake",
+    "inner_snake_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "outer_snake",
-    "\"Outer Snake\"",
-    "... What snake?",
+    "outer_snake",
+    "outer_snake_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "sock_puppet",
-    "\"Sock Puppet\"",
-    "not done yet",
+    "sock_puppet",
+    "sock_puppet_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "speedy_buffalo",
-    "\"Speedy Buffalo\"",
-    "Buffalo go fast.",
+    "speedy_buffalo",
+    "speedy_buffalo_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "smooth_buffalo",
-    "\"Smooth Buffalo\"",
-    "Buffalo go even more fast. ",
+    "smooth_buffalo",
+    "smooth_buffalo_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "aerodynamic",
-    "\"Aerodynamic\"",
-    "Aerodynamic. Kind of looks like a buffalo fractal variation.",
+    "aerodynamic",
+    "aerodynamic_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
-    "pointed_buffalo", 
-    "\"Pointed Buffalo\"",
-    "not done yet",
+    "pointed_buffalo",
+    "pointed_buffalo",
+    "pointed_buffalo_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "smart_buffalo",
-    "\"Smart Buffalo\"",
-    "\"Smart\"? Is it really? ",
+    "smart_buffalo",
+    "smart_buffalo_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "mallet",
-    "\"Mallet\"",
-    "not done yet",
+    "mallet",
+    "mallet_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "alien",
-    "\"Alien\"",
-    "Big guy.",
+    "alien",
+    "alien_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
-    "chainsaw", 
-    "\"Chainsaw\"",
-    "not done yet",
-    "not done yet",
-    1000000
-);
-
-plugin.addCustomFractal(
-    "inner_double_snake", 
-    "\"Inner Double Snake\"", 
-    "not done yet",
+    "chainsaw",
+    "chainsaw",
+    "chainsaw_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
-    "outer_double_snake", 
-    "\"Outer Double Snake\"",
+    "inner_double_snake",
+    "inner_double_snake",
+    "inner_double_snake_desc",
     "not done yet",
+    1000000
+);
+
+plugin.addCustomFractal(
+    "outer_double_snake",
+    "outer_double_snake",
+    "outer_double_snake_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "bat",
-    "\"Bat\"",
-    "not done yet",
+    "bat",
+    "bat_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "heart_",
-    "\"Heart\"",
-    "Not to be confused with the other heart fractal.",
+    "heart_",
+    "heart_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
-    "rotated_heart", 
-    "\"Rotated Heart\"",
-    "not done yet",
+    "rotated_heart",
+    "rotated_heart",
+    "rotated_heart_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "crown",
-    "\"Crown\"",
-    "not done yet",
+    "crown",
+    "crown_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "boomerang",
-    "\"Boomerang\"", 
-    "not done yet",
+    "boomerang",
+    "boomerang_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "cupids_arrow",
-    "\"Cupid's Arrow\"",
-    "not done yet",
+    "cupids_arrow",
+    "cupids_arrow_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "ellipsoid_parallelogram",
-    "\"Ellipsoid Parallelogram\"",
-    "A <i>what</i>?",
+    "ellipsoid_parallelogram",
+    "ellipsoid_parallelogram_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "bone",
-    "\"Bone\"",
-    "not done yet",
+    "bone",
+    "bone_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "pointed_celtic",
-    "\"Pointed Celtic\"",
-    "not done yet",
+    "pointed_celtic",
+    "pointed_celtic_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "washing_machine",
-    "\"Washing Machine\"",
-    "not done yet",
+    "washing_machine",
+    "washing_machine_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "anchor",
-    "\"Anchor\"",
-    "not done yet",
+    "anchor",
+    "anchor_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "terminator",
-    "\"Terminator\"",
-    "not done yet",
+    "terminator",
+    "terminator_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "double_sector",
-    "\"Double Sector\"",
-    "Two pizzas. Also has the... uhh.. Crown? Anchor? in its needle.",
+    "double_sector",
+    "double_sector_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "super",
-    "\"Super\"",
-    "Super? Just super? Why is it called that?",
+    "super",
+    "super_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "wide_celtic",
-    "\"Wide Celtic\"",
-    "Big fish.",
+    "wide_celtic",
+    "wide_celtic_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "spade",
-    "\"Spade\"",
-    "not done yet",
+    "spade",
+    "spade_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "umbrella",
-    "\"Umbrella\"",
-    "not done yet",
+    "umbrella",
+    "umbrella_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
-    "temple", 
-    "\"Temple\"",
-    "not done yet",
+    "temple",
+    "temple",
+    "temple_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "sleeping_snake",
-    "\"Sleeping Snake\"",
-    "not done yet",
+    "sleeping_snake",
+    "sleeping_snake_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "wide_alien",
-    "\"Wide Alien\"",
-    "Really big guy.",
+    "wide_alien",
+    "wide_alien_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "titanic",
-    "\"Titanic\"",
-    "not done yet",
+    "titanic",
+    "titanic_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "mountain",
-    "\"Mountain\"",
-    "not done yet",
+    "mountain",
+    "mountain_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "backwards_ship",
-    "\"Backwards Ship\"",
-    "not done yet",
+    "backwards_ship",
+    "backwards_ship_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "spaceship",
-    "\"Spaceship\"",
-    "not done yet",
+    "spaceship",
+    "spaceship_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "fake_ship",
-    "\"Fake Ship\"",
-    "Ship, but not ship.",
+    "fake_ship",
+    "fake_ship_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "ray_gun",
-    "\"Ray Gun\"",
-    "not done yet",
+    "ray_gun",
+    "ray_gun_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "claw",
-    "\"Claw\"",
-    "not done yet",
+    "claw",
+    "claw_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "fish_",
-    "\"Fish\"",
-    "Not to be confused with the other fish.",
+    "fish_",
+    "fish_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "bike_helmet",
-    "\"Bike Helmet\"",
-    "not done yet",
+    "bike_helmet",
+    "bike_helmet_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "boat_motor",
-    "\"Boat Motor\"",
-    "not done yet",
+    "boat_motor",
+    "boat_motor_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "nail_gun",
-    "\"Nail Gun\"",
-    "A little like the power drill. IT HAS A PIZZA SLICE!",
+    "nail_gun",
+    "nail_gun_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "speed_boat",
-    "\"Speed Boat\"",
-    "not done yet",
+    "speed_boat",
+    "speed_boat_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "blow_dryer",
-    "\"Blow Dryer\"",
-    "not done yet",
+    "blow_dryer",
+    "blow_dryer_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "left_rectangle",
-    "\"Left Rectangle\"",
-    "Just a messed up pizza slice.",
+    "left_rectangle",
+    "left_rectangle_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "right_rectangle",
-    "\"Right Rectangle\"",
-    "Again just a messed up pizza slice.",
+    "right_rectangle",
+    "right_rectangle_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "alligator",
-    "\"Alligator\"",
-    "not done yet",
+    "alligator",
+    "alligator_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "crocodile",
-    "\"Crocodile\"",
-    "not done yet",
+    "crocodile",
+    "crocodile_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "tornado",
-    "\"Tornado\"",
-    "not done yet",
+    "tornado",
+    "tornado_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "pitcher",
-    "\"Pitcher\"",
-    "not done yet",
+    "pitcher",
+    "pitcher_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "rhombus",
-    "\"Rhombus\"",
-    "not done yet",
+    "rhombus",
+    "rhombus_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "teardrop",
-    "\"Teardrop\"",
-    "not done yet",
+    "teardrop",
+    "teardrop_desc",
     "not done yet",
     1000000
 );
 
 plugin.addCustomFractal(
     "pointed_teardrop",
-    "\"Pointed Teardrop\"",
-    "not done yet",
+    "pointed_teardrop",
+    "pointed_teardrop_desc",
     "not done yet",
     1000000
 );
