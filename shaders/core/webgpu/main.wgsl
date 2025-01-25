@@ -59,23 +59,42 @@ fn square(x: f32) -> f32 {
     return x * x;
 }
 
+fn avoidNan(z: vec2<f32>) -> vec2<f32> {
+    var s: vec2<f32> = z;
+    if (!(s.x < 0.) && !(s.x >= 0.)) {
+        s.x = 1000000000000.;
+    }
+    if (!(s.y < 0.) && !(s.y >= 0.)) {
+        s.y = 1000000000000.;
+    }
+    return s;
+}
+
+fn avoidNan1d(z: f32) -> f32 {
+    var s: f32 = z;
+    if (!(s < 0.) && !(s >= 0.)) {
+        s = 1000000000000.;
+    }
+    return s;
+}
+
 fn c_sin(z: vec2<f32>) -> vec2<f32> {
-    return vec2<f32>(sin(z.x) * cosh(z.y), cos(z.x) * sinh(z.y));
+    return avoidNan(vec2<f32>(sin(z.x) * cosh(z.y), cos(z.x) * sinh(z.y)));
 }
 fn c_sinh(z: vec2<f32>) -> vec2<f32> {
-    return vec2<f32>(sinh(z.x) * cos(z.y), cosh(z.x) * sin(z.y));
+    return avoidNan(vec2<f32>(sinh(z.x) * cos(z.y), cosh(z.x) * sin(z.y)));
 } 
 fn c_cos(z: vec2<f32>) -> vec2<f32> {
-    return vec2<f32>(cos(z.x) * cosh(z.y), -sin(z.x) * sinh(z.y));
+    return avoidNan(vec2<f32>(cos(z.x) * cosh(z.y), -sin(z.x) * sinh(z.y)));
 } 
 fn c_cosh(z: vec2<f32>) -> vec2<f32> {
-    return vec2<f32>(cosh(z.x) * cos(z.y), sinh(z.x) * sin(z.y));
+    return avoidNan(vec2<f32>(cosh(z.x) * cos(z.y), sinh(z.x) * sin(z.y)));
 } 
 fn c_tan(z: vec2<f32>) -> vec2<f32> {
-    return c_division(c_sin(z), c_cos(z));
+    return avoidNan(c_division(c_sin(z), c_cos(z)));
 } 
 fn c_tanh(z: vec2<f32>) -> vec2<f32> {
-    return c_division(c_sinh(z), c_cosh(z));
+    return avoidNan(c_division(c_sinh(z), c_cosh(z)));
 } 
 fn c_log(z: vec2<f32>) -> vec2<f32> {
     var re: f32 = sqrt(z.x * z.x + z.y * z.y);

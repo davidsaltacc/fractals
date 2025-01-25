@@ -5,12 +5,12 @@ return apply_modifier(vec2<f32>(
 #endbackend
 
 #ifbackend[webgl]
-return apply_modifier(vec2(
+return apply_modifier(avoidNan(vec2(
 #endbackend
 
 #ifbackend[*]
     sinh(z.x) * sin(z.y), 
     cosh(z.y) * cos(z.x)
-), c) + c;
+)), c) + c;
 #endbackend
 

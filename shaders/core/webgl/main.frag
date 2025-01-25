@@ -53,24 +53,42 @@ vec2 c_multiplication(vec2 a, vec2 b) {
 	return vec2(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x);
 }
 
+vec2 avoidNan(vec2 z) {
+    if (isnan(z.x) || (!(z.x < 0.) && !(z.x >= 0.))) {
+        z.x = 1000000000000.;
+    }
+    if (isnan(z.y) || (!(z.y < 0.) && !(z.y >= 0.))) {
+        z.y = 1000000000000.;
+    }
+    return z;
+}
+
+float avoidNan1d(float z) {
+    float s = z;
+    if (isnan(s) || (!(s < 0.) && !(s >= 0.))) {
+        s = 1000000000000.;
+    }
+    return s;
+}
+
 vec2 c_sin(vec2 z) {
-    return vec2(sin(z.x) * cosh(z.y), cos(z.x) * sinh(z.y));
+    return avoidNan(vec2(sin(z.x) * cosh(z.y), cos(z.x) * sinh(z.y)));
 }
 vec2 c_sinh(vec2 z) {
-    return vec2(sinh(z.x) * cos(z.y), cosh(z.x) * sin(z.y));
+    return avoidNan(vec2(sinh(z.x) * cos(z.y), cosh(z.x) * sin(z.y)));
 }
 vec2 c_cos(vec2 z) {
-    return vec2(cos(z.x) * cosh(z.y), -sin(z.x) * sinh(z.y));
+    return avoidNan(vec2(cos(z.x) * cosh(z.y), -sin(z.x) * sinh(z.y)));
 }
 vec2 c_cosh(vec2 z) {
-    return vec2(cosh(z.x) * cos(z.y), sinh(z.x) * sin(z.y));
+    return avoidNan(vec2(cosh(z.x) * cos(z.y), sinh(z.x) * sin(z.y)));
 }
 
 vec2 c_tan(vec2 z) {
-    return c_division(c_sin(z), c_cos(z));
+    return avoidNan(c_division(c_sin(z), c_cos(z)));
 }
 vec2 c_tanh(vec2 z) {
-    return c_division(c_sinh(z), c_cosh(z));
+    return avoidNan(c_division(c_sinh(z), c_cosh(z)));
 }
 
 vec2 c_log(vec2 z) {

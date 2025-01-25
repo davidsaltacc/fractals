@@ -144,6 +144,8 @@
     "fhelp_func_c_exp": "Complex Exponential",
     "fhelp_func_c_sqrt": "Complex Square Root",
     "fhelp_func_c_abs": "Takes the absolute of both sides",
+    "fhelp_func_avoid_nan": "Replaces NaN/Inf values (vec2) with just a very high value. Fixes certain issues with functions with enourmous outputs, like sinh().",
+    "fhelp_func_avoid_nan1d": "The same as avoidNan, but with just a single float value.",
 
     "fhelp_access_functions": "You have access to all built-in WGSL/GLSL functions aswell.",
     "fhelp_all_available_constants": "All available constants:",

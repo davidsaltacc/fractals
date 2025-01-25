@@ -8,25 +8,25 @@
     },
     "SIN": {
         "name": "sine_modifier",
-        "radius": 10,
+        "radius": null,
         "description": "sine_modifier_desc",
         "shader": "sin"
     },
     "SINH": {
         "name": "hyperbolic_sine_modifier",
-        "radius": 10,
+        "radius": null,
         "description": "hyperbolic_sine_modifier_desc",
         "shader": "sinh"
     },
     "COS": {
         "name": "cosine",
-        "radius": 10,
+        "radius": null,
         "description": "cosine_desc",
         "shader": "cos"
     },
     "COSH": {
         "name": "hyperbolic_cosine",
-        "radius": 10,
+        "radius": null,
         "description": "hyperbolic_cosine_desc",
         "shader": "cosh"
     },
@@ -38,67 +38,67 @@
     },
     "TANH": {
         "name": "hyperbolic_tangent",
-        "radius": 10,
+        "radius": null,
         "description": "hyperbolic_tangent_desc",
         "shader": "tanh"
     },
     "LOG": {
         "name": "logarithm",
-        "radius": 10,
+        "radius": null,
         "description": "logarithm_desc",
         "shader": "log"
     },
     "SQRT": {
         "name": "square_root",
-        "radius": 10,
+        "radius": null,
         "description": "square_root_desc",
         "shader": "sqrt"
     },
     "ABS": {
         "name": "absolute",
-        "radius": 10,
+        "radius": null,
         "description": "absolute_desc",
         "shader": "abs"
     },
     "EXP": {
         "name": "exponential",
-        "radius": 100,
+        "radius": null,
         "description": "exponential_desc",
         "shader": "exp"
     },
     "ATAN": {
         "name": "arctangent",
-        "radius": 10,
+        "radius": null,
         "description": "arctangent_desc",
         "shader": "atan"
     },
     "ASIN": {
         "name": "arcsine",
-        "radius": 10,
+        "radius": null,
         "description": "arcsine_desc",
         "shader": "asin"
     },
     "ACOS": {
         "name": "arccosine",
-        "radius": 10,
+        "radius": null,
         "description": "arccosine_desc",
         "shader": "acos"
     },
     "ASINH": {
         "name": "hyperbolic_arcsine",
-        "radius": 10,
+        "radius": null,
         "description": "hyperbolic_arcsine_desc",
         "shader": "asinh"
     },
     "ACOSH": {
         "name": "hyperbolic_arccosine",
-        "radius": 10,
+        "radius": null,
         "description": "hyperbolic_arccosine_desc",
         "shader": "acosh"
     },
     "ATANH": {
         "name": "hyperbolic_arctangent",
-        "radius": 10,
+        "radius": null,
         "description": "hyperbolic_arctangent_desc",
         "shader": "atanh"
     },
