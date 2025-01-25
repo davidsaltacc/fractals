@@ -14,7 +14,7 @@ if (magnitude(z) > radius) {
 #endbackend
 
 #ifbackend[*]
-    stripe += cos(atan2(z.y, z.x)) * fract(float_iters);
+    stripe += cos(avoidNan1d(atan2(z.y, z.x))) * fract(float_iters);
     color_v = float_iters / square(log(float_iters)) + 40. * stripe / float_iters;
 #endbackend
 
