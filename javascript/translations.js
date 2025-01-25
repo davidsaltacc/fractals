@@ -136,8 +136,9 @@ function translationsReady() {
 
 customElements.define("fxp-translate", Translatable);
 
-await setLanguage(language);
+await setLanguage(language, false);
 translationsInitialized = true;
+reloadTranslations();
 
 const exports = {
     Translatable,
