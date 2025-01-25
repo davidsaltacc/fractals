@@ -370,6 +370,7 @@
     "pickover_stalk": "Pickover Stalk",
     "pickover_stalk_1": "Pickover Stalk Variation 1",
     "pickover_stalk_2": "Pickover Stalk Variation 2",
+    "silk": "Silk",
 
     "terraced_desc": "\"Mathematically accurate\" coloring method. Not smoothed, colored based on how long it takes for z to escape to infinity.",
     "smooth_desc": "Smooth coloring.",
@@ -387,6 +388,7 @@
     "pickover_stalk_desc": "Another attempt at orbit traps. Looks quite nice, actually. Even though I don't understand half of it. Has a lot of thin lines, so maybe put in a higher sample count.",
     "pickover_stalk_1_desc": "Small variation of the pickover stalk coloring method.",
     "pickover_stalk_2_desc": "Another variation.",
+    "silk_desc": "A stripe variation, especially on the mandelbrot set it reminds a bit of silk. Looks really fancy under certain circumstances.",
 
     "classic": "Classic",
     "ultra_fractal": "Ultra Fractal",

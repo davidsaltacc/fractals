@@ -79,6 +79,11 @@
         "name": "pickover_stalk_1",
         "description": "pickover_stalk_2_desc",
         "shader": "pickover_stalk_var_2"
+    },
+    "SILK": {
+        "name": "silk",
+        "description": "silk_desc",
+        "shader": "silk"
     }
 
 }
