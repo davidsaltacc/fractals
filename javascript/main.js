@@ -192,7 +192,7 @@ function parseFRXSFile(content) {
 
 }
 
-const canvasMain = document.getElementById("canvasMain");
+const canvasMain = el("canvasMain");
 const canvasJul = el("canvasJul");
 var contextMain;
 var contextJul;
@@ -611,8 +611,8 @@ async function compileShaders(cmethod, cscheme, fractal, postf) {
 
     var result = await _compileShaders(
         await fetchSubCode(cmethod, "colormethods"),
-        customCs ? document.getElementById("cscodei").value : await fetchSubCode(cscheme, "colorschemes"),
-        customFractal ? document.getElementById("fcodei").value : await fetchSubCode(fractal, "fractals"),
+        customCs ? el("cscodei").value : await fetchSubCode(cscheme, "colorschemes"),
+        customFractal ? el("fcodei").value : await fetchSubCode(fractal, "fractals"),
         await fetchSubCode(postf, "modifiers")
     );
 
@@ -916,6 +916,8 @@ var smoothingJulRunning = false;
 var smoothing = 0.7;
 var smoothingEnabled = true;
 
+var zoomSpeed = 2;
+
 function prepareSmoothingAnimation(main) {
     if (main && !smoothingMainRunning) {
         targetXMain = centerMain[0];
@@ -968,11 +970,11 @@ canvasMain.onmousemove = evt => {
 
 canvasMain.onwheel = evt => {
     evt.preventDefault();
-    var z = Math.exp(-evt.deltaY * 1 / 500);
+    var z = Math.pow(zoomSpeed, -evt.deltaY / 200);
     prepareSmoothingAnimation(true);
-    targetXMain = -(2 * (evt.offsetX / canvasMain.width) - 1) / zoomMain + centerMain[0] + (2 * (evt.offsetX / canvasMain.width) - 1) / zoomMain * z;
-    targetYMain = (2 * (evt.offsetY / canvasMain.height) - 1) / zoomMain + centerMain[1] - (2 * (evt.offsetY / canvasMain.height) - 1) / zoomMain * z;
-    targetZMain = targetZMain * z;
+    targetXMain = (2 * (evt.offsetX / canvasMain.width) - 1) / targetZMain + targetXMain - (2 * (evt.offsetX / canvasMain.width) - 1) / (zoomMain * z);
+    targetYMain = -(2 * (evt.offsetY / canvasMain.height) - 1) / targetZMain + targetYMain + (2 * (evt.offsetY / canvasMain.height) - 1) / (zoomMain * z);
+    targetZMain = zoomMain * z;
     startSmoothingAnimation(true);
 };
 
@@ -1014,11 +1016,11 @@ canvasJul.onmousemove = evt => {
 
 canvasJul.onwheel = evt => {
     evt.preventDefault();
-    var z = Math.exp(-evt.deltaY * 1 / 500);
+    var z = Math.pow(zoomSpeed, -evt.deltaY / 200);
     prepareSmoothingAnimation(false);
-    targetXJul = -(2 * (evt.offsetX / canvasJul.width) - 1) / zoomJul + centerJul[0] + (2 * (evt.offsetX / canvasJul.width) - 1) / zoomJul * z;
-    targetYJul = (2 * (evt.offsetY / canvasJul.height) - 1) / zoomJul + centerJul[1] - (2 * (evt.offsetY / canvasJul.height) - 1) / zoomJul * z;
-    targetZJul = targetZJul * z;
+    targetXJul = (2 * (evt.offsetX / canvasJul.width) - 1) / targetZJul + targetXJul - (2 * (evt.offsetX / canvasJul.width) - 1) / (zoomJul * z);
+    targetYJul = -(2 * (evt.offsetY / canvasJul.height) - 1) / targetZJul + targetYJul + (2 * (evt.offsetY / canvasJul.height) - 1) / (zoomJul * z);
+    targetZJul = zoomJul * z;
     startSmoothingAnimation(false);
 };
 
@@ -1212,6 +1214,7 @@ function setChunkerFinalSize(value) { chunkerFinalSize = parseInt(value); }
 function setChunkerChunkSize(value) { chunkerChunkSize = parseInt(value); }
 function setSmoothing(value) { smoothingEnabled = value; }
 function setSmoothingValue(value) { smoothing = parseFloat(value); }
+function setZoomSpeed(value) { zoomSpeed = Math.max(parseFloat(value), 0) + 1; }
 
 function getRadius() { return radius; }
 function getIterations() { return maxIterations; }
@@ -1273,8 +1276,8 @@ function createUrlWithParameters() {
 
     params.append("ccs", customCs);
     params.append("cfr", customFractal);
-    params.append("ccsc", customCs ? document.getElementById("cscodei").value : "");
-    params.append("cfrc", customFractal ? document.getElementById("fcodei").value : "");
+    params.append("ccsc", customCs ? el("cscodei").value : "");
+    params.append("cfrc", customFractal ? el("fcodei").value : "");
 
     params.append("scb", usingBackend);
 
@@ -1554,7 +1557,7 @@ async function toggleCustomShader(b, t) {
     }
     var returnv = await compileShaders(colorMethod, colorscheme, fractalType, modifier);
     if (returnv == "success") {
-        document.getElementById(t + "compileout").innerHTML = "&#10003;";
+        el(t + "compileout").innerHTML = "&#10003;";
         if (t == "f") {
             b.innerHTML = translatable((customFractal ? "disable" : "enable") + "_custom_fractal_shader").outerHTML;
         }
@@ -1564,7 +1567,7 @@ async function toggleCustomShader(b, t) {
         renderBoth();
         updateUi();
     } else {
-        document.getElementById(t + "compileout").innerHTML = returnv;
+        el(t + "compileout").innerHTML = returnv;
         if (t == "f") {
             customFractal = false;
         }
@@ -1584,24 +1587,24 @@ async function updateShader(t) {
     customFractal = cfo;
     customCs = ccso;
     if (returnv == "success") {
-        document.getElementById(t + "compileout").innerHTML = "&#10003;";
+        el(t + "compileout").innerHTML = "&#10003;";
         renderBoth();
         customFractal = t == "f";
         customCs = t == "cs";
         if (t == "f") {
-            document.getElementById("tgshdf").innerHTML = translatable("disable_custom_fractal_shader").outerHTML;
+            el("tgshdf").innerHTML = translatable("disable_custom_fractal_shader").outerHTML;
         }
         if (t == "cs") {
-            document.getElementById("tgshdcs").innerHTML = translatable("disable_custom_colorscheme_shader").outerHTML;
+            el("tgshdcs").innerHTML = translatable("disable_custom_colorscheme_shader").outerHTML;
         }
     } else {
-        document.getElementById(t + "compileout").innerHTML = returnv;
+        el(t + "compileout").innerHTML = returnv;
         if (t == "f") {
-            document.getElementById("tgshdf").innerHTML = translatable("enable_custom_fractal_shader").outerHTML;
+            el("tgshdf").innerHTML = translatable("enable_custom_fractal_shader").outerHTML;
             customFractal = false;
         }
         if (t == "cs") {
-            document.getElementById("tgshdcs").innerHTML = translatable("enable_custom_colorschemes_shader").outerHTML;
+            el("tgshdcs").innerHTML = translatable("enable_custom_colorschemes_shader").outerHTML;
             customCs = false;
         }
         compileAndRender();
@@ -1680,6 +1683,7 @@ const exports = {
     setSmoothingValue,
     includeAnimationInPreset,
     includePluginsInPreset,
-    drawReturnImageData
+    drawReturnImageData,
+    setZoomSpeed
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
