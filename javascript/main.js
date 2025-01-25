@@ -1355,7 +1355,7 @@ function _applyUrlWithParameters(url) {
     if (!MODIFIERS[params.get("pf")]) { _actualShadersToBeLoaded.modifier = params.get("pf"); skipNextCompilation = true; }
 
     if (params.get("scb") && params.get("scb") != usingBackend && (params.get("ccs") == "true" || params.get("cfr") == "true")) {
-        [ console.error, alert ].forEach(f => f(translate("preset_shader_not_loaded").replaceAll("usingBackend", usingBackend).replaceAll("presetBackend", params.get("scb"))));
+        [ console.error, alert ].forEach(f => f(translate("preset_shader_not_loaded", usingBackend, params.get("scb"))));
     } else {
         if (params.get("ccs") == "true") { toggleCustomShader(el("tgshdcs"), "cs"); } 
         if (params.get("cfr") == "true") { toggleCustomShader(el("tgshdf"), "f"); } 

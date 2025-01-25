@@ -10,7 +10,7 @@
     "chunker_size_indivisible": "Die finale Größe muss durch die Größe der Teile teilbar sein.",
     "chunking_failed": "Rendering und Zusammensetzen der Teile fehlgeschlagen. Dies ist wahrscheinlich, da die Größe zu groß ist.",
 
-    "preset_shader_not_loaded": "Can't load custom shader code contained in preset. (Your backend: {usingBackend}, preset code backend: {presetBackend})",
+    "preset_shader_not_loaded": "Can't load custom shader code contained in preset. (Your backend: {0}, preset code backend: {1})",
 
     "no_url_found_image": "No URL could be found in the uploaded image.",
 

@@ -10,7 +10,7 @@
     "chunker_size_indivisible": "The final size needs to be divisible by the chunk size.",
     "chunking_failed": "Failed to render and merge chunks. This is probably due to the size being too big.",
 
-    "preset_shader_not_loaded": "Can't load custom shader code contained in preset. (Your backend: {usingBackend}, preset code backend: {presetBackend})",
+    "preset_shader_not_loaded": "Can't load custom shader code contained in preset. (Your backend: {0}, preset code backend: {1})",
 
     "no_url_found_image": "No URL could be found in the uploaded image.",
 
