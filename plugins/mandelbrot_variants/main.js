@@ -83,9 +83,9 @@ plugin.addCustomFractal(
 );
 
 plugin.addCustomFractal(
-    "shark_fin",
-    "shark_fin",
-    "shark_fin_desc",
+    "shark_fin_",
+    "shark_fin_",
+    "shark_fin_desc_",
     "not done yet",
     1000000
 );
@@ -596,7 +596,7 @@ ui.createCustomFractalButton("perp_buff");
 ui.createCustomFractalButton("airship");
 ui.createCustomFractalButton("tail");
 ui.createCustomFractalButton("quill");
-ui.createCustomFractalButton("shark_fin");
+ui.createCustomFractalButton("shark_fin_");
 ui.createCustomFractalButton("power_drill");
 ui.createCustomFractalButton("big_and_little");
 ui.createCustomFractalButton("halo");
