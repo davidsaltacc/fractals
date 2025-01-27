@@ -19,18 +19,64 @@ function getLanguageFiles() {
 addLanguageFile("en_US", "/language/en_US.json");
 addLanguageFile("de_DE", "/language/de_DE.json");
 
-async function setLanguage(lang, doNotReload) {
+async function setLanguage(lang, doNotReload) { 
 
     language = lang;
 
     try {
-        translations = {};
-        for (var file of languageFiles[lang]) {
-            var t = JSON.parse(await (await fetch(file)).text());
-            for (var key of Object.keys(t)) {
-                translations[key] = t[key];
+
+        if (lang == "en_US") {
+
+            translations = {};
+
+            for (var file of languageFiles[lang]) {
+                var t = JSON.parse(await (await fetch(file)).text());
+                for (var key of Object.keys(t)) {
+                    translations[key] = t[key];
+                }
             }
+
+        } else {
+
+            translations = {};
+
+            var enUsTranslations = {};
+            var langTranslations = {};
+    
+            for (var file of languageFiles["en_US"]) {
+                var t = JSON.parse(await (await fetch(file)).text());
+                for (var key of Object.keys(t)) {
+                    enUsTranslations[key] = t[key];
+                }
+            }
+    
+            for (var file of languageFiles[lang]) {
+                var t = JSON.parse(await (await fetch(file)).text());
+                for (var key of Object.keys(t)) {
+                    langTranslations[key] = t[key];
+                }
+            }
+
+            var allKeys = [];
+            allKeys.push(...Object.keys(enUsTranslations));
+            allKeys.push(...Object.keys(langTranslations).filter(x => allKeys.indexOf(x) < 0));
+
+            for (var key of allKeys) {
+                var value = null;
+                if (langTranslations[key]) {
+                    value = langTranslations[key];
+                } else if (enUsTranslations[key]) {
+                    value = enUsTranslations[key];
+                }
+                if (!value) {
+                    translations[key] = "[error]";
+                } else {
+                    translations[key] = value;
+                }
+            }
+
         }
+
     } catch (e) {
         console.error("failed to load translations:", e);
         translations = { "_": "[error]" }
@@ -136,7 +182,7 @@ function translationsReady() {
 
 customElements.define("fxp-translate", Translatable);
 
-await setLanguage(language, false);
+await setLanguage(language, true);
 translationsInitialized = true;
 reloadTranslations();
 
