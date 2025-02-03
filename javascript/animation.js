@@ -469,6 +469,10 @@ function setAnimationLength(length) {
     updateEditor();
 }
 
+function getAnimationLength() {
+    return animationLength;
+}
+
 function increaseAnimZoom() {
     zoomLevel = Math.min(1000, zoomLevel + 10);
     updateEditor();
@@ -877,6 +881,7 @@ const exports = {
     Sequence,
     addAnimationTrack,
     setAnimationLength,
+    getAnimationLength,
     playAnimation,
     updateEditor,
     increaseAnimZoom, 

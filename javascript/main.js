@@ -1099,6 +1099,10 @@ function updateUi() {
     buttonPressed(colormethodButtons, COLOR_METHODS, colorMethod);
     buttonPressed(modifierButtons, MODIFIERS, modifier);
 
+    if (window["getAnimationLength"]) {
+        el("animation-length").value = getAnimationLength();
+    }
+
 }
 
 function setCenter(center, isJuliaset, dontRerender) {
@@ -1409,6 +1413,8 @@ async function onAnimationsInitialized() {
     if (Object.keys(_animationToBeLoaded).length != 0) {
         applyAnimationData(_animationToBeLoaded);
     }
+
+    el("animation-length").value = getAnimationLength();
 
 }
 
