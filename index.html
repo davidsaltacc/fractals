@@ -177,6 +177,8 @@
                 <input type="number" value="0.7" onchange="setSmoothingValue(this.value);">
                 <p><fxp-translate key="zoom_speed"></fxp-translate></p>
                 <input type="number" value="1" onchange="setZoomSpeed(this.value);">
+                <p><fxp-translate key="smoothing_fps"></fxp-translate></p>
+                <input type="number" value="60" onchange="setSmoothingFPS(this.value);">
                 <hr>
                 <h4><fxp-translate key="force_backend"></fxp-translate></h4>
                 <p><button onclick="forceWebGPU();"><fxp-translate key="use_webgpu"></fxp-translate></button> <span class="small"><fxp-translate key="webgpu_description"></fxp-translate></span></p>

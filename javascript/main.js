@@ -918,6 +918,17 @@ var smoothingEnabled = true;
 
 var zoomSpeed = 2;
 
+var smoothingFps = 60;
+var smoothFpsInterval = 1000 / smoothingFps;
+
+var smoothThenMain = new Date();
+var smoothThenJul = new Date();
+
+function setSmoothingFPS(fps) {
+    smoothingFps = parseFloat(fps);
+    smoothFpsInterval = 1000 / smoothingFps;
+}
+
 function prepareSmoothingAnimation(main) {
     if (main && !smoothingMainRunning) {
         targetXMain = centerMain[0];
@@ -933,9 +944,11 @@ function prepareSmoothingAnimation(main) {
 
 function startSmoothingAnimation(main) {
     if (main && !smoothingMainRunning) {
+        smoothThenMain = Date.now();
         requestAnimationFrame(animateSmoothingMain);
     }
     if (!main && !smoothingJulRunning) {
+        smoothThenJul = Date.now();
         requestAnimationFrame(animateSmoothingJul);
     }
 }
@@ -979,6 +992,7 @@ canvasMain.onwheel = evt => {
 };
 
 function animateSmoothingMain() {
+
     if (!smoothingEnabled) {
         smoothingMainRunning = false;
         centerMain[0] = targetXMain;
@@ -995,15 +1009,26 @@ function animateSmoothingMain() {
         smoothingMainRunning = false;
         return;
     }
+
     smoothingMainRunning = true;
+
+    requestAnimationFrame(animateSmoothingMain);
+
+    var now = Date.now();
+    var elapsed = now - smoothThenMain;
+
+    if (elapsed < smoothFpsInterval) {
+        return;
+    }
+
+    smoothThenMain = now - (elapsed % smoothFpsInterval);
     centerMain[0] = (1 - smoothing) * targetXMain + smoothing * centerMain[0];
     centerMain[1] = (1 - smoothing) * targetYMain + smoothing * centerMain[1];
     zoomMain = (1 - smoothing) * targetZMain + smoothing * zoomMain;
+
     renderMain();
-    requestAnimationFrame(animateSmoothingMain);
+    
 }
-
-
 
 canvasJul.onmousemove = evt => {
     if (evt.buttons & 2) {
@@ -1025,6 +1050,7 @@ canvasJul.onwheel = evt => {
 };
 
 function animateSmoothingJul() {
+
     if (!smoothingEnabled) {
         smoothingJulRunning = false;
         centerJul[0] = targetXJul;
@@ -1041,12 +1067,25 @@ function animateSmoothingJul() {
         smoothingJulRunning = false;
         return;
     }
+
     smoothingJulRunning = true;
+
+    requestAnimationFrame(animateSmoothingJul);
+
+    var now = Date.now();
+    var elapsed = now - smoothThenJul;
+
+    if (elapsed < smoothFpsInterval) {
+        return;
+    }
+
+    smoothThenJul = now - (elapsed % smoothFpsInterval);
     centerJul[0] = (1 - smoothing) * targetXJul + smoothing * centerJul[0];
     centerJul[1] = (1 - smoothing) * targetYJul + smoothing * centerJul[1];
     zoomJul = (1 - smoothing) * targetZJul + smoothing * zoomJul;
+
     renderJul();
-    requestAnimationFrame(animateSmoothingJul);
+    
 }
 
 canvasMain.oncontextmenu = evt => evt.preventDefault();
@@ -1690,6 +1729,7 @@ const exports = {
     includeAnimationInPreset,
     includePluginsInPreset,
     drawReturnImageData,
-    setZoomSpeed
+    setZoomSpeed,
+    setSmoothingFPS
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }

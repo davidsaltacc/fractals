@@ -72,6 +72,7 @@
     "camera_smoothing": "Camera Smoothing",
     "camera_smoothing_value": "Camera Smoothing Intensity",
     "zoom_speed": "Zoom Speed",
+    "smoothing_fps": "Smoothing FPS",
 
     "use_webgpu": "Use WebGPU",
     "use_webgl": "Use WebGL",
