@@ -187,9 +187,9 @@
     "anim_sample_count": "Sample Count",
     "anim_color_offset": "Color Offset",
     "anim_colorfulness": "Colorfulness",
-    "anim_juliaset_interpolation": "Jset. Interp.",
+    "anim_juliaset_interpolation": "Juliaset Interpolation",
     "anim_noise_seed": "Noise Seed",
-    "anim_noise_amp": "Noise Amp",
+    "anim_noise_amp": "Noise Amplitude",
     "anim_noise_multiplier": "Noise Multiplier",
 
     "vcodec_not_supported": "{0} is not supported in your browser.",
