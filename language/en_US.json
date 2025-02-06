@@ -306,7 +306,7 @@
     "unnamed_13": "Unnamed 13",
 
     "mandelbrot_desc": "The standard Mandelbrot set.",
-    "burning_ship_desc": "A variation of the Mandelbrot set. Got its name because of the tiny burning ship on the left.",
+    "burning_ship_desc": "A variation of the Mandelbrot set. Got its name because of the tiny burning ship on the left. Reading this after a lot of time after writing, I actually had to double check I wrote left and not right. This left-right sh*t is confusing..",
     "celtic_desc": "Another variation of the Mandelbrot set. Kind of looks like a fish.",
     "buffalo_desc": "Yet another Mandelbrot variation. The reason for its name should be obvious.",
     "tricorn_desc": "Another Mandelbrot variation. Also called the Mandelbar sometimes.",
