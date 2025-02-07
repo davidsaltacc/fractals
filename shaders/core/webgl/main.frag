@@ -287,6 +287,7 @@ void main() {
 
     if (((flags & 2u) >> 1) == 1u) {
         newZoom = zoom * (float(chunkerFinalSize) / float(chunkerChunkSize));
+        newCenter = vec2(newCenter.x, -newCenter.y);
         newCenter += vec2(
             ((float(chunkerX) + float(chunkerChunkSize) / 2.) / float(chunkerFinalSize) * 2. - 1.) / zoom,
             -((float(chunkerY) + float(chunkerChunkSize) / 2.) / float(chunkerFinalSize) * 2. - 1.) / zoom
