@@ -5,7 +5,7 @@
 var polar: vec2<f32> = to_polar(z);
 var r: f32 = pow(polar.x, power);
 var t: f32 = power * abs(polar.y);
-return c + apply_modifier(r * vec2<f32>(cos(t), sin(t)), c);
+return vec2<f32>(c.x, -c.y) + apply_modifier(r * vec2<f32>(cos(t), sin(t)), c);
 
 #endbackend
 
@@ -16,6 +16,6 @@ return c + apply_modifier(r * vec2<f32>(cos(t), sin(t)), c);
 vec2 p = to_polar(z);
 float r = pow(p.x, float(power));
 float t = power * abs(p.y);
-return c + apply_modifier(r * vec2(cos(t), sin(t)), c);
+return vec2(c.x, -c.y) + apply_modifier(r * vec2(cos(t), sin(t)), c);
 
 #endbackend
