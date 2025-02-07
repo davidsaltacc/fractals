@@ -819,14 +819,14 @@ async function setAnimationVideoCodec(codec) {
 function getAnimationData() {
 
     return {
-        length: animationLength,
-        keyframes: addedKeyframes.map(kf => { 
+        l: animationLength,
+        kfs: addedKeyframes.map(kf => { 
             return { 
-                time: kf.time, 
-                property: kf.property,
-                value: kf.value,
-                easing: Object.keys(EASINGS).find(e => EASINGS[e] == kf.easing),
-                easingStrength: 2
+                t: kf.time, 
+                p: kf.property,
+                v: kf.value,
+                e: Object.keys(EASINGS).find(e => EASINGS[e] == kf.easing),
+                es: 2
             };
         })
     };
@@ -835,8 +835,8 @@ function getAnimationData() {
 
 function applyAnimationData(data) {
 
-    animation.setLength(data.length);
-    animationLength = data.length;
+    animation.setLength(data.l);
+    animationLength = data.l;
 
     for (var btn of document.getElementsByClassName("remove-track")) {
         btn.onclick();
@@ -844,17 +844,17 @@ function applyAnimationData(data) {
 
     var addedAnimTracks = [];
 
-    data.keyframes.forEach(kf => {
+    data.kfs.forEach(kf => {
 
-        if (!addedAnimTracks.includes(kf.property)) {
-            addedAnimTracks.push(kf.property);
-            addAnimationTrack(kf.property + "-addAnimTrack", properties[kf.property], kf.property);
+        if (!addedAnimTracks.includes(kf.p)) {
+            addedAnimTracks.push(kf.p);
+            addAnimationTrack(kf.p + "-addAnimTrack", properties[kf.p], kf.p);
         }
 
-        var keyframe = new UIKeyframe(document.getElementById("track-" + kf.property), kf.time, kf.property, kf.value);
-        keyframe.value = kf.value;
-        keyframe.easing = EASINGS[kf.easing];
-        keyframe.easingStrength = kf.easingStrength;
+        var keyframe = new UIKeyframe(document.getElementById("track-" + kf.p), kf.t, kf.p, kf.v);
+        keyframe.value = kf.v;
+        keyframe.easing = EASINGS[kf.e];
+        keyframe.easingStrength = kf.es;
 
         addedKeyframes.push(keyframe);
 
