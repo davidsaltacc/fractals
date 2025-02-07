@@ -76,7 +76,7 @@
         "shader": "pickover_stalk_var_1"
     },
     "PICKOVER_STALK_VAR_2": {
-        "name": "pickover_stalk_1",
+        "name": "pickover_stalk_2",
         "description": "pickover_stalk_2_desc",
         "shader": "pickover_stalk_var_2"
     },
