@@ -1,7 +1,7 @@
 
 const el = id => document.getElementById(id);
 
-if (window.location.href.startsWith("http://127.0.0.1" || window.location.href.startsWith("http://localhost"))) { // sorry
+if (window.location.href.startsWith("http://127.0.0.1") || window.location.href.startsWith("http://localhost")) { // sorry
     el("sb").style.display = "none";
 }
 
