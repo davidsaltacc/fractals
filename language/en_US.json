@@ -51,6 +51,8 @@
 
     "preset_include_animation": "Include Animation in Preset",
     "preset_include_plugins": "Include Loaded Plugins in Preset",
+    "preset_include_canvas_size": "Include Canvas Size in Preset",
+    "preset_include_smoothing": "Include Smoothing Settings in Preset",
 
     "settings": "Settings",
     "reset_settings": "Reset Settings",

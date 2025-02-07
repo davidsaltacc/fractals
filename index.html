@@ -137,8 +137,10 @@
                 <button onclick="createAndOpenUrl();"><fxp-translate key="create_open_url"></fxp-translate></button>
                 <button onclick="createAndCopyUrl();"><fxp-translate key="create_copy_url"></fxp-translate></button>
                 <hr>
-                <p><input type="checkbox" checked="true" onchange="includeAnimationInPreset(this.checked);"> <fxp-translate key="preset_include_animation"></fxp-translate></p>
-                <p><input type="checkbox" checked="true" onchange="includePluginsInPreset(this.checked);"> <fxp-translate key="preset_include_plugins"></fxp-translate></p>
+                <p><input type="checkbox" checked onchange="includeAnimationInPreset(this.checked);"> <fxp-translate key="preset_include_animation"></fxp-translate></p>
+                <p><input type="checkbox" checked onchange="includePluginsInPreset(this.checked);"> <fxp-translate key="preset_include_plugins"></fxp-translate></p>
+                <p><input type="checkbox" onchange="includeCanvasSizeInPreset(this.checked);"> <fxp-translate key="preset_include_canvas_size"></fxp-translate></p>
+                <p><input type="checkbox" onchange="includeSmoothingInPreset(this.checked);"> <fxp-translate key="preset_include_smoothing"></fxp-translate></p>
             </div>
         </div>
 

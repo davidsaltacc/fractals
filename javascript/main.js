@@ -1223,7 +1223,7 @@ async function setModifier(func, dontRecompile) {
 }
 
 
-function setCanvasSize(size) {
+function setCanvasSize(size, doNotRender) {
 
     if (DEBUG_MODE) {
         logStatus("set canvas size to " + size, true);
@@ -1238,7 +1238,8 @@ function setCanvasSize(size) {
 
     setCanvasesSticky(!_canvasTooBig(size))
     
-    renderBoth();
+    if (!doNotRender) { renderBoth(); }
+
 }
 
 function setRadius(value, dontRerender) { radius = parseInt(value); if (!dontRerender) { renderBoth(); } }
@@ -1276,6 +1277,8 @@ function getJuliasetCanvas() { return canvasJul };
 
 var presetIncludesAnimation = true;
 var presetIncludesPlugins = true;
+var presetIncludesCanvasSize = false;
+var presetIncludesSmoothing = false;
 
 function includeAnimationInPreset(value) {
     presetIncludesAnimation = value;
@@ -1283,6 +1286,14 @@ function includeAnimationInPreset(value) {
 
 function includePluginsInPreset(value) {
     presetIncludesPlugins = value;
+}
+
+function includeCanvasSizeInPreset(value) {
+    presetIncludesCanvasSize = value;
+}
+
+function includeSmoothingInPreset(value) {
+    presetIncludesSmoothing = value;
 }
 
 function createUrlWithParameters() {
@@ -1310,7 +1321,7 @@ function createUrlWithParameters() {
     params.append("p", power);
     params.append("csd", noiseSeed);
     params.append("cam", noiseAmplitude);
-    params.append("cml", noiseMultiplier);
+    params.append("cml", noiseMultiplier); 
     
     params.append("f", Object.keys(FRACTALS).find(key => FRACTALS[key] === fractalType));
     params.append("cm", Object.keys(COLOR_METHODS).find(key => COLOR_METHODS[key] === colorMethod));
@@ -1326,6 +1337,12 @@ function createUrlWithParameters() {
 
     if (presetIncludesPlugins) { params.append("pgns", JSON.stringify(getLoadedPluginsURLs())); }
     if (presetIncludesAnimation) { params.append("an", JSON.stringify(getAnimationData())); }
+    if (presetIncludesCanvasSize) { params.append("csz", canvasMain.width); }
+    if (presetIncludesSmoothing) { 
+        params.append("se", smoothingEnabled); 
+        params.append("si", smoothing); 
+        params.append("sf", smoothingFps); 
+    }
 
     if (DEBUG_MODE) {
         logStatus("creating parameter URL, encoded parameters: " + params.toString(), true);
@@ -1415,6 +1432,11 @@ function _applyUrlWithParameters(url) {
     }
 
     _animationToBeLoaded = JSON.parse(params.get("an")) ?? {};
+
+    setCanvasSize(params.get("csz") ?? canvasMain.width, true);
+    setSmoothing(params.get("se") ?? smoothingEnabled);
+    setSmoothingValue(params.get("si") ?? smoothing);
+    setSmoothingFPS(params.get("sf") ?? smoothingFps);
 
 }
 
@@ -1730,6 +1752,8 @@ const exports = {
     includePluginsInPreset,
     drawReturnImageData,
     setZoomSpeed,
-    setSmoothingFPS
+    setSmoothingFPS,
+    includeCanvasSizeInPreset,
+    includeSmoothingInPreset
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
