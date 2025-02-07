@@ -48,6 +48,10 @@ el("fxbackend").innerHTML = usingBackend;
 for (var backendEl of document.getElementsByClassName("backend")) { backendEl.innerHTML = usingBackend; }
 
 function forceEnableBackend(backend) {
+    includeAnimationInPreset(true);
+    includePluginsInPreset(true);
+    includeCanvasSizeInPreset(true);
+    includeSmoothingInPreset(true);
     var url = new URL(createUrlWithParameters());
     url.searchParams.set("force" + backend, "1");
     window.location.href = url.href;
