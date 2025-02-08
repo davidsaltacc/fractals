@@ -3,7 +3,7 @@ var language;
 var translations;
 var translationsInitialized = false;
 
-language = "en_US";
+language = "en";
 
 var languageFiles = {};
 
@@ -16,8 +16,8 @@ function getLanguageFiles() {
     return languageFiles;
 }
 
-addLanguageFile("en_US", "/language/en_US.json");
-addLanguageFile("de_DE", "/language/de_DE.json");
+addLanguageFile("en", "/language/en.json");
+addLanguageFile("de", "/language/de.json");
 
 async function setLanguage(lang, doNotReload) { 
 
@@ -25,7 +25,7 @@ async function setLanguage(lang, doNotReload) {
 
     try {
 
-        if (lang == "en_US") {
+        if (lang == "en") {
 
             translations = {};
 
@@ -40,13 +40,13 @@ async function setLanguage(lang, doNotReload) {
 
             translations = {};
 
-            var enUsTranslations = {};
+            var englTranslations = {};
             var langTranslations = {};
     
-            for (var file of languageFiles["en_US"]) {
+            for (var file of languageFiles["en"]) {
                 var t = JSON.parse(await (await fetch(file)).text());
                 for (var key of Object.keys(t)) {
-                    enUsTranslations[key] = t[key];
+                    englTranslations[key] = t[key];
                 }
             }
     
@@ -58,15 +58,15 @@ async function setLanguage(lang, doNotReload) {
             }
 
             var allKeys = [];
-            allKeys.push(...Object.keys(enUsTranslations));
+            allKeys.push(...Object.keys(englTranslations));
             allKeys.push(...Object.keys(langTranslations).filter(x => allKeys.indexOf(x) < 0));
 
             for (var key of allKeys) {
                 var value = null;
                 if (langTranslations[key]) {
                     value = langTranslations[key];
-                } else if (enUsTranslations[key]) {
-                    value = enUsTranslations[key];
+                } else if (englTranslations[key]) {
+                    value = englTranslations[key];
                 }
                 if (!value) {
                     translations[key] = "[error]";
