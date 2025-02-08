@@ -18,7 +18,7 @@ async function loadData(file, mod) {
 
 const METADATA = await loadData("meta");
 const FRACTALS = await loadData("fractals");
-const COLOR_METHODS = await loadData("color_methods");
+const COLOR_METHODS = await loadData("colormethods");
 const COLORSCHEMES = await loadData("colorschemes");
 const MODIFIERS = await loadData("modifiers");
 const EASINGS = await loadData("easings", (key, value) => {

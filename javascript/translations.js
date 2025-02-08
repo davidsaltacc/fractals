@@ -16,8 +16,15 @@ function getLanguageFiles() {
     return languageFiles;
 }
 
-addLanguageFile("en", "/language/en.json");
-addLanguageFile("de", "/language/de.json");
+var supported = JSON.parse(await (await fetch("/language/languages.json")).text()).supported;
+
+supported.forEach(lang => {
+    addLanguageFile(lang, `/language/${lang}.json`);
+});
+
+function getSupportedLanguages() {
+    return supported;
+}
 
 async function setLanguage(lang, doNotReload) { 
 
@@ -195,6 +202,7 @@ const exports = {
     addLanguageFile,
     getLanguage,
     getLanguageFiles,
-    translationsReady
+    translationsReady,
+    getSupportedLanguages
 };
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }

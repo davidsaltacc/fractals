@@ -1,0 +1,9 @@
+
+body {
+    background-color: #000000;
+}
+
+#log > p {
+    font-family: monospace;
+    margin: 2px;
+}
