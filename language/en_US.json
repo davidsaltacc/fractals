@@ -314,7 +314,7 @@
     "tricorn_desc": "Another Mandelbrot variation. Also called the Mandelbar sometimes.",
     "duck_desc": "Another Mandlebrot variation. Looks like a duck. Or a goose if you prefer. Apparently also called the perpendicular burning ship. The function only looks as complicated so the power can easily be changed in code.",
     "b_fractal_desc": "Kind of looks like- well, ..., whatever.",
-    "sine_desc": "Infinitely repeating to the left and right. Interesting, isn't it?",
+    "sine_desc": "Infinitely repeating to the left and right. Interesting, isn't it? Update 02/2025 - Not infintely repeating. At least I think so. Someone with more than my 3 braincells please figure this out.",
     "popcorn_desc": "I have no idea who named this one the \"Popcorn\" fractal. Maybe the creator's name was Popcorn? I should probably do more research... Anyway, It generates really cool patterns.",
     "thorn_desc": "Not the usual kind of escape-time fractal, yet still very interesting.",
     "henon_desc": "Henon map.",
@@ -356,7 +356,7 @@
     "unnamed_11_desc": "It's juliasets (around Im(c)=0) somewhat remind of the Tippets Fractal's.",
     "unnamed_12_desc": "<description here, I can't think of anything>",
     "what_desc": "What the F*?<br>- My reaction seeing this for the first time. <br>A mandelbrot with two ends, like raised to power +1 but like, not?",
-    "unnamed_13_desc": "Turn up the colorfulness to see interesting details.",
+    "unnamed_13_desc": "Turn up the colorfulness to see interesting details. For some reason, for Re(c)<0 the juliasets unconfortably flip from Im(c)>0 to Im(c)<0.",
 
     "terraced": "Terraced",
     "smooth": "Smooth",

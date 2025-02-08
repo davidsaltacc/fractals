@@ -3,7 +3,7 @@ var language;
 var translations;
 var translationsInitialized = false;
 
-language = "en_US";
+language = "de_DE"; // TODO change back to en_US, DO NOT COMMIT THIS YOU DUMBASS
 
 var languageFiles = {};
 
