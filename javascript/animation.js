@@ -597,7 +597,7 @@ function addAnimationTrack(id, name, property) {
             time = Math.round(time);
         }
 
-        for (var kf of addedKeyframes) {
+        for (let kf of addedKeyframes) {
             if (kf.time == time && kf.trackElement == trackDiv) {
                 return;
             }
@@ -793,11 +793,11 @@ async function codecSupported(codec) {
 
 async function setAnimationVideoCodec(codec) {
     if (codec == "vp8" || codec == "vp9") {
-        if (codec == "vp8" && !codecSupported("vp8")) {
+        if (codec == "vp8" && !(await codecSupported("vp8"))) {
             [ console.warn, alert ].forEach(f => f(translate("vcodec_not_supported", "VP8")));
             return;
         } 
-        if (codec == "vp9" && !codecSupported("vp09.00.10.08")) {
+        if (codec == "vp9" && !(await codecSupported("vp09.00.10.08"))) {
             [ console.warn, alert ].forEach(f => f(translate("vcodec_not_supported", "VP9")));
             return;
         } 
@@ -874,7 +874,7 @@ updateEditor();
 
 keyframeEasingNameSet(translatable(EASINGS.LINEAR.name).outerHTML);
 
-setAnimationVideoCodec(codecSupported("vp9") ? "vp9" : "vp8");
+setAnimationVideoCodec((await codecSupported("vp9")) ? "vp9" : "vp8");
 setAnimationVideoContainer("mkv");
 
 const exports = {
