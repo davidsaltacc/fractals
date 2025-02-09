@@ -99,7 +99,8 @@ class Sequence {
     }
 
     sortKeyframes() {
-        this.keyframeGroups.sort((a, b) => a.time - b.time).sort((a, b) => a.priority - b.priority);
+        this.keyframeGroups.sort((a, b) => a.time - b.time)
+        this.keyframeGroups.sort((a, b) => a.priority - b.priority);
     }
 
     getSingleInterpolatedValueAtTime(time, value) {
