@@ -885,18 +885,22 @@ async function _renderAndExportChunked(isMain) {
     bigCanvas.width = bigCanvas.height = chunkerFinalSize;
 
     var bigContext = bigCanvas.getContext("2d");
+    
+    logStatus("rendering chunked image 0%");
 
     try {
         for (var y = 0; y < chunkerFinalSize; y += chunkerChunkSize) {
-            logStatus("rendering chunked image " + Math.floor(y / chunkerFinalSize * 100) + "%");
             for (var x = 0; x < chunkerFinalSize; x += chunkerChunkSize) {
                 bigContext.putImageData(new ImageData(new Uint8ClampedArray(await drawReturnImageData(isMain ? contextMain : contextJul, !isMain, true, [x, y])), chunkerChunkSize, chunkerChunkSize), x, USE_WEBGL ? (chunkerFinalSize - y - chunkerChunkSize) : y);
+                logStatus("rendering chunked image " + Math.floor(((y / chunkerFinalSize) + (x / chunkerFinalSize) / (chunkerFinalSize / chunkerChunkSize)) * 100) + "%");
             }
         }
     } catch {
         alert(translate("chunking_failed"));
         return;
     }
+    
+    logStatus("rendering chunked image 100%");
 
     setCanvasSize(originalCanvasSize);
     renderBoth();
