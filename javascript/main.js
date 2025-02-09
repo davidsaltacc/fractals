@@ -1419,7 +1419,7 @@ function createUrlWithParameters() {
         logStatus("creating parameter URL, encoded parameters: " + params.toString(), true);
     }
 
-    return window.location.origin + window.location.pathname + "?fxp=" + btoa(params.toString());
+    return window.location.origin + window.location.pathname + "?fxp=" + btoa(decodeURIComponent(params.toString()));
 
 }
 
