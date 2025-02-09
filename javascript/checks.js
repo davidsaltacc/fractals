@@ -24,7 +24,7 @@ class Check {
 var allTranslationsPresentCheck = new Check("AllTranslationsPresent", async () => {
 
     var allPresent = true;
-    var supportedLanguages = JSON.parse(await (await fetch("/language/languages.json")).text()).supported;
+    var supportedLanguages = JSON.parse(await (await fetch("/data/languages.json")).text()).supported;
     var allKeys = Object.keys(JSON.parse(await (await fetch("/language/en.json")).text()));
 
     supportedLanguages.splice(supportedLanguages.indexOf("en"), 1);

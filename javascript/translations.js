@@ -16,7 +16,7 @@ function getLanguageFiles() {
     return languageFiles;
 }
 
-var supported = JSON.parse(await (await fetch("/language/languages.json")).text()).supported;
+var supported = JSON.parse(await (await fetch("/data/languages.json")).text()).supported;
 
 supported.forEach(lang => {
     addLanguageFile(lang, `/language/${lang}.json`);
