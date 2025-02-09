@@ -95,6 +95,29 @@ var allShadersPresent = new Check("AllShadersPresent", async () => {
 
 });
 
+var allFractalsCanUseModifierCheck = new Check("AllFractalsCanUseModifier", async () => {
+
+    var allCanUse = true;
+
+    var fractalData = JSON.parse(await (await fetch("/data/fractals.json")).text());
+    var fractalShaders = [];
+    Object.keys(fractalData).forEach(key => fractalShaders.push(fractalData[key].shader));
+
+    for (var fractal of fractalShaders) {
+        var res = await fetch(`/shaders/fractals/${fractal}.frxs`);
+        if (res.status != 404) {
+            var shaderContent = await res.text();
+            if (shaderContent.indexOf("apply_modifier") < 0) {
+                allCanUse = false;
+                log(`fractal ${fractal} can't use modifiers`, "#ffff7f");
+            }
+        }
+    }
+
+    return allCanUse;
+
+});
+
 var succeeded = 0;
 for (var check of allChecks) {
     await check.validate();
