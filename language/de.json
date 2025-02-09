@@ -76,6 +76,10 @@
     "zoom_speed": "Zoomgeschwindigkeit",
     "smoothing_fps": "Kamera-Smoothing - FPS",
 
+    "dynamic_sample_count": "Dynamischer Samplecount",
+    "dynamic_sample_count_low": "Dynamischer Samplecount - Niedriger Wert",
+    "dynamic_sample_count_description": "Ein dynamischer Samplecount niedert deinen Samplecount auf einen bestimmten Wert, während sich die Kamera bewegt, damit zoomen und bewegen sich trotzdem flüssig anfühlt, aber wenn du pausierst, setzt es sich wieder auf den normalen Wert zurück.",
+
     "use_webgpu": "WebGPU benutzen",
     "use_webgl": "WebGL benutzen",
 

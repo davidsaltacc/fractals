@@ -182,6 +182,14 @@
                 <p><fxp-translate key="smoothing_fps"></fxp-translate></p>
                 <input type="number" value="60" onchange="setSmoothingFPS(this.value);">
                 <hr>
+                <p><fxp-translate key="dynamic_sample_count"></fxp-translate></p>
+                <input type="checkbox" checked onchange="useDynamicSampleCount(this.checked);">
+                <p><fxp-translate key="dynamic_sample_count_low"></fxp-translate></p>
+                <input type="number" value="4" onchange="setDynamicSampleCountLow(this.value);">
+                <br>
+                <br>
+                <p class="small"><fxp-translate key="dynamic_sample_count_description"></fxp-translate></p>
+                <hr>
                 <h4><fxp-translate key="force_backend"></fxp-translate></h4>
                 <p><button onclick="forceWebGPU();"><fxp-translate key="use_webgpu"></fxp-translate></button> <span class="small"><fxp-translate key="webgpu_description"></fxp-translate></span></p>
                 <p><button onclick="forceWebGL();"><fxp-translate key="use_webgl"></fxp-translate></button> <span class="small"><fxp-translate key="webgl_description"></fxp-translate></span></p>
@@ -617,6 +625,7 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                     <p>- Updated some old descriptions</p>
                     <p>- Option to not include canvas size & camera smoothing settings in presets</p>
                     <p>- Fix some of the black tearing that happens on some fractals with stripe coloring on high radiuses</p>
+                    <p>- Dynamic Sample Count</p>
                 </div>
                 <hr>
             </div>

@@ -339,7 +339,7 @@ function reset(noCompile) {
     juliasetConstant = [0, 0];
     juliasetInterpolation = 1;
     colorfulness = 1;
-    sampleCount = 4;
+    sampleCount = 16;
     noiseSeed = 33333;
     noiseAmplitude = 0;
     noiseMultiplier = 0.8;
@@ -710,6 +710,10 @@ function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos) {
 
 function draw(context, juliaset) {
 
+    if (DEBUG_MODE) {
+        console.log(`draw call made from \n${new Error().stack}`);
+    }
+
     if (USE_WEBGPU) {
 
         setUniforms(null, null, juliaset);
@@ -928,6 +932,10 @@ var smoothFpsInterval = 1000 / smoothingFps;
 var smoothThenMain = new Date();
 var smoothThenJul = new Date();
 
+var dynamicSampleCount = true;
+var dynamicSampleCountNormal = null;
+var dynamicSampleCountLow = 4;
+
 function setSmoothingFPS(fps) {
     smoothingFps = parseFloat(fps);
     smoothFpsInterval = 1000 / smoothingFps;
@@ -947,14 +955,51 @@ function prepareSmoothingAnimation(main) {
 } 
 
 function startSmoothingAnimation(main) {
+    
     if (main && !smoothingMainRunning) {
+        if (smoothingEnabled && !(
+            Math.abs(targetXMain - centerMain[0]) > 0.0001 / zoomMain ||
+            Math.abs(targetYMain - centerMain[1]) > 0.0001 / zoomMain ||
+            Math.abs(targetZMain - zoomMain) > 0.0001
+        )) {
+            return;
+        }
         smoothThenMain = Date.now();
         requestAnimationFrame(animateSmoothingMain);
     }
+
     if (!main && !smoothingJulRunning) {
+        if (smoothingEnabled && !(
+            Math.abs(targetXJul - centerJul[0]) > 0.0001 / zoomJul ||
+            Math.abs(targetYJul - centerJul[1]) > 0.0001 / zoomJul ||
+            Math.abs(targetZJul - zoomJul) > 0.0001
+        )) {
+            return;
+        }
         smoothThenJul = Date.now();
         requestAnimationFrame(animateSmoothingJul);
     }
+
+    if (!smoothingMainRunning && !smoothingJulRunning && smoothingEnabled && dynamicSampleCount) {
+        dynamicSampleCountNormal = sampleCount;
+        sampleCount = dynamicSampleCountLow;
+    }
+
+}
+
+function endSmoothingAnimation() {
+    if (smoothingEnabled && dynamicSampleCount) {
+        sampleCount = dynamicSampleCountNormal;
+        renderBoth();
+    }
+}
+
+function useDynamicSampleCount(value) {
+    dynamicSampleCount = value;
+}
+
+function setDynamicSampleCountLow(value) {
+    dynamicSampleCount = value;
 }
 
 canvasMain.onmousedown = evt => {
@@ -999,6 +1044,7 @@ function animateSmoothingMain() {
 
     if (!smoothingEnabled) {
         smoothingMainRunning = false;
+        endSmoothingAnimation();
         centerMain[0] = targetXMain;
         centerMain[1] = targetYMain;
         zoomMain = targetZMain;
@@ -1006,11 +1052,12 @@ function animateSmoothingMain() {
         return;
     }
     if (smoothingMainRunning && !(
-        Math.abs(targetXMain - centerMain[0]) > 0.01 / zoomMain ||
-        Math.abs(targetYMain - centerMain[1]) > 0.01 / zoomMain ||
-        Math.abs(targetZMain - zoomMain) > 0.01
+        Math.abs(targetXMain - centerMain[0]) > 0.001 / zoomMain ||
+        Math.abs(targetYMain - centerMain[1]) > 0.001 / zoomMain ||
+        Math.abs(targetZMain - zoomMain) > 0.001
     )) {
         smoothingMainRunning = false;
+        endSmoothingAnimation();
         return;
     }
 
@@ -1057,6 +1104,7 @@ function animateSmoothingJul() {
 
     if (!smoothingEnabled) {
         smoothingJulRunning = false;
+        endSmoothingAnimation();
         centerJul[0] = targetXJul;
         centerJul[1] = targetYJul;
         zoomJul = targetZJul;
@@ -1064,11 +1112,12 @@ function animateSmoothingJul() {
         return;
     }
     if (smoothingJulRunning && !(
-        Math.abs(targetXJul - centerJul[0]) > 0.01 / zoomJul ||
-        Math.abs(targetYJul - centerJul[1]) > 0.01 / zoomJul ||
-        Math.abs(targetZJul - zoomJul) > 0.01
+        Math.abs(targetXJul - centerJul[0]) > 0.001 / zoomJul ||
+        Math.abs(targetYJul - centerJul[1]) > 0.001 / zoomJul ||
+        Math.abs(targetZJul - zoomJul) > 0.001
     )) {
         smoothingJulRunning = false;
+        endSmoothingAnimation();
         return;
     }
 
@@ -1758,6 +1807,8 @@ const exports = {
     setZoomSpeed,
     setSmoothingFPS,
     includeCanvasSizeInPreset,
-    includeSmoothingInPreset
+    includeSmoothingInPreset,
+    useDynamicSampleCount,
+    setDynamicSampleCountLow
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
