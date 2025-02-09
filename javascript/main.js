@@ -643,7 +643,7 @@ async function importToCustomCode(type) {
     }
 } 
 
-function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos) {
+function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos, overrideSampleCount) {
 
     if (DEBUG_MODE) {
         logStatus("setting uniforms (juliaset canvas: " + juliaset + ", for chunked rendering: " + (chunked ?? false) + (chunked ? (", chunk position: " + chunkerPos) : "") + ")" , true);
@@ -664,7 +664,7 @@ function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos) {
         context.uniform1f(context.getUniformLocation(wgl_program, "noiseAmplitude"), noiseAmplitude);
         context.uniform1f(context.getUniformLocation(wgl_program, "noiseMultiplier"), noiseMultiplier);
         context.uniform1ui(context.getUniformLocation(wgl_program, "maxIterations"), maxIterations);
-        context.uniform1ui(context.getUniformLocation(wgl_program, "sampleCount"), sampleCount);
+        context.uniform1ui(context.getUniformLocation(wgl_program, "sampleCount"), overrideSampleCount ?? sampleCount);
         context.uniform1ui(context.getUniformLocation(wgl_program, "chunkerFinalSize"), chunked ? chunkerFinalSize : 0);
         context.uniform1ui(context.getUniformLocation(wgl_program, "chunkerChunkSize"), chunked ? chunkerChunkSize : 0);
         context.uniform1ui(context.getUniformLocation(wgl_program, "chunkerX"), chunked ? chunkerPos[0] : 0);
@@ -694,7 +694,7 @@ function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos) {
 
         new Uint32Array(arrayBuffer, 15 * Float32Array.BYTES_PER_ELEMENT).set([
             maxIterations,
-            sampleCount,
+            overrideSampleCount ?? sampleCount,
             chunked ? chunkerFinalSize : 0, 
             chunked ? chunkerChunkSize : 0, 
             chunked ? chunkerPos[0] : 0,
@@ -708,7 +708,7 @@ function setUniforms(context, wgl_program, juliaset, chunked, chunkerPos) {
 
 }
 
-function draw(context, juliaset) {
+function draw(context, juliaset, overrideSampleCount) {
 
     if (DEBUG_MODE) {
         console.log(`draw call made from \n${new Error().stack}`);
@@ -716,7 +716,7 @@ function draw(context, juliaset) {
 
     if (USE_WEBGPU) {
 
-        setUniforms(null, null, juliaset);
+        setUniforms(null, null, juliaset, null, null, overrideSampleCount);
 
         const encoder = wgpu_device.createCommandEncoder();
         const renderPass = encoder.beginRenderPass({
@@ -739,7 +739,7 @@ function draw(context, juliaset) {
         
         const gl = context;
 
-        setUniforms(gl, !juliaset ? wgl_programMain : wgl_programJul, juliaset);
+        setUniforms(gl, !juliaset ? wgl_programMain : wgl_programJul, juliaset, null, null, overrideSampleCount);
         gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 
     }
@@ -842,17 +842,17 @@ async function drawReturnImageData(context, juliaset, chunked, chunkerPos) {
 
 }
 
-function renderMain() {
-    return draw(contextMain, 0);
+function renderMain(overrideSampleCount) {
+    return draw(contextMain, 0, overrideSampleCount);
 }
 
-function renderJul() {
-    return draw(contextJul, 1);
+function renderJul(overrideSampleCount) {
+    return draw(contextJul, 1, overrideSampleCount);
 }
 
-function renderBoth() {
-    renderMain(),
-    renderJul();
+function renderBoth(overrideSampleCount) {
+    renderMain(overrideSampleCount),
+    renderJul(overrideSampleCount);
 }
 
 async function compileAndRender() {
@@ -937,7 +937,6 @@ var smoothThenMain = new Date();
 var smoothThenJul = new Date();
 
 var dynamicSampleCount = true;
-var dynamicSampleCountNormal = null;
 var dynamicSampleCountLow = 4;
 
 function setSmoothingFPS(fps) {
@@ -984,16 +983,10 @@ function startSmoothingAnimation(main) {
         requestAnimationFrame(animateSmoothingJul);
     }
 
-    if (!smoothingMainRunning && !smoothingJulRunning && smoothingEnabled && dynamicSampleCount) {
-        dynamicSampleCountNormal = sampleCount;
-        sampleCount = dynamicSampleCountLow;
-    }
-
 }
 
 function endSmoothingAnimation() {
     if (smoothingEnabled && dynamicSampleCount) {
-        sampleCount = dynamicSampleCountNormal;
         renderBoth();
     }
 }
@@ -1003,7 +996,7 @@ function useDynamicSampleCount(value) {
 }
 
 function setDynamicSampleCountLow(value) {
-    dynamicSampleCount = value;
+    dynamicSampleCountLow = value;
 }
 
 canvasMain.onmousedown = evt => {
@@ -1029,7 +1022,7 @@ canvasMain.onmousemove = evt => {
             (2 * (evt.offsetX / canvasMain.width) - 1) / zoomMain + centerMain[0], 
             (2 * (evt.offsetY / canvasMain.height) - 1) / zoomMain - centerMain[1]
         ]; 
-        renderJul(); 
+        renderJul(dynamicSampleCount ? dynamicSampleCountLow : null); 
         updateJsetConstants(); 
     }
 };
@@ -1044,15 +1037,22 @@ canvasMain.onwheel = evt => {
     startSmoothingAnimation(true);
 };
 
+canvasMain.onmouseup = evt => {
+    if (dynamicSampleCount) {
+        renderBoth();
+    }
+};
+
 function animateSmoothingMain() {
 
     if (!smoothingEnabled) {
         smoothingMainRunning = false;
         endSmoothingAnimation();
+        var dynSampleCountDisabled = zoomMain != targetZMain;
         centerMain[0] = targetXMain;
         centerMain[1] = targetYMain;
         zoomMain = targetZMain;
-        renderMain();
+        renderMain(dynSampleCountDisabled ? null : (dynamicSampleCount ? dynamicSampleCountLow : null));
         return;
     }
     if (smoothingMainRunning && !(
@@ -1081,7 +1081,9 @@ function animateSmoothingMain() {
     centerMain[1] = (1 - smoothing) * targetYMain + smoothing * centerMain[1];
     zoomMain = (1 - smoothing) * targetZMain + smoothing * zoomMain;
 
-    renderMain();
+    if (dynamicSampleCount) {
+        renderMain(dynamicSampleCountLow);
+    }
     
 }
 
@@ -1104,15 +1106,22 @@ canvasJul.onwheel = evt => {
     startSmoothingAnimation(false);
 };
 
+canvasJul.onmouseup = evt => {
+    if (dynamicSampleCount) {
+        renderBoth();
+    }
+};
+
 function animateSmoothingJul() {
 
     if (!smoothingEnabled) {
         smoothingJulRunning = false;
         endSmoothingAnimation();
+        var dynSampleCountDisabled = zoomMain != targetZMain;
         centerJul[0] = targetXJul;
         centerJul[1] = targetYJul;
         zoomJul = targetZJul;
-        renderJul();
+        renderJul(dynSampleCountDisabled ? null : (dynamicSampleCount ? dynamicSampleCountLow : null));
         return;
     }
     if (smoothingJulRunning && !(
@@ -1141,7 +1150,9 @@ function animateSmoothingJul() {
     centerJul[1] = (1 - smoothing) * targetYJul + smoothing * centerJul[1];
     zoomJul = (1 - smoothing) * targetZJul + smoothing * zoomJul;
 
-    renderJul();
+    if (dynamicSampleCount) {
+        renderJul(dynamicSampleCountLow);
+    }
     
 }
 
