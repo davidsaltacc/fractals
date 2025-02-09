@@ -228,13 +228,16 @@ function getInitializedCanvasContext(canvas) {
 
 }
 
+var wgpu_adapter;
+var wgpu_device;
+
 if (USE_WEBGPU) {
 
     logStatus("initializing WebGPU. if this takes more than a few seconds, the fractal explorer probably crashed the last time you used it. in that case, simply restart your browser. ");
 
     try {
-        var wgpu_adapter = await navigator.gpu.requestAdapter();
-        var wgpu_device = await wgpu_adapter.requestDevice();
+        wgpu_adapter = await navigator.gpu.requestAdapter();
+        wgpu_device = await wgpu_adapter.requestDevice();
     } catch {
         logStatus("failed to initialize WebGPU. ");
     }
@@ -851,7 +854,7 @@ function renderJul(overrideSampleCount) {
 }
 
 function renderBoth(overrideSampleCount) {
-    renderMain(overrideSampleCount),
+    renderMain(overrideSampleCount);
     renderJul(overrideSampleCount);
 }
 
@@ -1811,7 +1814,6 @@ const exports = {
     updateUi,
     getMainCanvas, getJuliasetCanvas,
     showLoadingWave, hideLoadingWave,
-    logStatus,
     onPluginsInitialized,
     onAnimationsInitialized,
     setSmoothing,
