@@ -141,6 +141,19 @@
                 <p><input type="checkbox" checked onchange="includePluginsInPreset(this.checked);"> <fxp-translate key="preset_include_plugins"></fxp-translate></p>
                 <p><input type="checkbox" onchange="includeCanvasSizeInPreset(this.checked);"> <fxp-translate key="preset_include_canvas_size"></fxp-translate></p>
                 <p><input type="checkbox" onchange="includeSmoothingInPreset(this.checked);"> <fxp-translate key="preset_include_smoothing"></fxp-translate></p>
+                <hr>
+                <h3>Image Chunker</h3>
+                <h4><fxp-translate key="chunker_description"></fxp-translate></h4>
+                <p><fxp-translate key="webgl_export_hint"></fxp-translate></p>
+                <br><p><fxp-translate key="final_image_size"></fxp-translate></p>
+                <input type="number" value="2000" onchange="setChunkerFinalSize(this.value);">
+                <p><fxp-translate key="chunk_size"></fxp-translate></p>
+                <input type="number" value="400" onchange="setChunkerChunkSize(this.value);">
+                <br><br>
+                <button onclick="renderAndExportChunkedMain();"><fxp-translate key="render_export_main"></fxp-translate></button>
+                <button onclick="renderAndExportChunkedJuliaset();"><fxp-translate key="render_export_juliaset"></fxp-translate></button> 
+                <h4><fxp-translate key="export_freeze_note"></fxp-translate></h4>
+                <hr>
             </div>
         </div>
 
@@ -212,25 +225,6 @@
             </div>
         </div>
 
-        <div class="toggleable toggleable_default_hidden">
-            <div class="toggleable_title">
-                <h3><fxp-translate key="image_chunker"></fxp-translate></h3>
-            </div>
-            <div class="toggleable_content">
-                <h3><fxp-translate key="chunker_description"></fxp-translate></h3>
-                <p><fxp-translate key="webgl_export_hint"></fxp-translate></p>
-                <br><p><fxp-translate key="final_image_size"></fxp-translate></p>
-                <input type="number" value="2000" onchange="setChunkerFinalSize(this.value);">
-                <p><fxp-translate key="chunk_size"></fxp-translate></p>
-                <input type="number" value="400" onchange="setChunkerChunkSize(this.value);">
-                <br><br>
-                <button onclick="renderAndExportChunkedMain();"><fxp-translate key="render_export_main"></fxp-translate></button>
-                <button onclick="renderAndExportChunkedJuliaset();"><fxp-translate key="render_export_juliaset"></fxp-translate></button> 
-                <h4><fxp-translate key="export_freeze_note"></fxp-translate></h4>
-                <hr>
-            </div>
-        </div>
-        
         <div class="toggleable toggleable_default_hidden">
             <div class="toggleable_title">
                 <h3><fxp-translate key="override_parameters"></fxp-translate></h3>
@@ -390,20 +384,20 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 </div>
                 <script>
                     function openTabF(e, n) {
-                        for (c of document.getElementsByClassName("ftabcontent")) {
+                        for (var c of document.getElementsByClassName("ftabcontent")) {
                             c.style.display = "none";
                         }
-                        for (l of document.getElementsByClassName("ftablink")) {
+                        for (var l of document.getElementsByClassName("ftablink")) {
                             l.className = l.className.replace(" active", "");
                         }
                         document.getElementById(n).style.display = "block";
                         e.currentTarget.className += " active";
                     }
                     function openTabCs(e, n) {
-                        for (c of document.getElementsByClassName("cstabcontent")) {
+                        for (var c of document.getElementsByClassName("cstabcontent")) {
                             c.style.display = "none";
                         }
-                        for (l of document.getElementsByClassName("cstablink")) {
+                        for (var l of document.getElementsByClassName("cstablink")) {
                             l.className = l.className.replace(" active", "");
                         }
                         document.getElementById(n).style.display = "block";
@@ -437,10 +431,10 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 </div>
                 <script>
                     function openTabP(e, n) {
-                        for (c of document.getElementsByClassName("ptabcontent")) {
+                        for (var c of document.getElementsByClassName("ptabcontent")) {
                             c.style.display = "none";
                         }
-                        for (l of document.getElementsByClassName("ptablink")) {
+                        for (var l of document.getElementsByClassName("ptablink")) {
                             l.className = l.className.replace(" active", "");
                         }
                         document.getElementById(n).style.display = "block";
