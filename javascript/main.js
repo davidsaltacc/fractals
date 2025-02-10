@@ -1047,17 +1047,7 @@ canvasMain.onmouseup = evt => {
 };
 
 function animateSmoothingMain() {
-
-    if (!smoothingEnabled) {
-        smoothingMainRunning = false;
-        endSmoothingAnimation();
-        var dynSampleCountDisabled = zoomMain != targetZMain;
-        centerMain[0] = targetXMain;
-        centerMain[1] = targetYMain;
-        zoomMain = targetZMain;
-        renderMain(dynSampleCountDisabled ? null : (dynamicSampleCount ? dynamicSampleCountLow : null));
-        return;
-    }
+    
     if (smoothingMainRunning && !(
         Math.abs(targetXMain - centerMain[0]) > 0.001 / zoomMain ||
         Math.abs(targetYMain - centerMain[1]) > 0.001 / zoomMain ||
@@ -1076,6 +1066,17 @@ function animateSmoothingMain() {
     var elapsed = now - smoothThenMain;
 
     if (elapsed < smoothFpsInterval) {
+        return;
+    }
+
+    if (!smoothingEnabled) {
+        smoothingMainRunning = false;
+        endSmoothingAnimation();
+        var dynSampleCountDisabled = zoomMain != targetZMain;
+        centerMain[0] = targetXMain;
+        centerMain[1] = targetYMain;
+        zoomMain = targetZMain;
+        renderMain(dynSampleCountDisabled ? null : (dynamicSampleCount ? dynamicSampleCountLow : null));
         return;
     }
 
@@ -1117,16 +1118,6 @@ canvasJul.onmouseup = evt => {
 
 function animateSmoothingJul() {
 
-    if (!smoothingEnabled) {
-        smoothingJulRunning = false;
-        endSmoothingAnimation();
-        var dynSampleCountDisabled = zoomMain != targetZMain;
-        centerJul[0] = targetXJul;
-        centerJul[1] = targetYJul;
-        zoomJul = targetZJul;
-        renderJul(dynSampleCountDisabled ? null : (dynamicSampleCount ? dynamicSampleCountLow : null));
-        return;
-    }
     if (smoothingJulRunning && !(
         Math.abs(targetXJul - centerJul[0]) > 0.001 / zoomJul ||
         Math.abs(targetYJul - centerJul[1]) > 0.001 / zoomJul ||
@@ -1145,6 +1136,17 @@ function animateSmoothingJul() {
     var elapsed = now - smoothThenJul;
 
     if (elapsed < smoothFpsInterval) {
+        return;
+    }
+
+    if (!smoothingEnabled) {
+        smoothingJulRunning = false;
+        endSmoothingAnimation();
+        var dynSampleCountDisabled = zoomMain != targetZMain;
+        centerJul[0] = targetXJul;
+        centerJul[1] = targetYJul;
+        zoomJul = targetZJul;
+        renderJul(dynSampleCountDisabled ? null : (dynamicSampleCount ? dynamicSampleCountLow : null));
         return;
     }
 
