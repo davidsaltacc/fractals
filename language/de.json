@@ -74,7 +74,7 @@
     "camera_smoothing": "Kamera-Smoothing",
     "camera_smoothing_value": "Kameraverflüssigungsintensität",
     "zoom_speed": "Zoomgeschwindigkeit",
-    "smoothing_fps": "Kamera-Smoothing - FPS",
+    "fps_cap": "FPS - Obergrenze",
 
     "dynamic_sample_count": "Dynamischer Samplecount",
     "dynamic_sample_count_low": "Dynamischer Samplecount - Niedriger Wert",
