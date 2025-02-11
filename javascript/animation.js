@@ -515,6 +515,11 @@ function removeKeyframe() {
     updateEditor();
 }
 
+function deselectKeyframe() {
+    selectedKeyframe.unselect();
+    updateEditor();
+}
+
 class UIKeyframe {
 
     constructor(trackElement, time, property, value) {
@@ -582,6 +587,8 @@ function addAnimationTrack(id, name, property) {
 
         trackDiv.remove();
         trackLabelDiv.remove();
+
+        updateEditor();
 
     };
 
@@ -660,21 +667,6 @@ Object.keys(properties).forEach(property => {
     document.getElementById("addTrackDropdownContent").appendChild(a);
 
 })
-
-document.addEventListener("click", evt => {
-    
-    if (!selectedKeyframe) {
-        return;
-    }
-
-    if (evt.target.classList.contains("animation-keyframe") || evt.target.classList.contains("animation-track") || evt.target.closest("#edit-keyframe-container")) {
-        return;
-    }
-
-    addedKeyframes.forEach(kf => kf.unselect());
-    updateEditor();
-
-});
 
 function regenerateAnimation() {
 
@@ -899,7 +891,8 @@ const exports = {
     setAnimationVideoCodec,
     getAnimationData,
     applyAnimationData,
-    getAnimation
+    getAnimation,
+    deselectKeyframe
 };
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
 

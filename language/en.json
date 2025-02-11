@@ -215,6 +215,7 @@
     "keyframe_easing_strength": "Easing Strength (1-∞):",
 
     "remove_keyframe": "Remove Keyframe",
+    "deselect_keyframe": "Deselect Keyframe",
 
     "linear": "Linear",
     "ease_in": "Ease In",
