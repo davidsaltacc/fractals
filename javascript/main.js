@@ -294,7 +294,8 @@ function canvasTooBig() {
 function setCanvasesSticky(sticky) {
 
     el("canvasContainer").className = sticky ? "sticky" : (canvasTooBig() ? "unsticky unsticky-big" : "unsticky");
-    el("descriptions").style.maxWidth = sticky ? "calc(100vw - 1100px)" : ""; 
+    el("descriptions").style.maxWidth = sticky ? `calc(100vw - ${canvasMain.width * 2 + 100}px)` : ""; 
+    el("title").style.maxWidth = sticky ? `calc(100vw - ${canvasMain.width * 2 + 100}px)` : ""; 
 
 }
 
