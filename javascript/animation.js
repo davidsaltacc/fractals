@@ -242,7 +242,9 @@ class Sequence {
 
         this.keyframeGroups[0].apply(isJuliaset);
         this.keyframeGroups.shift();
+
         renderBoth();
+        updateUi();
 
     }
 
@@ -276,11 +278,7 @@ class Sequence {
                 }
 
             } else {
-
-                this_.applyAtTime(this_.length, onJuliaset);
-                renderBoth();
-                updateUi();
-
+                
                 this_._stopAnimation(onJuliaset);
 
             }
