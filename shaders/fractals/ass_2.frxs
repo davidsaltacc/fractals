@@ -1,7 +1,7 @@
 
 
 #ifbackend[webgpu]
-return apply_modifier(vec2<f32>(
+return apply_modifier(avoidNan(vec2<f32>(
 #endbackend
 
 #ifbackend[webgl]
