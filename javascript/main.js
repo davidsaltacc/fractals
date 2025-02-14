@@ -430,15 +430,15 @@ if (USE_WEBGPU) {
 
 }
 
-function insertCustomShaders(code, cmethod, cscheme, fractal, postf) {
-    code = code.replace("///POST_FUNC", postf);
+function insertCustomShaders(code, cmethod, cscheme, fractal, mod) {
+    code = code.replace("///POST_FUNC", mod);
     code = code.replace("///ITER_FUNC", fractal);
     code = code.replace("///COLORSCHEME", cscheme);
     code = code.replace("///COLORING_METHOD", cmethod);
     return code;
 }
 
-async function _compileShaders(cmethod, cscheme, fractal, postf) {
+async function _compileShaders(cmethod, cscheme, fractal, mod) {
 
     if (DEBUG_MODE) {
         logStatus("starting to compile shaders", true);
@@ -448,7 +448,7 @@ async function _compileShaders(cmethod, cscheme, fractal, postf) {
 
         var code = await (await fetch("shaders/core/webgpu/main.wgsl")).text();
 
-        code = insertCustomShaders(code, cmethod, cscheme, fractal, postf);
+        code = insertCustomShaders(code, cmethod, cscheme, fractal, mod);
         
         const cshaderModule = wgpu_device.createShaderModule({ code: code });
 
@@ -519,7 +519,7 @@ async function _compileShaders(cmethod, cscheme, fractal, postf) {
         var vertCode = await (await fetch("shaders/core/webgl/main.vert")).text();
         var fragCode = await (await fetch("shaders/core/webgl/main.frag")).text();
         
-        fragCode = insertCustomShaders(fragCode, cmethod, cscheme, fractal, postf);
+        fragCode = insertCustomShaders(fragCode, cmethod, cscheme, fractal, mod);
 
         var programs = [];
 
