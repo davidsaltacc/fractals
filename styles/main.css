@@ -747,3 +747,31 @@ a, a:active {
 #unusedTranslationInsertions {
     display: none !important;
 }
+
+#language-text {
+    margin-bottom: 15px;
+}
+
+#lang-icon {
+    display: block;
+    background-image: url("/assets/language.svg");
+    width: 30px;
+    height: 30px;
+}
+
+#change-lang-button {
+    padding: 5px;
+    border: 1px solid #313131;
+    border-radius: 4px;
+    background-color: #2e2e2e;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#change-lang-button:hover {
+    background-color: #292929;
+}
+
+.lang-dropdown-selected {
+    background-color: #4e4e4e;
+}

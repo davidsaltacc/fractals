@@ -42,13 +42,27 @@
 
     <div class="container">
        
-        <h1 id="title">David's Fractal Explorer v6</h1>
-        <p id="infobar">
-            <fxp-translate key="version" insert0="fxversion"></fxp-translate> - <fxp-translate key="using_available_backend" insert0="fxbackend"></fxp-translate> 
-            <span id="fxversion"></span>
-            <span id="fxbackend"></span>
-        </p>
-
+        <div id="title-stuff">
+            <h1 id="title">David's Fractal Explorer v6</h1>
+            <p id="infobar">
+                <fxp-translate key="version" insert0="fxversion"></fxp-translate> - <fxp-translate key="using_available_backend" insert0="fxbackend"></fxp-translate> 
+                <span id="fxversion"></span>
+                <span id="fxbackend"></span>
+            </p>
+            <p id="language-text"><span id="lang-icon"></span><fxp-translate key="language_is" insert0="lang"></fxp-translate> 
+                <span class="dropdown">
+                    <script>
+                        function toggleLanguageDropdown() {
+                            document.getElementById("languageDropdownContent").classList.toggle("show-dropdown");
+                        }
+                    </script>
+                    <button onclick="toggleLanguageDropdown()" class="dropdown-button" id="change-lang-button"><fxp-translate key="change_language"></fxp-translate></button>
+                    <div id="languageDropdownContent" class="dropdown-content"></div>
+                </s>
+            </p>
+            <span id="lang"></span>
+        </div>
+        
         <div class="toggleable">
             <div class="toggleable_title">
                 <h3><fxp-translate key="descriptions"></fxp-translate></h3>

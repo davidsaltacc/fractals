@@ -21,6 +21,12 @@
     "disable_custom_colorscheme_shader": "Disable Custom Colorscheme Shader",
     "update_custom_colorscheme_shader": "Update Custom Colorscheme Shader",
 
+    "change_language": "Change",
+    "language_is": "Language: {0}",
+
+    "lang_en": "English (English)",
+    "lang_de": "German (Deutsch)",
+
     "version": "version {0}",
     "using_available_backend": "using available {0}",
 

@@ -21,6 +21,12 @@
     "disable_custom_colorscheme_shader": "Eigenen Farbschema-Shader Ausschalten",
     "update_custom_colorscheme_shader": "Eigenen Farbschema-Shader Aktualisieren",
 
+    "change_language": "Ändern",
+    "language_is": "Sprache: {0}",
+
+    "lang_en": "Englisch (English)",
+    "lang_de": "Deutsch (Deutsch)",
+
     "version": "version {0}",
     "using_available_backend": "nützt verfügbares {0}",
 

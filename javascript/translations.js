@@ -19,16 +19,31 @@ function getLanguageFiles() {
 var supported = JSON.parse(await (await fetch("/data/languages.json")).text()).supported;
 
 supported.forEach(lang => {
+
     addLanguageFile(lang, `/language/${lang}.json`);
+
 });
 
 function getSupportedLanguages() {
     return supported;
 }
 
+function updateSelectionUi(lang) {
+    document.getElementById("lang").innerHTML = translatable(`lang_${lang}`).outerHTML;
+
+    var langDropdownCont = document.getElementById("languageDropdownContent");
+    langDropdownCont.childNodes.forEach(c => {
+        c.classList.remove("lang-dropdown-selected");
+    });
+    document.getElementById(`lang_change_${lang}`)?.classList.add("lang-dropdown-selected");
+    langDropdownCont.classList.remove("show-dropdown");
+}
+
 async function setLanguage(lang, doNotReload) { 
 
+    localStorage.setItem("language", lang);
     language = lang;
+    updateSelectionUi(lang);
 
     try {
 
@@ -189,9 +204,28 @@ function translationsReady() {
 
 customElements.define("fxp-translate", Translatable);
 
+language = localStorage.getItem("language") ?? language;
+
 await setLanguage(language, true);
 translationsInitialized = true;
 reloadTranslations();
+document.getElementById("lang").innerHTML = translatable(`lang_${language}`).outerHTML;
+
+supported.forEach(lang => {
+
+    var langDropdownCont = document.getElementById("languageDropdownContent");
+
+    var langChangeEl = document.createElement("a");
+    langChangeEl.innerHTML = translatable(`lang_${lang}`).outerHTML;
+    langChangeEl.id = `lang_change_${lang}`;
+    langChangeEl.onclick = () => {
+        setLanguage(lang);
+    };
+    langDropdownCont.appendChild(langChangeEl);
+
+});
+
+updateSelectionUi(language);
 
 const exports = {
     Translatable,
