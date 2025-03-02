@@ -317,6 +317,7 @@
     "unnamed_12": "Unnamed 12",
     "what": "What",
     "unnamed_13": "Unnamed 13",
+    "unnamed_14": "Unnamed 14",
 
     "mandelbrot_desc": "The standard Mandelbrot set.",
     "burning_ship_desc": "A variation of the Mandelbrot set. Got its name because of the tiny burning ship on the left. Reading this after a lot of time after writing, I actually had to double check I wrote left and not right. This left-right sh*t is confusing..",
@@ -368,6 +369,7 @@
     "unnamed_12_desc": "<description here, I can't think of anything>",
     "what_desc": "What the F*?<br>- My reaction seeing this for the first time. <br>A mandelbrot with two ends, like raised to power +1 but like, not?",
     "unnamed_13_desc": "Turn up the colorfulness to see interesting details. For some reason, for Re(c)<0 the juliasets unconfortably flip from Im(c)>0 to Im(c)<0.",
+    "unnamed_14_desc": "Lots of spikes and stuff.",
 
     "terraced": "Terraced",
     "smooth": "Smooth",

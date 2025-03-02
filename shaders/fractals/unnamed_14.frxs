@@ -1,0 +1,4 @@
+
+#ifbackend[*]
+return apply_modifier(c_multiplication(z, z * dot(z, c)), c) + c;
+#endbackend

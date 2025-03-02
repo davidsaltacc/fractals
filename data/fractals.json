@@ -349,6 +349,13 @@
         "description": "unnamed_13_desc",
         "formula": "z<sub>n+1</sub> = z<sub>n</sub><sup>POWER</sup> + c<sup>z<sub>n</sub></sup>",
         "shader": "unnamed_13"
+    },
+    "UNNAMED_14": {
+        "name": "unnamed_14",
+        "radius": 10000000,
+        "description": "unnamed_14_desc",
+        "formula": "z<sub>n+1</sub> = ",
+        "shader": "unnamed_14"
     }
 
 }

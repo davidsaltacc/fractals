@@ -317,6 +317,7 @@
     "unnamed_12": "Unbenannt 12",
     "what": "Was?",
     "unnamed_13": "Unbenannt 13",
+    "unnamed_14": "Unbenannt 14",
 
     "mandelbrot_desc": "Die Standard-Mandelbrot-Menge.",
     "burning_ship_desc": "Eine Variation der Mandelbrot-Menge. Hat seinen Namen wegen des kleinen Schiffs links. Als ich dies nach längerer Zeit las, nachdem ich es geschrieben hatte, musste ich zweimal überprüfen, ob ich eh links und nicht rechts geschrieben hatte. Diese Links-Rechts-Sch**se ist zu verwirrend.",
@@ -368,6 +369,7 @@
     "unnamed_12_desc": "<beschreiung hier, ich weiß auch nicht>",
     "what_desc": "What the F*?<br>- Meine Reaktion, als ich dies zum ersten Mal sah. <br>Eine Mandelbrot-Menge, mit zwei enden, als wie zur Hochzahl 3, aber irgendwie nicht?",
     "unnamed_13_desc": "Erhöhe die Farbintensität, um die interessanten Details zu sehen. Aus irgendeinem Grund, für Re(c)<0 drehen sich die Juliasets von Im(c)>0 zu Im(c)<0.",
+    "unnamed_14_desc": "Viele stacheln und ähnliches.",
 
     "terraced": "Gestuft",
     "smooth": "Glatt",
