@@ -228,15 +228,10 @@
     "ease_out": "Ease-aus",
     "ease_in_out": "Ease-ein-aus",
 
-    "run_and_export": "Abspielen & Exportieren",
+    "play_on_juliaset": "Auf juliaset abspielen",
 
     "anim_webgl_note": "Das Backend auf WebGL zu zwingen, könnte mit der Renderzeit und Exportgeschwindigkeit helfen, also wenn du Probleme bemerkst oder es nur langsam findest, ändere zu WebGL in der Einstellungs-Sektion. \nWarum? In WebGPU gibt es keinen einfachen Weg, effektiv bei meisten auflösungen auf eine Textur oder Buffer zu rendern, weil die Größe ein Vielfaches von 256 sein muss. Export bei anderen Größen als Vielfachen von 64 (64 * 4 farbkanäle = 256) benötigt ein wenig Extraplatz, was zu Performanceproblemen führen kann. ",
-
-    "run_anim_main": "Animation für Hauptfraktal abspielen",
-    "run_anim_juliaset": "Animation für Juliaset abspielen",
-
-    "stop_anim": "Animation anhalten",
-
+    
     "export_anim_main": "Animation für Hauptfraktal exportieren",
     "export_anim_juliaset": "Animation für Juliaset exportieren",
 

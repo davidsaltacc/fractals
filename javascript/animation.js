@@ -230,6 +230,7 @@ class Sequence {
 
         animationPlaying = true;
         this.stopped = false;
+        this.paused = false;
 
         this.pushArtificialKGAtBeginning(isJuliaset);
         this.sortKeyframes();
@@ -260,15 +261,36 @@ class Sequence {
         var startTime = performance.now();
         var duration = this.length * 1000;
 
+        var fpsInterval = 1000 / FPS;
+        var then = startTime;
+
         function frame(this_) {
 
-            var elapsedTime = performance.now() - startTime;
-        
-            if (elapsedTime < duration) {
+            // TODO - run, pause & stop -> icons
 
-                this_.applyAtTime(elapsedTime / 1000, onJuliaset);
-                renderBoth();
-                updateUi();
+            var now = performance.now();
+            var elapsedTimeTotal = now - startTime;
+            var elapsed = now - then;
+
+            if (this_.paused) {
+                startTime += elapsed;
+            }
+        
+            if (elapsedTimeTotal < duration) {
+
+                if (elapsed > fpsInterval) {
+                    
+                    then = now;
+
+                    if (!this_.paused) {
+                        
+                        this_.applyAtTime(elapsedTimeTotal / 1000, onJuliaset);
+                        renderBoth();
+                        updateUi();
+
+                    }
+
+                }
 
                 if (!this_.stopped) {
                     requestAnimationFrame(() => frame(this_));
@@ -287,6 +309,18 @@ class Sequence {
 
         requestAnimationFrame(() => frame(this));
 
+    }
+
+    pause() {
+        this.paused = true;
+    }
+
+    unpause() {
+        this.paused = false;
+    }
+
+    togglePause() {
+        this.paused = !this.paused;
     }
 
     stop() {
@@ -747,6 +781,10 @@ function playAnimation(onJuliaset) {
     animation.play(onJuliaset);
 }
 
+function toggleAnimationPaused() {
+    animation.togglePause();
+}
+
 function stopAnimation() {
     animation.stop();
 }
@@ -890,7 +928,8 @@ const exports = {
     getAnimationData,
     applyAnimationData,
     getAnimation,
-    deselectKeyframe
+    deselectKeyframe,
+    toggleAnimationPaused
 };
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }
 

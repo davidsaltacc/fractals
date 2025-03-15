@@ -775,3 +775,34 @@ a, a:active {
 .lang-dropdown-selected {
     background-color: #4e4e4e;
 }
+
+.anim-control {
+    width: 35px;
+    height: 35px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 75%;
+}
+
+.anim-run {
+    background-image: url("/assets/play.svg");
+    background-size: 70%;
+}
+
+.anim-pause {
+    background-image: url("/assets/pause.svg");
+    background-size: 70%;
+}
+
+.anim-stop {
+    background-image: url("/assets/stop.svg");
+    background-size: 100%;
+}
+
+.play-animation-checkbox {
+    margin-top: 10px;
+}
+
+.play-animation-checkbox > input {
+    margin-left: 0px;
+}

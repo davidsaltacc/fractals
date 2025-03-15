@@ -473,6 +473,13 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                     <div class="animation-timestamps-container" id="anim-timestamp-container"></div>
                 </div>
                 <br>
+                <button class="anim-control anim-run" onclick="playAnimation(document.getElementById('play-anim-jset').checked);"></button>
+                <button class="anim-control anim-pause" onclick="toggleAnimationPaused();"></button>
+                <button class="anim-control anim-stop" onclick="stopAnimation();"></button>
+                <br>
+                <p class="play-animation-checkbox"><input type="checkbox" class="checkbox" id="play-anim-jset"></input> <fxp-translate key="play_on_juliaset"></fxp-translate></p>
+                <br>
+                <br>
                 <div><span><fxp-translate key="add_track"></fxp-translate></span> 
                     <div class="dropdown">
                         <script>
@@ -485,6 +492,7 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                     </div>
                 </div>
                 <p><fxp-translate key="animation_length"></fxp-translate> <input type="number" style="width: 60px;" value="10" id="animation-length" oninput="setAnimationLength(this.value)"/></p>
+                <p><fxp-translate key="video_framerate"></fxp-translate> <input type="number" onchange="setAnimationFPS(this.value)" style="width: 60px;" value="60"></p>
                 <p><button onclick="increaseAnimZoom();"><fxp-translate key="increase_zoom"></fxp-translate></button> <button onclick="decreaseAnimZoom();"><fxp-translate key="decrease_zoom"></fxp-translate></button></p>
                 <div id="edit-keyframe-container">
                     <h3 style="padding-bottom: 0; margin-bottom: 0;"><fxp-translate key="edit_selected_keyframe"></fxp-translate></h3>
@@ -515,12 +523,8 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                     <button onclick="deselectKeyframe();"><fxp-translate key="deselect_keyframe"></fxp-translate></button>
                 </div>
                 <br>
-                <h3><fxp-translate key="run_and_export"></fxp-translate></h3>
+                <h3><fxp-translate key="export"></fxp-translate></h3>
                 <p><fxp-translate key="anim_webgl_note"></fxp-translate></p>
-                <button onclick="playAnimation(false);"><fxp-translate key="run_anim_main"></fxp-translate></button>
-                <button onclick="playAnimation(true);"><fxp-translate key="run_anim_juliaset"></fxp-translate></button>
-                <br>
-                <button onclick="stopAnimation();"><fxp-translate key="stop_anim"></fxp-translate></button>
                 <br>
                 <br>
                 <button onclick="exportAnimation(false);"><fxp-translate key="export_anim_main"></fxp-translate></button>
@@ -533,8 +537,6 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <p><fxp-translate key="video_codec"></fxp-translate></p>
                 <button id="vp8-btn" onclick="setAnimationVideoCodec('vp8')">VP8</button>
                 <button id="vp9-btn" onclick="setAnimationVideoCodec('vp9')">VP9</button>
-                <p><fxp-translate key="video_framerate"></fxp-translate></p>
-                <input type="number" onchange="setAnimationFPS(this.value)" style="width: 60px;" value="60">
                 <br><br>
                 <p><fxp-translate key="anim_avc_note"></fxp-translate></p>
             </div>
@@ -582,33 +584,6 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <hr>
                 <div class="changelog">
                     <h2><fxp-translate key="changelog"></fxp-translate></h2>
-                    <h4>0.5.0</h4>
-                    <p>- Added WebGL backend along with existing WebGPU to ensure maximum compatibility and performance</p>
-                    <p>- UI redesign</p>
-                    <p>- Faster load time</p>
-                    <p>- Several bugfixes</p>
-                    <p>- Replace the wacky preset URL system</p>
-                    <p>- Bought a domain for the website</p>
-                    <p>- Everything else new in v5</p>
-                    <h4>0.5.1</h4>
-                    <p>- Image chunker</p>
-                    <p>- Halved loading time due to double compilation</p>
-                    <p>- Fixed small possible bugs</p>
-                    <p>- Improved exporting speed by a huge margin</p>
-                    <h4>0.5.1a</h4>
-                    <p>- Fix bug with importing fractals being completely broken in most cases</p>
-                    <p>- Fix bug where exporting chunked juliasets is broken</p>
-                    <h4>0.5.2</h4>
-                    <p>- 2 new colorschemes (purple, brown)</p>
-                    <p>- Fix small bug when opening the window at a small scale, text will be squished a lot</p>
-                    <p>- Canvases now automatically stick and unstick with the window being resized</p>
-                    <p>- Added this changelog</p>
-                    <p>- Slightly modifier the randomizer</p>
-                    <p>- Fix noise not appearing correctly in chunked renders</p>
-                    <p>- You can now drag and drop exported images (and preset urls) to automatically import the preset</p>
-                    <p>- Fix a lot of messy code that will make working on some things easier</p>
-                    <p>- Fix Fractal buttons by plugins not properly being highlighted</p>
-                    <p>- Change the description section a bit</p>
                     <h4>0.6.0</h4>
                     <p>- Animation System </p>
                     <p>- Add an option to insert the currently selected shader in the custom code section for easy modification</p>
@@ -618,7 +593,7 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                     <p>- Very minor optimizations</p>
                     <p>- Fix function not updating when power is changed</p>
                     <p>- Minor cleanups (visual and codebase)</p>
-                    <p>- 5 new fractals</p>
+                    <p>- 6 new fractals</p>
                     <p>- UI changes</p>
                     <p>- Speed up WebGL chunked exporting & animation exporting a bit (WebGPU still slow, I just gave up at some point)</p>
                     <p>- Added ability to override things such as zoom and center</p>
@@ -637,6 +612,33 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                     <p>- Dynamic Sample Count</p>
                     <p>- Image Chunkers updates progress percentage more often</p>
                     <p>- FPS Cap<p>
+                    <h4>0.5.2</h4>
+                    <p>- 2 new colorschemes (purple, brown)</p>
+                    <p>- Fix small bug when opening the window at a small scale, text will be squished a lot</p>
+                    <p>- Canvases now automatically stick and unstick with the window being resized</p>
+                    <p>- Added this changelog</p>
+                    <p>- Slightly modifier the randomizer</p>
+                    <p>- Fix noise not appearing correctly in chunked renders</p>
+                    <p>- You can now drag and drop exported images (and preset urls) to automatically import the preset</p>
+                    <p>- Fix a lot of messy code that will make working on some things easier</p>
+                    <p>- Fix Fractal buttons by plugins not properly being highlighted</p>
+                    <p>- Change the description section a bit</p>
+                    <h4>0.5.1a</h4>
+                    <p>- Fix bug with importing fractals being completely broken in most cases</p>
+                    <p>- Fix bug where exporting chunked juliasets is broken</p>
+                    <h4>0.5.1</h4>
+                    <p>- Image chunker</p>
+                    <p>- Halved loading time due to double compilation</p>
+                    <p>- Fixed small possible bugs</p>
+                    <p>- Improved exporting speed by a huge margin</p>
+                    <h4>0.5.0</h4>
+                    <p>- Added WebGL backend along with existing WebGPU to ensure maximum compatibility and performance</p>
+                    <p>- UI redesign</p>
+                    <p>- Faster load time</p>
+                    <p>- Several bugfixes</p>
+                    <p>- Replace the wacky preset URL system</p>
+                    <p>- Bought a domain for the website</p>
+                    <p>- Everything else new in v5</p>
                 </div>
                 <hr>
             </div>

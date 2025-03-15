@@ -228,14 +228,9 @@
     "ease_out": "Ease Out",
     "ease_in_out": "Ease In Out",
 
-    "run_and_export": "Run & Export",
+    "play_on_juliaset": "Play on juliaset",
 
     "anim_webgl_note": "Forcing the backend to be WebGL may help a with the render time and export speed, if you are experiencing issues exporting or just find it slow, force WebGL in the settings section.\nWhy? There is no way in WebGPU to render to a texture or buffer instead of a canvas efficiently at most resolutions, because the size must be a multiple of 256. Exporting at resolutions other than multiples of 64 (64 * 4 channels = 256) will require adding some extra empty space, leading to performance impacts. (Maybe there is a better solution, but I am not all-knowing either, so instead just use WebGL)",
-
-    "run_anim_main": "Run animation for main",
-    "run_anim_juliaset": "Run animation for juliaset",
-
-    "stop_anim": "Stop Animation",
 
     "export_anim_main": "Export animation for main",
     "export_anim_juliaset": "Export animation for juliaset",
