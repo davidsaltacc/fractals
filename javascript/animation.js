@@ -266,8 +266,6 @@ class Sequence {
 
         function frame(this_) {
 
-            // TODO - run, pause & stop -> icons
-
             var now = performance.now();
             var elapsedTimeTotal = now - startTime;
             var elapsed = now - then;
@@ -624,7 +622,7 @@ function addAnimationTrack(id, name, property) {
 
     };
 
-    trackDiv.onclick = evt => {
+    trackDiv.onmousedown = evt => {
 
         if (evt.target != trackDiv) {
             return;

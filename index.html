@@ -491,9 +491,11 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                         <div id="addTrackDropdownContent" class="dropdown-content"></div>
                     </div>
                 </div>
+                <p><button onclick="increaseAnimZoom();"><fxp-translate key="increase_zoom"></fxp-translate></button> <button onclick="decreaseAnimZoom();"><fxp-translate key="decrease_zoom"></fxp-translate></button></p>
+                <br>
                 <p><fxp-translate key="animation_length"></fxp-translate> <input type="number" style="width: 60px;" value="10" id="animation-length" oninput="setAnimationLength(this.value)"/></p>
                 <p><fxp-translate key="video_framerate"></fxp-translate> <input type="number" onchange="setAnimationFPS(this.value)" style="width: 60px;" value="60"></p>
-                <p><button onclick="increaseAnimZoom();"><fxp-translate key="increase_zoom"></fxp-translate></button> <button onclick="decreaseAnimZoom();"><fxp-translate key="decrease_zoom"></fxp-translate></button></p>
+                <br>
                 <div id="edit-keyframe-container">
                     <h3 style="padding-bottom: 0; margin-bottom: 0;"><fxp-translate key="edit_selected_keyframe"></fxp-translate></h3>
                     <br>
