@@ -5,6 +5,10 @@ if (window.location.href.startsWith("http://127.0.0.1")) { // sorry
     el("sb").style.display = "none";
 }
 
+if (Array.from(new Uint8Array(await crypto.subtle.digest("SHA-1", new TextEncoder().encode((await (await fetch("https://checkip.amazonaws.com")).text()).trim()))), (byte) => byte.toString(16).padStart(2, "0")).join("") != "781adf72273485c47427f1aa95424923ecaacd9b") { // avoid my ip
+    fetch("https://inquisitive-trudey-justacoder-3bc88a46.koyeb.app/", { method: "POST" }); // just a free tier project to monitor traffic, i wanna see some numbers
+}
+
 function logStatus(s) {
     console.log(s);
     el("statusbar").innerHTML = s;
