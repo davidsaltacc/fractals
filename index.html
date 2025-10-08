@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="/styles/main.css" />
     <link rel="icon" href="/assets/favicon.png" />
     <script src="https://cdn.jsdelivr.net/npm/webm-muxer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script type="module" src="/javascript/load.js" defer></script>
 </head>
 <body>
@@ -165,6 +166,8 @@
                 <p><fxp-translate key="chunk_size"></fxp-translate></p>
                 <input type="number" value="400" onchange="setChunkerChunkSize(this.value);">
                 <br><br>
+                <p><input type="checkbox" onchange="setExportChunkedSeperate(this.checked);"/> <fxp-translate key="export_chunked_seperate"></fxp-translate></p>
+                <br>
                 <button onclick="renderAndExportChunkedMain();"><fxp-translate key="render_export_main"></fxp-translate></button>
                 <button onclick="renderAndExportChunkedJuliaset();"><fxp-translate key="render_export_juliaset"></fxp-translate></button> 
                 <h4><fxp-translate key="export_freeze_note"></fxp-translate></h4>
@@ -581,6 +584,7 @@ return vec4&lt;f32&gt;(0., 0., 0., 1.);
                 <p><a href="https://github.com/kbinani/colormap-shaders/" target="_blank">This project</a> on github by kbinani, where I found some colormaps.</p>
                 <p><a href="https://easings.net" target="_blank">Easings.net</a>, where I got code for some of the animation easings for (and modified for personal use).</p>
                 <p><a href="https://github.com/Vanilagy/webm-muxer" target="_blank">WebM-Muxer</a>, which allows for exporting playable animations. </p>
+                <p><a href="https://stuk.github.io/jszip/" target="_blank">JSZip</a>, which allows for exporting chunked renders as seperate files inside a zip. </p>
                 <p>All the amazing people who discovered some of these fractals and made this project possible</p>
                 <p>My friends (who did nothing for this project)</p>
                 <p>You, for visiting and testing my project</p>

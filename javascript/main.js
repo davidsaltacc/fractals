@@ -868,11 +868,15 @@ async function compileAndRender() {
     renderBoth();
 }
 
-
 var chunkerFinalSize = 2000;
 var chunkerChunkSize = 400;
+var chunkerExportSeperate = false;
 
-async function _renderAndExportChunked(isMain) {
+function setExportChunkedSeperate(value) { 
+    chunkerExportSeperate = value;
+}
+
+async function _renderAndExportChunked(isMain) { // TODO seperate exporting
 
     if (chunkerFinalSize % chunkerChunkSize != 0) {
         alert(translate("chunker_size_indivisible"));
@@ -885,17 +889,32 @@ async function _renderAndExportChunked(isMain) {
     var originalCanvasSize = canvasMain.width;
     setCanvasSize(chunkerChunkSize);
 
-    var bigCanvas = document.createElement("canvas");
-    bigCanvas.width = bigCanvas.height = chunkerFinalSize;
+    var bigCanvas, bigContext, zip;
 
-    var bigContext = bigCanvas.getContext("2d");
+    if (chunkerExportSeperate) {
+
+        zip = new JSZip();
+
+    } else {
+
+        bigCanvas = document.createElement("canvas");
+        bigCanvas.width = bigCanvas.height = chunkerFinalSize;
+
+        bigContext = bigCanvas.getContext("2d");
+
+    }
     
     logStatus("rendering chunked image 0%");
 
     try {
         for (var y = 0; y < chunkerFinalSize; y += chunkerChunkSize) {
             for (var x = 0; x < chunkerFinalSize; x += chunkerChunkSize) {
-                bigContext.putImageData(new ImageData(new Uint8ClampedArray(await drawReturnImageData(isMain ? contextMain : contextJul, !isMain, true, [x, y])), chunkerChunkSize, chunkerChunkSize), x, USE_WEBGL ? (chunkerFinalSize - y - chunkerChunkSize) : y);
+                var data = new ImageData(new Uint8ClampedArray(await drawReturnImageData(isMain ? contextMain : contextJul, !isMain, true, [x, y])), chunkerChunkSize, chunkerChunkSize);
+                if (chunkerExportSeperate) {
+                    zip.file(`fractal_chunk_${x}_${USE_WEBGL ? (chunkerFinalSize - y - chunkerChunkSize) : y}.png`, await mergeBlobWithPresetURL(await imageDataToBlob(data)));
+                } else {
+                    bigContext.putImageData(data, x, USE_WEBGL ? (chunkerFinalSize - y - chunkerChunkSize) : y);
+                }
                 logStatus("rendering chunked image " + Math.floor(((y / chunkerFinalSize) + (x / chunkerFinalSize) / (chunkerFinalSize / chunkerChunkSize)) * 100) + "%");
             }
         }
@@ -909,9 +928,20 @@ async function _renderAndExportChunked(isMain) {
     setCanvasSize(originalCanvasSize);
     renderBoth();
 
-    _export(bigCanvas);
+    if (chunkerExportSeperate) {
+        var blob = await zip.generateAsync({type: "blob"});
+        var a = document.createElement("a");  
+        var url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = "fractal_chunked.zip";
+        a.click();
+        URL.revokeObjectURL(url); 
+        a.remove();
+    } else {
+        _export(bigCanvas);
+        bigCanvas.remove(); 
+    }
 
-    bigCanvas.remove(); 
     hideLoadingWave();
 
 }
@@ -1565,20 +1595,41 @@ function createAndCopyUrl() {
     navigator.clipboard.writeText(createUrlWithParameters());
 }
 
-async function _export(canvas) {
+function imageDataToBlob(imageData) {
+    var w = imageData.width;
+    var h = imageData.height;
+    var imageCanvas = document.createElement("canvas");
+    imageCanvas.width = w;
+    imageCanvas.height = h;
+    var imageContext = imageCanvas.getContext("2d");
+    imageContext.putImageData(imageData, 0, 0);
+    return new Promise((res, _) => {
+        imageCanvas.toBlob(blob => {
+            imageCanvas.remove();
+            res(blob);
+        });
+    });
+}
 
-    if (DEBUG_MODE) {
-        logStatus("exporting canvas " + canvas + " to png");
-    }
+async function mergeBlobWithPresetURL(otherBlob) {
 
     var paramUrl = createUrlWithParameters();
 
     var encoder = new TextEncoder();
     var urlBlob = new Blob([encoder.encode("FXURL::" + paramUrl)], { type: "text/plain" });
 
-    var canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+    return new Blob([otherBlob, urlBlob], { type: "image/png" });
 
-    var finalBlob = new Blob([canvasBlob, urlBlob], { type: "image/png" });
+}
+
+async function _export(canvas) {
+
+    if (DEBUG_MODE) {
+        logStatus("exporting canvas " + canvas + " to png");
+    }
+
+    var canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+    var finalBlob = await mergeBlobWithPresetURL(canvasBlob);
 
     var a = document.createElement("a");  
     var url = URL.createObjectURL(finalBlob);
@@ -1829,6 +1880,7 @@ const exports = {
     includeCanvasSizeInPreset,
     includeSmoothingInPreset,
     useDynamicSampleCount,
-    setDynamicSampleCountLow
+    setDynamicSampleCountLow,
+    setExportChunkedSeperate 
 }; 
 for (const [name, func] of Object.entries(exports)) { window[name] = func; }

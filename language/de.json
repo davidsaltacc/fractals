@@ -104,6 +104,7 @@
 
     "final_image_size": "Finale Bildgröße",
     "chunk_size": "Chunkgröße",
+    "export_chunked_seperate": "Als seperate Dateien exportieren",
 
     "render_export_main": "Hauptfraktal rendern und exportieren",
     "render_export_juliaset": "Juliaset rendern und exportieren",

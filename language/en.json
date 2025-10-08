@@ -104,6 +104,7 @@
 
     "final_image_size": "Final Image Size",
     "chunk_size": "Chunk Size",
+    "export_chunked_seperate": "Export as seperate files",
 
     "render_export_main": "Render and export main",
     "render_export_juliaset": "Render and export juliaset",
