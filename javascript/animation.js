@@ -903,7 +903,7 @@ keyframeEasingNameSet(translatable(EASINGS.LINEAR.name).outerHTML);
 setAnimationVideoCodec((await codecSupported("vp9")) ? "vp9" : "vp8");
 setAnimationVideoContainer("mkv");
 
-const exports = {
+exportF({
     KeyframeGroup,
     Sequence,
     addAnimationTrack,
@@ -928,7 +928,6 @@ const exports = {
     getAnimation,
     deselectKeyframe,
     toggleAnimationPaused
-};
-for (const [name, func] of Object.entries(exports)) { window[name] = func; }
+});
 
 onAnimationsInitialized();

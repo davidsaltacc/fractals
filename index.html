@@ -22,6 +22,10 @@
     <div id="canvasContainer">
         <canvas id="canvasMain" width="500" height="500"></canvas>
         <canvas id="canvasJul" width="500" height="500"></canvas>
+        <div id="canvasOverlayContainer">
+            <canvas id="canvasMainOverlay" width="500" height="500"></canvas>
+            <canvas id="canvasJulOverlay" width="500" height="500"></canvas>
+        </div>
     </div>
 
     <div id="loadingscreen">
@@ -137,6 +141,17 @@
                 <button onclick="_applyUrlWithParameters(document.getElementById('impurlinp').value); compileAndRender();"><fxp-translate key="submit"></fxp-translate></button>
                 <h4><fxp-translate key="import_png"></fxp-translate></h4>
                 <button onclick="loadParamsFromFile();"><fxp-translate key="select_file"></fxp-translate></button>
+                <hr>
+            </div>
+        </div>
+
+        <div class="toggleable toggleable_default_hidden">
+            <div class="toggleable_title">
+                <h3><fxp-translate key="overlays"></fxp-translate></h3>
+            </div>
+            <div class="toggleable_content">
+                <p><fxp-translate key="overlays_desc"></fxp-translate></p>
+                <div id="overlayButtons"></div>
                 <hr>
             </div>
         </div>

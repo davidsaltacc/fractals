@@ -25,14 +25,18 @@ const EASINGS = await loadData("easings", (key, value) => {
     if (key == "function") { return eval(`(${value})`); }
     return value;
 });
+const OVERLAYS = await loadData("overlays", (key, value) => {
+    if (key == "drawer") { return overlay_functions[value]; };
+    return value;
+});
 
-const exports = {
+exportF({
     METADATA, 
     FRACTALS, 
     COLORSCHEMES,
     COLOR_METHODS,
     MODIFIERS, 
     EASINGS,
+    OVERLAYS,
     DEBUG_MODE
-};
-for (const [name, func] of Object.entries(exports)) { window[name] = func; }
+});

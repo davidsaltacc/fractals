@@ -44,6 +44,9 @@
     "import_png": "Von exportiertem PNG importieren",
     "select_file": "Datei auswählen",
 
+    "overlays": "Overlays",
+    "overlays_desc": "Diese Overlays tauchen nicht im finalen Export auf, können aber hilfreich dabei sein, die Kamera zu positionieren.",
+
     "export": "Exportieren",
     "export_png": "Als PNG exportieren",
 
@@ -483,6 +486,10 @@
     "hyperbolic_arccosine_desc": "Complex hyperbolic arccosine. Ich würde Interieur-Färben anschalten. Mit höheren Hochzahlen schafft dies interessante Effekte.",
     "hyperbolic_arctangent_desc": "Complex hyperbolic arctangent. Ich würde Interieur-Färben anschalten.",
     "inversed_desc": "Umgekehrt. Eigentlich nur 1/z.",
-    "scatter_desc": "Ein hoher Samplecount ist sehr empfohlen, genauso wie eine sehr hohe Farbintensität. Dann erstellt es ein fast schon Buddhabrot-ähnliches Bild."
+    "scatter_desc": "Ein hoher Samplecount ist sehr empfohlen, genauso wie eine sehr hohe Farbintensität. Dann erstellt es ein fast schon Buddhabrot-ähnliches Bild.",
+
+    "x": "X",
+    "plus": "Plus",
+    "3x3_grid": "3x3 Raster"
 
 }

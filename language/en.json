@@ -44,6 +44,9 @@
     "import_png": "Import from exported PNG",
     "select_file": "Select File",
 
+    "overlays": "Overlays",
+    "overlays_desc": "These overlays do not show up in the final render, but can help with aligning the camera properly.",
+
     "export": "Export",
     "export_png": "Export as PNG",
 
@@ -483,6 +486,10 @@
     "hyperbolic_arccosine_desc": "Complex hyperbolic arccosine. Enable interior coloring. With higher powers, this can create interesting effects.",
     "hyperbolic_arctangent_desc": "Complex hyperbolic arctangent. Enable interior coloring.",
     "inversed_desc": "Inversed. Pretty much just 1/z.",
-    "scatter_desc": "Make sure to use a high sample count, among with a high colorfulness value, then it creates an almost buddhabrot-like image."
+    "scatter_desc": "Make sure to use a high sample count, among with a high colorfulness value, then it creates an almost buddhabrot-like image.",
+
+    "x": "X",
+    "plus": "Plus",
+    "3x3_grid": "3x3 Grid"
 
 }

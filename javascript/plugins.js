@@ -179,12 +179,11 @@ function getLoadedPluginsURLs() {
     return _loadedPluginsURLs;
 }
 
-const exports = {
+exportF({
     loadPluginUrl,
     loadPluginCode,
     getLoadedPlugins,
     getLoadedPluginsURLs
-};
-for (const [name, func] of Object.entries(exports)) { window[name] = func; }
+});
 
 await onPluginsInitialized();

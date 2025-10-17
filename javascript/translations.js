@@ -227,7 +227,7 @@ supported.forEach(lang => {
 
 updateSelectionUi(language);
 
-const exports = {
+exportF({
     Translatable,
     translate,
     translatable,
@@ -238,5 +238,4 @@ const exports = {
     getLanguageFiles,
     translationsReady,
     getSupportedLanguages
-};
-for (const [name, func] of Object.entries(exports)) { window[name] = func; }
+});

@@ -806,3 +806,14 @@ a, a:active {
 .play-animation-checkbox > input {
     margin-left: 0px;
 }
+
+#canvasMainOverlay, #canvasJulOverlay {
+    border-radius: 8px;
+    margin-right: 4px;
+}
+
+#canvasOverlayContainer {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+}

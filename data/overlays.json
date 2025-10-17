@@ -1,0 +1,18 @@
+{
+    "NONE": {
+        "name": "none",
+        "drawer": "none"
+    },
+    "X": {
+        "name": "x",
+        "drawer": "x"
+    },
+    "PLUS": {
+        "name": "plus",
+        "drawer": "plus"
+    },
+    "3X3_GRID": {
+        "name": "3x3_grid",
+        "drawer": "_3x3_grid"
+    }
+}

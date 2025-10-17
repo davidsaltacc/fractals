@@ -122,10 +122,10 @@ function _createUiSection(toggleable) {
 
 Array.from(document.getElementsByClassName("toggleable")).forEach(toggleable => _createUiSection(toggleable));
 
-function _createShaderButton(name, clickHandler, buttons, item, definitions) {
+function _createShaderButton(name, clickHandler, buttons, item) {
 
     if (DEBUG_MODE) {
-        logStatus("creating shader button '" + name + "' with shader '" + (definitions[item].shader_folder ?? "") + definitions[item].shader + ".frxs'", true);
+        logStatus("creating non-shader button '" + name + "'", true);
     }
 
     var button = document.createElement("button");
@@ -144,12 +144,13 @@ const fractalButtons = {};
 const colorschemeButtons = {};
 const colormethodButtons = {};
 const modifierButtons = {};
+const overlayButtons = {};
 
 function initButtons(definitions, buttons, setFunction, containerId) {
 
     Object.keys(definitions).forEach(item => {
 
-        var button = _createShaderButton(translatable(definitions[item].name).outerHTML, () => setFunction(definitions[item]), buttons, item, definitions);
+        var button = _createShaderButton(translatable(definitions[item].name).outerHTML, () => setFunction(definitions[item]), buttons, item);
         el(containerId).appendChild(button);
 
     });
@@ -160,7 +161,8 @@ function initButtons(definitions, buttons, setFunction, containerId) {
     [FRACTALS, fractalButtons, setFractal, "fractalButtons"],
     [COLORSCHEMES, colorschemeButtons, setColorscheme, "colorschemeButtons"],
     [COLOR_METHODS, colormethodButtons, setColormethod, "colormethodButtons"],
-    [MODIFIERS, modifierButtons, setModifier, "modifierButtons"]
+    [MODIFIERS, modifierButtons, setModifier, "modifierButtons"],
+    [OVERLAYS, overlayButtons, setOverlay, "overlayButtons"],
 ].forEach(a => initButtons(a[0], a[1], a[2], a[3]));
 
 function parseFRXSFile(content) {
@@ -200,6 +202,11 @@ const canvasMain = el("canvasMain");
 const canvasJul = el("canvasJul");
 var contextMain;
 var contextJul;
+
+const canvasOverlayMain = el("canvasMainOverlay");
+const canvasOverlayJul = el("canvasJulOverlay");
+var contextOverlayMain = canvasOverlayMain.getContext("2d");
+var contextOverlayJul = canvasOverlayJul.getContext("2d");
 
 wgpu_format = "rgba8unorm"; 
 
@@ -326,6 +333,8 @@ var noiseSeed ;
 var noiseAmplitude;
 var noiseMultiplier;
 
+var overlay;
+
 function reset(noCompile) {
 
     centerMain = [0, 0];
@@ -347,6 +356,7 @@ function reset(noCompile) {
     noiseSeed = 33333;
     noiseAmplitude = 0;
     noiseMultiplier = 0.8;
+    overlay = OVERLAYS.NONE;
 
     if (!noCompile) {
         compileAndRender();
@@ -1241,10 +1251,13 @@ function updateUi() {
     buttonPressed(colorschemeButtons, COLORSCHEMES, colorscheme);
     buttonPressed(colormethodButtons, COLOR_METHODS, colorMethod);
     buttonPressed(modifierButtons, MODIFIERS, modifier);
+    buttonPressed(overlayButtons, OVERLAYS, overlay);
 
     if (window["getAnimationLength"]) {
         el("animation-length").value = getAnimationLength();
     }
+
+    setOverlay(overlay, true);
 
 }
 
@@ -1324,6 +1337,22 @@ async function setModifier(func, dontRecompile) {
 
     if (!dontRecompile) { await compileAndRender(); }
 
+}
+
+function setOverlay(ov, doNotUpdateUi) {
+    overlay = ov;
+
+    if (!doNotUpdateUi) { 
+        updateUi(); 
+
+        [ contextOverlayMain, contextOverlayJul ].forEach(ctx => {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = "#ff0000";
+            overlay.drawer(ctx);
+        });
+
+    }
 }
 
 
@@ -1819,7 +1848,7 @@ async function init() {
 
 await init();
 
-const exports = {
+exportF({
     renderMain, renderJul, renderBoth,
     setCanvasesSticky,
     logStatus,
@@ -1827,6 +1856,7 @@ const exports = {
     setColorscheme,
     setColormethod,
     setModifier,
+    setOverlay,
     setRadius, getRadius,
     setIterations, getIterations,
     setPower, getPower,
@@ -1882,5 +1912,4 @@ const exports = {
     useDynamicSampleCount,
     setDynamicSampleCountLow,
     setExportChunkedSeperate 
-}; 
-for (const [name, func] of Object.entries(exports)) { window[name] = func; }
+});
